@@ -1,0 +1,80 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Box, Typography, Tab, Paper, Avatar } from "@mui/material";
+import { StyledSubTabs, StyledTabs, SubTabButton } from "../../constants/styles";
+import { mainTabs, subTabs } from "../../constants/data";
+import { getTabContent } from "../../utils/getTabContent";
+
+
+export default function CategoryTab({ tabId }) {
+  const [activeTab, setActiveTab] = useState(0);
+  const [activeSubTab, setActiveSubTab] = useState("active");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (tabId) {
+      setActiveTab(parseInt(tabId));
+    } else {
+      setActiveTab(0);
+    }
+  }, [tabId]);
+
+  const handleTabChange = (event, newValue) => {
+    console.log("🚀 ~ handleTabChange ~ event, newValue:",  newValue)
+    const category = mainTabs[newValue];
+    setActiveTab(newValue);
+    setActiveSubTab("active");
+    navigate(`/category/${encodeURI(category?.label)}?categoryId=${btoa(category?.id)}&TabId=${newValue}`, { replace: true });
+  };
+
+  return (
+    <Box sx={{ minHeight: "100vh", bgcolor: "#fff", px: 5, py: 4 }}>
+      <Paper
+        sx={{
+          mb: 3,
+          overflow: "hidden",
+          boxShadow:"none"
+        }}
+        elevation={0}
+      >
+        <StyledTabs
+          variant="standard"
+          value={activeTab} onChange={handleTabChange} scrollButtons="auto" >
+          {mainTabs.map((tab, index) => (
+            <Tab
+              key={tab.id}
+              label={
+                // <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                //   <Avatar
+                //     sx={{
+                //       width: 24,
+                //       height: 24,
+                //       bgcolor: activeTab === index ? tab.color : "#e5e7eb",
+                //       color: "white",
+                //     }}
+                //   >
+                //     {tab.icon}
+                //   </Avatar>
+                // {/* </Box> */}
+                <span>{tab.label}</span>
+              }
+            />
+          ))}
+        </StyledTabs>
+        {/* {subTabs[activeTab] && (
+          <StyledSubTabs>
+            <Typography variant="body2" sx={{ fontWeight: 500, color: "#374151", mr: 2 }}>
+              &gt; {mainTabs[activeTab]?.label}
+            </Typography>
+            {subTabs[activeTab].map((subTab) => (
+              <SubTabButton key={subTab} active={activeSubTab === subTab.toLowerCase()} onClick={() => setActiveSubTab(subTab.toLowerCase())}>
+                {subTab}
+              </SubTabButton>
+            ))}
+          </StyledSubTabs>
+        )} */}
+      </Paper>
+      <Box sx={{ transition: "all 0.3s ease-in-out" }}>{getTabContent(activeTab)}</Box>
+    </Box>
+  );
+}
