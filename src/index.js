@@ -21,7 +21,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
     <BrowserRouter
-      basename={process.env.NODE_ENV === "development" ? "" : "/support"}
+      // basename={process.env.NODE_ENV === "development" ? "" : "/support"}
     >
       <Suspense fallback={<div></div>}>
         <Modules>
