@@ -1,26 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import Iframe from "../components/Categories/Iframe";
 import { ContentCard } from "../constants/styles";
 import SettingsIcon from "@mui/icons-material/Settings";
-import CallLogDashBoard from "../modules/components/CallLogger";
-import ClientTicketUi from "../modules/components/TicketUi/client";
-import DeliveryDashboard from "../modules/components/Delivery&Training/components/Delivery/Main";
-import TrainingDashboard from "../modules/components/Delivery&Training/components/Training/Main";
-
+import { featureCards } from "../components/Help/FeatureSection";
+ 
 export const getTabContent = (activeTab) => {
-  const isDev = process.env.NODE_ENV === "development";
-  const baseUrl = isDev ? "http://localhost:3001" : "https://csystem.optigoapps.com";
+  const card = featureCards.find((c) => c?.TabId === activeTab);
 
-  const tabRoutes = {
-    0: { path: "/", title: "Call Log", components: <CallLogDashBoard /> },
-    1: { path: "/Training/client", title: "Training", components: <TrainingDashboard /> },
-    2: { path: "/Delivery/client", title: "Delivery", components: <DeliveryDashboard /> },
-    3: { path: "/Ticket/Client", title: "Ticketing", components: <ClientTicketUi /> },
-  };
-
-  const tabData = tabRoutes[activeTab];
-
-  if (tabData) {
+  if (card) {
     return (
       <Box
         sx={{
@@ -29,12 +15,11 @@ export const getTabContent = (activeTab) => {
           overflow: "hidden",
         }}
       >
-        {tabData?.components}
+        {card?.components}
       </Box>
     );
   }
 
-  // Default content if activeTab does not match any route
   return (
     <ContentCard sx={{ textAlign: "center", py: 8, borderRadius: "none", border: "none", boxShadow: "none", height: "60vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }} elevation={0}>
       <SettingsIcon sx={{ fontSize: 64, color: "#9ca3af", mb: 2 }} />

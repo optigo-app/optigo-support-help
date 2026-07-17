@@ -15,34 +15,44 @@ export function formatBytes(bytes) {
 }
 
 
-export const getFileIcon = (filename) => {
-  if (!filename || typeof filename !== "string") {
-    return <InsertDriveFileIcon color="action" fontSize="large" />;
-  }
+export const getFileIcon = (input) => {
+	if (!input || typeof input !== "string") {
+		return <InsertDriveFileIcon color="action" fontSize="medium" />;
+	}
+	try {
+		const url = new URL(input);
+		input = url.pathname;
+	} catch (e) {}
 
-  const ext = filename.split(".").pop().toLowerCase();
+	const segments = input.split(".");
+	if (segments.length < 2) {
+		return <InsertDriveFileIcon color="action" fontSize="medium" />;
+	}
 
-  switch (ext) {
-    case "pdf":
-      return <PictureAsPdfIcon color="error" fontSize="large" />;
-    case "xlsx":
-    case "xls":
-    case "csv":
-      return <TableChartIcon color="success" fontSize="large" />;
-    case "docx":
-    case "doc":
-      return <DescriptionIcon color="primary" fontSize="large" />;
-    case "json":
-      return <DataObjectIcon color="secondary" fontSize="large" />;
-    case "jpg":
-    case "jpeg":
-    case "png":
-    case "gif":
-      return <ImageIcon color="info" fontSize="large" />;
-    default:
-      return <InsertDriveFileIcon color="action" fontSize="large" />;
-  }
+	const ext = segments.pop().toLowerCase();
+
+	switch (ext) {
+		case "pdf":
+			return <PictureAsPdfIcon color="error" fontSize="medium" />;
+		case "xlsx":
+		case "xls":
+		case "csv":
+			return <TableChartIcon color="success" fontSize="medium" />;
+		case "docx":
+		case "doc":
+			return <DescriptionIcon color="primary" fontSize="medium" />;
+		case "json":
+			return <DataObjectIcon color="secondary" fontSize="medium" />;
+		case "jpg":
+		case "jpeg":
+		case "png":
+		case "gif":
+			return <ImageIcon color="info" fontSize="medium" />;
+		default:
+			return <InsertDriveFileIcon color="action" fontSize="medium" />;
+	}
 };
+
 
 export function similarity(s1, s2) {
   s1 = s1.toLowerCase();
@@ -106,3 +116,121 @@ export function getFormattedDate(dateString) {
   });
   return formattedClosedTime;
 }
+
+
+
+export const getFileMetaData = (input) => {
+	if (!input || typeof input !== "string") {
+		return {
+			extension: "",
+			type: "unknown",
+			icon: <InsertDriveFileIcon color="action" fontSize="medium" />,
+		};
+	}
+
+	// Strip query params and extract path if input is a URL
+	try {
+		const url = new URL(input);
+		input = url.pathname; // e.g., /folder/file.pdf
+	} catch (e) {
+		// Not a URL, no change
+	}
+
+	const segments = input.split(".");
+	if (segments.length < 2) {
+		return {
+			extension: "",
+			type: "unknown",
+			icon: <InsertDriveFileIcon color="action" fontSize="medium" />,
+		};
+	}
+
+	const extension = segments.pop().toLowerCase();
+
+	// Match extension to metadata
+	switch (extension) {
+		case "pdf":
+			return {
+				extension,
+				type: "PDF Document",
+				icon: <PictureAsPdfIcon color="error" fontSize="medium" />,
+			};
+		case "xlsx":
+		case "xls":
+		case "csv":
+			return {
+				extension,
+				type: "Spreadsheet",
+				icon: <TableChartIcon color="success" fontSize="medium" />,
+			};
+		case "docx":
+		case "doc":
+			return {
+				extension,
+				type: "Word Document",
+				icon: <DescriptionIcon color="primary" fontSize="medium" />,
+			};
+		case "json":
+			return {
+				extension,
+				type: "JSON Data",
+				icon: <DataObjectIcon color="secondary" fontSize="medium" />,
+			};
+		case "jpg":
+		case "jpeg":
+		case "png":
+		case "gif":
+		case "webp":
+		case "svg":
+		case "bmp":
+		case "tiff":
+		case "ico":
+		case "avif":
+			return {
+				extension,
+				type: "Image",
+				icon: <ImageIcon fontSize="medium" />,
+			};
+		case "txt":
+			return {
+				extension,
+				type: "Text File",
+				icon: <InsertDriveFileIcon color="info" fontSize="medium" />,
+			};
+		default:
+			return {
+				extension,
+				type: "Unknown File",
+				icon: <InsertDriveFileIcon color="action" fontSize="medium" />,
+			};
+	}
+};
+
+
+export const ValidFile = (link) => {
+	return typeof link === "string" ? link.split("/")?.pop()?.substring(0, 20) : "File Attachment";
+};
+
+export const ValidateAttachment = (comment) => {
+	let attachments = [];
+	try {
+		if (typeof comment.attachment === "string") {
+			attachments = comment.attachment.split(",").map((url) => url.trim());
+		} else if (Array.isArray(comment.attachment)) {
+			attachments = comment.attachment;
+		} else if (comment.attachment?.imageUrl) {
+			attachments = [comment.attachment.imageUrl];
+		}
+
+		return {
+			attachments,
+			isMultiple: attachments?.length > 1,
+		};
+	} catch (error) {
+		return {
+			attachments: [],
+			isMultiple: false,
+			error,
+		};
+	}
+};

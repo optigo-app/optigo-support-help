@@ -37,14 +37,16 @@ const EllipsisCell = ({ value, icon }) => (
   </Tooltip>
 );
 
-export default function CallLogDetailView({ data: defaultCallLogData, toggle }) {
+export default function CallLogDetailView({ data: defaultCallLogData, toggle, onFollowUpClick }) {
   const [tabValue, setTabValue] = useState(0);
   const [comment, setComment] = useState("");
   const [attachment, setAttachment] = useState([]);
   const [previewURL, setPreviewURL] = useState(null);
   const { addComment } = useCallLog();
+
   const activities = generateActivities(defaultCallLogData);
   const commentdata = defaultCallLogData?.comment?.trim() ? JSON.parse(defaultCallLogData.comment) : [];
+  const followUps = defaultCallLogData?.followUpsList || [];
   const { user } = useAuth();
   const [Comments, SetComments] = useState(commentdata);
   const handleTabChange = (event, newValue) => {
@@ -205,28 +207,45 @@ export default function CallLogDetailView({ data: defaultCallLogData, toggle }) 
                   )}
                 </Grid>
               ))}
-            {/* Rating & ParentId */}
-            {defaultCallLogData?.rating ||
-              (defaultCallLogData?.parentId && (
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={6}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Typography variant="body2" color="text.secondary" sx={{ width: 90 }}>
-                        Rating
-                      </Typography>
-                      <Rating value={defaultCallLogData?.rating} size="small" />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Typography variant="body2" color="text.secondary" sx={{ width: 90 }}>
-                        ParentId
-                      </Typography>
-                      <Chip label={defaultCallLogData?.parentId} color="default" size="medium" sx={{ fontSize: "0.8rem", height: 20, borderRadius: "2px" }} />
-                    </Box>
-                  </Grid>
+            {/* Rating & ParentId & Follow Ups */}
+            <Grid container spacing={1}>
+              {defaultCallLogData?.rating ? (
+                <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ width: 90 }}>
+                      Rating
+                    </Typography>
+                    <Rating value={defaultCallLogData?.rating} size="small" readOnly />
+                  </Box>
                 </Grid>
-              ))}
+              ) : null}
+              {defaultCallLogData?.parentId ? (
+                <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ width: 90 }}>
+                      ParentId
+                    </Typography>
+                    <Chip label={defaultCallLogData?.parentId} color="default" size="medium" sx={{ fontSize: "0.8rem", height: 20, borderRadius: "2px" }} />
+                  </Box>
+                </Grid>
+              ) : null}
+              {followUps.length > 0 ? (
+                <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ width: 90 }}>
+                      Follow Ups
+                    </Typography>
+                    <Chip
+                      label={`${followUps.length} Call${followUps.length > 1 ? "s" : ""}`}
+                      color="primary"
+                      size="medium"
+                      onClick={() => onFollowUpClick && onFollowUpClick(defaultCallLogData)}
+                      sx={{ fontSize: "0.8rem", height: 20, borderRadius: "2px", cursor: "pointer", fontWeight: 500 }}
+                    />
+                  </Box>
+                </Grid>
+              ) : null}
+            </Grid>
             {/* Call Start & Call End */}
             {defaultCallLogData?.callStart && (
               <Grid container spacing={1}>
@@ -329,8 +348,9 @@ export default function CallLogDetailView({ data: defaultCallLogData, toggle }) 
           {/* Tabs */}
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={tabValue} onChange={handleTabChange} aria-label="call log tabs">
-              <Tab label="Comments" />
+              <Tab label={`Comments (${Comments?.length || 0})`} />
               <Tab label="Activities" />
+              <Tab label={`Follow Ups (${followUps.length})`} />
             </Tabs>
           </Box>
           <Box sx={{ px: 0.5, py: 3 }}>
@@ -493,6 +513,98 @@ export default function CallLogDetailView({ data: defaultCallLogData, toggle }) 
                     </Box>
                   ))}
                 </Stack>
+              </Box>
+            )}
+
+            {tabValue === 2 && (
+              <Box>
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+                  <Typography variant="subtitle2">Follow-up History</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {followUps.length}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    height: "25vh",
+                    overflowY: "auto",
+                    px: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  {followUps.length > 0 ? (
+                    followUps.map((fp) => (
+                      <Paper
+                        key={fp.Id}
+                        variant="outlined"
+                        sx={{
+                          p: 1.5,
+                          borderRadius: 2,
+                          borderColor: "divider",
+                          bgcolor: "#fafafa",
+                        }}
+                      >
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: "0.85rem", color: "text.primary" }}>
+                            Follow-up #{fp.Id}
+                          </Typography>
+                          {fp.CallDuration && fp.CallDuration !== "00:00:00" && (
+                            <Chip
+                              label={fp.CallDuration}
+                              size="small"
+                              variant="outlined"
+                              sx={{ height: 18, fontSize: "0.7rem" }}
+                            />
+                          )}
+                        </Box>
+
+                        <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5, fontSize: "0.8rem", whiteSpace: "pre-wrap" }}>
+                          {fp.Description}
+                        </Typography>
+
+                        <Divider sx={{ my: 1, borderStyle: "dashed" }} />
+
+                        <Grid container spacing={1}>
+                          <Grid item xs={6}>
+                            <Typography variant="caption" color="text.secondary" sx={{ display: "block", fontSize: "0.7rem" }}>
+                              Created By
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 500, fontSize: "0.75rem" }}>
+                              {fp.CreatedBy || "N/A"}
+                            </Typography>
+                          </Grid>
+                          {fp.ReceivedBy && (
+                            <Grid item xs={6}>
+                              <Typography variant="caption" color="text.secondary" sx={{ display: "block", fontSize: "0.7rem" }}>
+                                Attended By
+                              </Typography>
+                              <Typography variant="body2" sx={{ fontWeight: 500, fontSize: "0.75rem" }}>
+                                {fp.ReceivedBy}
+                              </Typography>
+                            </Grid>
+                          )}
+                          {fp.CallStart && fp.CallStart !== "1900-01-01T00:00:00" && (
+                            <Grid item xs={12}>
+                              <Typography variant="caption" color="text.secondary" sx={{ display: "block", fontSize: "0.7rem" }}>
+                                Date & Time
+                              </Typography>
+                              <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+                                {new Date(fp.CallStart).toLocaleString("en-GB")}
+                              </Typography>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Paper>
+                    ))
+                  ) : (
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: "center" }}>
+                      No follow-up calls recorded.
+                    </Typography>
+                  )}
+                </Box>
               </Box>
             )}
           </Box>

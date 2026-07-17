@@ -249,7 +249,7 @@ export const isUpcoming = (status, date) => {
   return status !== "Delivered" && ticketDate >= today;
 };
 
-export const FormatDateIST = (date) => {
+export const FormatDateIST = (date, formatOptions) => {
   if (!date) return "N/A";
 
   try {
@@ -258,22 +258,40 @@ export const FormatDateIST = (date) => {
     // Handle invalid dates
     if (isNaN(entryDate.getTime())) return "Invalid Date";
 
-    const formatted = entryDate.toLocaleString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "UTC", // Ensure UTC display
-    });
+    if (!formatOptions) {
+      // Default formatting using UTC time
+      return entryDate.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+      });
+    }
 
-    return formatted;
+    // Format using custom format options like "dd-mm-yyyy" or "dd/mm/yyyy"
+    const dd = String(entryDate.getUTCDate()).padStart(2, "0");
+    const mm = String(entryDate.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const yyyy = entryDate.getUTCFullYear();
+
+    // Example formats:
+    if (formatOptions === "dd-mm-yyyy") {
+      return `${dd}-${mm}-${yyyy}`;
+    } else if (formatOptions === "dd/mm/yyyy") {
+      return `${dd}/${mm}/${yyyy}`;
+    } else if (formatOptions === "yyyy-mm-dd") {
+      return `${yyyy}-${mm}-${dd}`;
+    } else {
+      return `${dd}-${mm}-${yyyy}`; // Fallback
+    }
   } catch (error) {
     console.error("Error formatting date:", error);
     return "N/A";
   }
 };
+
 
 
 
@@ -283,3 +301,29 @@ export const formatDateFun = (dateString) => {
     const date = new Date(dateString);
     return FormatDateIST(date);
   };
+
+
+  
+const isValidDate = (dateStr) => {
+  return (
+    dateStr &&
+    dateStr !== "1900-01-01T00:00:00.000Z" &&
+    !isNaN(new Date(dateStr).getTime())
+  );
+};
+
+export const getMostRecentDate = (data, fields) => {
+  const validDates = fields
+    .map((field) => ({ field, value: data[field] }))
+    .filter((item) => isValidDate(item.value));
+
+  if (validDates.length === 0) return null;
+
+  // Sort by descending date (most recent first)
+  validDates.sort((a, b) => new Date(b.value) - new Date(a.value));
+
+  return {
+    label: validDates[0].field,
+    value: validDates[0].value,
+  } // Most recent
+};

@@ -1,9 +1,17 @@
-import { Box, Typography, Grid, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Box, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import "./default.css";
 import { highlightText } from "../../utils/Filtering";
+import { useState } from "react";
+import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+
 const QuickGuide = ({ shouldShowOtherComponents, SearchResults, faqData, expanded = null, handleChange = () => {}, attachImageClickHandlers = () => {}, showTitle, queryWords = [] }) => {
+  const MAX_VISIBLE = 12;
+  const [showAll, setShowAll] = useState(false);
+  const visibleFaqs = showAll ? faqData : faqData?.slice(0, MAX_VISIBLE);
+
   return (
     <>
       {showTitle && (
@@ -20,8 +28,8 @@ const QuickGuide = ({ shouldShowOtherComponents, SearchResults, faqData, expande
         </Box>
       )}
 
-      <Grid container spacing={2}>
-        {faqData?.map((guide, index) => (
+      <Grid container spacing={2} >
+        {visibleFaqs?.map((guide, index) => (
           <Grid item xs={12} key={index}>
             <Accordion
               key={index}
@@ -106,7 +114,63 @@ const QuickGuide = ({ shouldShowOtherComponents, SearchResults, faqData, expande
             </Accordion>
           </Grid>
         ))}
+        {(!faqData || faqData.length === 0) && (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                py: 25,
+                textAlign: "center",
+                color: "text.secondary",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                borderRadius: 2,
+                backgroundColor: "rgba(249, 249, 249, 0.37)"
+              }}
+            >
+              <Box
+                sx={{
+                  fontSize: 64,
+                }}
+              >
+                <HelpOutlineIcon sx={{ fontSize: 48, color: "#bdbdbd" }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 500, mb: 0.5 }}>
+                No results found
+              </Typography>
+              <Typography variant="body2">We couldn’t find any guides matching your search.</Typography>
+            </Box>
+          </Grid>
+        )}
       </Grid>
+      {faqData?.length > MAX_VISIBLE && (
+        <Box mt={2} display="flex" justifyContent="flex-start">
+          <Button
+            onClick={() => setShowAll((prev) => !prev)}
+            variant="outlined"
+            color="primary"
+            size="small"
+            endIcon={showAll ? <RemoveCircleOutline /> : <AddCircleOutline />}
+            sx={{
+              borderRadius: "20px",
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: 14,
+              px: 2,
+              py: 0.5,
+              boxShadow: "none",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                backgroundColor: "primary.main",
+                color: "#fff",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              },
+            }}
+          >
+            {showAll ? "Show Less" : "Show More"}
+          </Button>
+        </Box>
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { mapToApiKey } from "../utils/deliveryUtils";
 import DeliveryAPI from '../../../../apis/DeliveryController';
+import { useAuth } from '../context/AuthProvider'
 
 /**
  * @typedef {Object} Assignment
@@ -53,13 +54,16 @@ export const DeliveryProvider = ({ children }) => {
         return stored ? JSON.parse(stored) : { customer: null, employees: null };
     });
 
+    const { user } = useAuth();
+    console.log("🚀 ~ DeliveryProvider ~ user:", user)
+
     const COMPANY_MASTER_LIST =
         masterData?.customer?.map((item) => ({
             label: item?.CustomerCode,
             value: item.Id,
             ...item,
         })) || [];
-        
+
     const EMPLOYEE_LIST = masterData?.employees?.map((item) => ({
         label: item?.user,
         value: item?.userid,
@@ -70,7 +74,12 @@ export const DeliveryProvider = ({ children }) => {
 
     }));
 
-    const EMPLOYEE_GROUP_BY_DESIGNATION = EMPLOYEE_LIST && Object?.groupBy(EMPLOYEE_LIST, ({ Designation }) => Designation);
+    const EMPLOYEE_GROUP_BY_DESIGNATION = (EMPLOYEE_LIST || []).reduce((acc, item) => {
+        const key = item?.Designation || "Unknown";
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(item);
+        return acc;
+    }, {});
 
 
     useEffect(() => {
@@ -195,7 +204,7 @@ export const DeliveryProvider = ({ children }) => {
                     }))
                 );
             }
-           
+
 
             const response = await DeliveryAPI.updateDelivery({ ...payload, SrNo: id });
             console.log("Delivery Updated:", response);
@@ -217,14 +226,31 @@ export const DeliveryProvider = ({ children }) => {
         }
     };
 
+    const AddFeedBack = async (SrNo, RatingValue, RatingDescription) => {
+        try {
+            const res = await DeliveryAPI.CreateCustomerRating({
+                SrNo: SrNo,
+                RatingValue,
+                RatingDescription,
+                RatingBy: user?.firstname + " " + user?.lastname,
+                CorpId: user?.id,
+            });
+            console.log(res, "FeedBack added successfully!");
+            setrefresh((prev) => !prev);
+        } catch (error) {
+            console.log("Error adding feed back:", error);
+        }
+    };
+
     const props = {
         deliveryData,
         addData,
         editData,
         COMPANY_MASTER_LIST,
         EMPLOYEE_LIST,
-        EMPLOYEE_GROUP_BY_DESIGNATION ,
-        deleteTraining
+        EMPLOYEE_GROUP_BY_DESIGNATION,
+        deleteTraining,
+        AddFeedBack
     };
 
     return <DeliveryContext.Provider value={props}>{children}</DeliveryContext.Provider>;

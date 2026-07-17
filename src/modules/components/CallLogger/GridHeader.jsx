@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import { useCallLog } from "../../context/UseCallLog";
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
+import SearchBar from "./SearchBar";
 
 const GridHeader = ({isFilterData , onExcel, callStatusValue, CompanyStatus, onClearAll, SetCompanyStatus, onAdd, searchQuery, setsearchQuery, Status, SetStatus, filterState, setFilterState, viewMode, setViewMode }) => {
   const [tempDateRange, setTempDateRange] = useState({
@@ -53,26 +54,9 @@ const GridHeader = ({isFilterData , onExcel, callStatusValue, CompanyStatus, onC
         <Button disabled={callStatusValue?.duration > 0} onClick={onAdd} variant="contained" startIcon={<Plus />}>
           Add
         </Button>
-        <TextField
-          value={searchQuery}
-          onChange={(e) => setsearchQuery(e.target.value)}
-          name="SearchQuery"
-          sx={{
-            minWidth: 440,
-            "& .MuiInputBase-input": {
-              padding: "8.5px 12px",
-            },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-          variant="outlined"
-          size="small"
-          placeholder="Search Queries"
+        <SearchBar
+        searchQuery={searchQuery}
+        setsearchQuery={setsearchQuery}
         />
         {/* <LogToggle setViewMode={setViewMode} viewMode={viewMode} /> */}
       </Box>

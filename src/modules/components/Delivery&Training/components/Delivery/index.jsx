@@ -54,7 +54,7 @@ const DeliveryDashboard = ({ showNotification }) => {
     roleid: 3,
     designation: "Client Representative",
     customerCode: "cli003",
-    firmname: "Client Inc"
+    firmname: "Client Inc",
   });
 
   const FiltererdData = useMemo(() => {
@@ -96,7 +96,7 @@ const DeliveryDashboard = ({ showNotification }) => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100vh", bgcolor: "#fff !important", overflow: "hidden", position: "relative", py: 2}}>
+    <Box sx={{ width: "100%", height: "100vh", bgcolor: "#fff !important", overflow: "hidden", position: "relative", py: 2 }}>
       <DetailPanel isClient={isAdminDashboard} setOpen={setShowDetails} open={ShowDetails} />
       <BottomDrawer key={IsFormOpen} ClearEdit={ClearEdit} editValue={TempEditMode} isOpen={IsFormOpen} setIsOpen={setIsFormOpen} />
       {/* <TrainingForm open={ShowTrainingForm} setOpen={setShowTrainingForm} onSave={HandleFormSave} /> */}
@@ -116,7 +116,7 @@ const DeliveryDashboard = ({ showNotification }) => {
       <Paper
         elevation={3}
         sx={{
-          height: `calc(100vh - ${isAdminDashboard ? 480 : 390}px)`,
+          height: `calc(100vh - ${350}px)`,
           width: "100%",
           borderRadius: 2,
           transition: "all ease-in-out 50ms",

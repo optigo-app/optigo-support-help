@@ -12,6 +12,7 @@ import { useUrlSyncedFilters } from "../../hooks/useUrlSyncedFilters";
 import { useAuth } from "../../context/AuthProvider";
 import WithNotificationDT from "../../../../hoc/withNotificationDT";
 import { useRoleAccess } from "../../utils/useRoleAccess";
+import FeedbackModal from "./Form/FeedbackForm";
 
 const initialFilters = {
     search: "",
@@ -25,6 +26,7 @@ const initialFilters = {
 };
 const TrainingDashboard = ({ showNotification }) => {
     const [TempEditMode, setTempEditMode] = useState(null);
+    const [TempFeedBackModal, setTempFeedBackModal] = useState(null);
     const { Traininglist } = useTraining();
     const { ShowTrainingForm, setShowTrainingForm, pageSize, setPageSize, DetailModal, setDetailModal, setSortModel, sortModel, handleClose } = useTrainingForm();
     const { user } = useAuth();
@@ -56,14 +58,15 @@ const TrainingDashboard = ({ showNotification }) => {
 
     return (
         <>
+        <FeedbackModal open={TempFeedBackModal} onClose={() =>setTempFeedBackModal(null)}  />
             <TrainingForm onNotification={showNotification} onReset={HandleResetFilter} key={ShowTrainingForm} editValue={TempEditMode} open={ShowTrainingForm} onClose={handleCloseWrapper} />
-            <TrainingDetailPanel isAdmin={isAdmin} open={DetailModal} onClose={() => setDetailModal(null)} />
+            <TrainingDetailPanel OnOpenFeedBackModal={(id)=>setTempFeedBackModal(id)} isAdmin={isAdmin} open={DetailModal} onClose={() => setDetailModal(null)} />
             <Box sx={{ width: "100%", height: "100vh", py: 4, bgcolor: "#fff !important" }}>
                 <HeroHeader isAdmin={isAdmin} filters={filters} initialFilters={initialFilters} setFilters={setFilters} Traininglist={filteredData} onToggle={() => setShowTrainingForm(true)} />
                 <Paper
                     elevation={3}
                     sx={{
-                        height: `calc(100vh - 340px)`,
+                        height: `calc(100vh - 280px)`,
                         width: "100%",
                         borderRadius: 2,
                     }}

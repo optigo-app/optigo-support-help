@@ -39,25 +39,14 @@ const ContactUs = () => {
                   },
                 }}
               >
-                {/* Contact Sections Grid */}
                 <Grid container spacing={2} justifyContent="center">
                   {/* Sales */}
                   <Grid item xs={12} sm={6}>
                     <Typography variant="subtitle1" fontWeight="medium">
                       Sales
                     </Typography>
-                    <Link href="tel:+1234567890" underline="hover" color="primary">
-                      +1 234 567 890
-                    </Link>
-                  </Grid>
-
-                  {/* General Support */}
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="subtitle1" fontWeight="medium">
-                      General Support
-                    </Typography>
-                    <Link href="tel:+1987654321" underline="hover" color="primary">
-                      +1 987 654 321
+                    <Link href="tel:+919099887762" underline="hover" color="primary">
+                      +91 90998 87762
                     </Link>
                   </Grid>
 
@@ -66,8 +55,18 @@ const ContactUs = () => {
                     <Typography variant="subtitle1" fontWeight="medium">
                       Demo
                     </Typography>
-                    <Link href="tel:+1122334455" underline="hover" color="primary">
-                      +1 122 334 455
+                    <Link href="tel:+919510213581" underline="hover" color="primary">
+                      +91 95102 13581
+                    </Link>
+                  </Grid>
+
+                  {/* Support */}
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="subtitle1" fontWeight="medium">
+                      Support
+                    </Typography>
+                    <Link href="tel:+2602613603500" underline="hover" color="primary">
+                      0261 360 3500
                     </Link>
                   </Grid>
 
@@ -76,8 +75,8 @@ const ContactUs = () => {
                     <Typography variant="subtitle1" fontWeight="medium">
                       Training
                     </Typography>
-                    <Link href="tel:+1098765432" underline="hover" color="primary">
-                      +1 098 765 432
+                    <Link href="tel:+2602613603511" underline="hover" color="primary">
+                      0261 360 3511
                     </Link>
                   </Grid>
                 </Grid>
@@ -115,7 +114,8 @@ const ContactUs = () => {
                   support@orail.in
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Send us an email and we'll respond quickly
+
+                  
                 </Typography>
               </Paper>
             </Link>

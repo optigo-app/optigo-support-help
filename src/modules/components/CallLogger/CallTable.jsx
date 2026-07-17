@@ -1,6 +1,6 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Chip, IconButton, Rating, MenuItem, Menu, Tooltip } from "@mui/material";
+import { Chip, IconButton, Rating, MenuItem, Menu, Tooltip, Box, Typography } from "@mui/material";
 import { PhoneCall, WandSparkles } from "lucide-react";
 import { useCallLog } from "../../context/UseCallLog";
 import EscalationMenu from "./Escalation";
@@ -10,8 +10,9 @@ import { CheckCircle, LocalActivity } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useAuth } from "../../context/UseAuth";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
-const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCall, onCallAnalysis, setFeedBackModal }) => {
+const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCall, onCallAnalysis, setFeedBackModal, setAnchorEl, onFollowUpClick }) => {
   const { UpdateStatusAndPriority, STATUS_LIST, ESTATUS_LIST, PRIORITY_LIST, INTERNAL_STATUS_LIST, INTERNAL_ESTATUS_LIST } = useCallLog();
   const Navigate = useNavigate();
   const { user } = useAuth();
@@ -95,8 +96,12 @@ const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCa
     setFeedBackModal(id);
   };
 
+  const HandleFeedBackDetails = (anchorEl, rowData) => {
+		setAnchorEl({ data: rowData, anchor: anchorEl });
+	};
+
+
   const HandleTicketUpgrade = (data) => {
-    console.log("🚀 ~ HandleTicketUpgrade ~ data:", data);
     const encodedId = btoa(data?.id);
     const encodedApp = btoa(data?.appname);
     Navigate(`/ticket?TicketId=${encodedId}&Appname=${encodedApp}`, {
@@ -181,41 +186,153 @@ const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCa
         );
       },
     },
+    // {
+    //   field: "feedback",
+    //   headerName: "Feedback",
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     const isCallClosed = params?.row?.callClosed && params?.row?.rating ;
+    //     const tooltipMessage = isCallClosed ? "Rate this call" : "You can rate this call after it’s closed";
+    //     const label = !!isCallClosed ? "Done" : "Send";
+    //     const isSend = label === "Send";
+    //     return (
+    //       <Tooltip placement="top" title={tooltipMessage}>
+    //         <span style={{ cursor: isCallClosed ? "pointer" : "not-allowed" }}>
+    //           <Chip
+    //             onClick={(e) => {
+    //               e.stopPropagation();
+    //               if (!isCallClosed) return;
+    //               if (isSend) {
+    //                 HandleFeedBack(params?.row?.id);
+    //               } else {
+    //                 HandleFeedBackDetails(e.currentTarget, params?.row);
+    //               }
+    //             }}
+    //             icon={!isSend ? <PendingActionsRoundedIcon fontSize="small" /> : <WandSparkles size={10} />}
+    //             label={label}
+    //             color={!isSend ? "success" : "secondary"}
+    //             size="small"
+    //             sx={{
+    //               fontSize: "0.7rem",
+    //               height: 20,
+    //               opacity: isCallClosed ? 1 : 0.5, // visually indicate it's disabled
+    //               pointerEvents: isCallClosed ? "auto" : "none", // fully prevent interaction
+    //             }}
+    {
+      field: "followUp",
+      headerName: "Follow Ups",
+      width: 150,
+      renderCell: (params) => {
+        const followUps = params.row.followUpsList || [];
+        if (followUps.length === 0) {
+          return <span style={{ color: "#aaa" }}>-</span>;
+        }
+
+        return (
+          <Tooltip
+            placement="top"
+            arrow
+            title={
+              <Box sx={{ p: 1, maxWidth: 300 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, borderBottom: "1px solid rgba(255,255,255,0.2)", pb: 0.5 }}>
+                  Follow Up History ({followUps.length})
+                </Typography>
+                {followUps.map((fp, i) => (
+                  <Box key={fp.Id || i} sx={{ mb: i < followUps.length - 1 ? 1.5 : 0 }}>
+                    <Typography variant="caption" sx={{ display: "block", fontWeight: 600, color: "#90caf9" }}>
+                      {fp.CreatedBy || "Unknown"} • {fp.CallStart ? new Date(fp.CallStart).toLocaleString("en-GB") : "N/A"}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.75rem", whiteSpace: "pre-wrap" }}>
+                      {fp.Description}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            }
+          >
+            <Chip
+              label={`${followUps.length} Call${followUps.length > 1 ? "s" : ""}`}
+              color="info"
+              size="small"
+              variant="outlined"
+              onClick={(e) => {
+                e.stopPropagation();
+                onFollowUpClick && onFollowUpClick(params.row);
+              }}
+              sx={{
+                fontSize: "0.7rem",
+                height: 22,
+                cursor: "pointer",
+                fontWeight: 500,
+              }}
+            />
+          </Tooltip>
+        );
+      },
+    },
     {
       field: "feedback",
       headerName: "Feedback",
-      width: 150,
+      width: 180,
       renderCell: (params) => {
-        const isCallClosed = params?.row?.callClosed;
-        const isSend = params?.value === "Send";
-        const tooltipMessage = isCallClosed ? "Rate this call" : "You can rate this call after it’s closed";
-
+        const callClosed = !!params?.row?.callClosed?.trim();
+        const hasRating = Number(params?.row?.rating) > 0;
+        const hasFeedback = !!params?.row?.feedback?.trim();
+    
+        let tooltipMessage = "";
+        let label = "";
+        let icon = null;
+        let color = "default";
+        let clickable = false;
+        let onClickHandler = () => {};
+    
+        if (!callClosed) {
+          tooltipMessage = "Feedback is locked until the call is closed";
+          label = "Send";
+          icon = <PendingActionsRoundedIcon fontSize="small" />;
+          color = "secondary";
+          clickable = false;
+        } else if (hasRating || hasFeedback) {
+          tooltipMessage = `Rated ${params?.row?.rating}/5${hasFeedback ? ` • ${params?.row?.feedback}` : ""}`;
+          label = "Done";
+          icon = <CheckCircleRoundedIcon fontSize="small" />;
+          color = "success";
+          clickable = true;
+          onClickHandler = (e) => HandleFeedBackDetails(e.currentTarget, params?.row);
+        } else {
+          tooltipMessage = "Send feedback for this call";
+          label = "Send";
+          icon = <WandSparkles size={12} />;
+          color = "primary";
+          clickable = true;
+          onClickHandler = () => HandleFeedBack(params?.row?.sr); // open feedback modal
+        }
+    
         return (
           <Tooltip placement="top" title={tooltipMessage}>
-            <span style={{ cursor: isCallClosed ? "pointer" : "not-allowed" }}>
+            <span style={{ cursor: clickable ? "pointer" : "not-allowed" }}>
               <Chip
+                label={label}
+                icon={icon}
+                color={color}
+                size="small"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (isCallClosed) {
-                    HandleFeedBack(params?.row?.id);
-                  }
+                  if (clickable) onClickHandler(e);
                 }}
-                icon={!isSend ? <PendingActionsRoundedIcon fontSize="small" /> : <WandSparkles size={10} />}
-                label={params?.value}
-                color={!isSend ? "success" : "secondary"}
-                size="small"
                 sx={{
                   fontSize: "0.7rem",
-                  height: 20,
-                  opacity: isCallClosed ? 1 : 0.5, // visually indicate it's disabled
-                  pointerEvents: isCallClosed ? "auto" : "none", // fully prevent interaction
+                  height: 22,
+                  opacity: clickable ? 1 : 0.6,
+                  pointerEvents: clickable ? "auto" : "none",
                 }}
               />
             </span>
           </Tooltip>
         );
       },
-    },
+    }
+,    
     {
       field: "rating",
       headerName: "Rating",
@@ -266,59 +383,72 @@ const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCa
     // { field: "callClosed", headerName: "Call Closed", width: 150 },
     // { field: "CallDuration", headerName: "Call Duration", width: 150 },
     // { field: "callDetails", headerName: "Call Details", width: 150 },
-    {
-      field: "ticket",
-      headerName: "Ticket",
-      width: 160,
-      // valueGetter: (params) => (params.row?.ticket !== "" ? "Done" : "Upgrade to Ticket"),
-      renderCell: (params) => {
-        const isDone = params.value === "Done";
-        return (
-          <Tooltip placement="top" title={"This feature will be available soon !!"}>
-            <Chip
-              onClick={(e) => {
-                e.stopPropagation();
-                // if (!isDone) {
-                //   HandleTicketUpgrade(params?.row);
-                // } else {
-                //   HandlePreviewTicket(params?.row?.id);
-                // }
-              }}
-              icon={isDone ? <CheckCircle size={14} style={{ color: "#4caf50" }} /> : <LocalActivity fontSize="small" />}
-              label={params.value}
-              color={isDone ? "success" : "default"}
-              size="small"
-              sx={{ fontSize: "0.7rem", height: 22 }}
-            />
-          </Tooltip>
-        );
-      },
-    },
+    // {
+    //   field: "ticket",
+    //   headerName: "Ticket",
+    //   width: 160,
+    //   // valueGetter: (params) => (params.row?.ticket !== "" ? "Done" : "Upgrade to Ticket"),
+    //   renderCell: (params) => {
+    //     const isDone = params.value === "Done";
+    //     return (
+    //       <Tooltip placement="top" title={"This feature will be available soon !!"}>
+    //         <Chip
+    //           onClick={(e) => {
+    //             e.stopPropagation();
+    //             // if (!isDone) {
+    //             //   HandleTicketUpgrade(params?.row);
+    //             // } else {
+    //             //   HandlePreviewTicket(params?.row?.id);
+    //             // }
+    //           }}
+    //           icon={isDone ? <CheckCircle size={14} style={{ color: "#4caf50" }} /> : <LocalActivity fontSize="small" />}
+    //           label={params.value}
+    //           color={isDone ? "success" : "default"}
+    //           size="small"
+    //           sx={{ fontSize: "0.7rem", height: 22 }}
+    //         />
+    //       </Tooltip>
+    //     );
+    //   },
+    // },
   ];
 
   const normalizeRowData = (rows) =>
-    rows?.map((row, i) => ({
-      ...row,
-      id: row.sr ?? "-",
-      sr: row.sr ?? "-",
-      index: i + 1,
-      date: row.date ? new Date(row.date).toLocaleDateString("en-GB") : "-",
-      forward:
-        row?.DeptName && row?.AssignedEmpName ? (
-          <>
-            <span>{row.DeptName}</span>
-            <ChevronRightIcon sx={{ fontSize: "14px", margin: "-2px 5px" }} />
-            <span>{row.AssignedEmpName}</span>
-          </>
-        ) : (
-          "-"
-        ),
-      rating: row.rating ?? 0,
-      callAnalysis: row.callAnalysis && Object.keys(row.callAnalysis)?.length > 0 ? "Analysis" : "Pending",
-      feedback: row?.rating ? "Done" : "Send",
-      ticket: row?.ticket ? "Done" : "Upgrade to Ticket",
-      ...Object.fromEntries(["company", "callBy", "appname", "description", "receivedBy", "time", "status", "Estatus", "topicRaisedBy", "priority", "callStart", "callDetails", "CallDuration", "callClosed"].map((key) => [key, row[key] ?? ""])),
-    }));
+    rows?.map((row, i) => {
+      let followUpsList = [];
+      if (row.FollowUpList) {
+        try {
+          followUpsList = typeof row.FollowUpList === "string"
+            ? JSON.parse(row.FollowUpList)
+            : (Array.isArray(row.FollowUpList) ? row.FollowUpList : []);
+        } catch (e) {
+          console.error("Failed to parse FollowUpList for row: " + row.sr, e);
+        }
+      }
+      return {
+        ...row,
+        id: row.sr ?? "-",
+        sr: row.sr ?? "-",
+        index: i + 1,
+        date: row.date ? new Date(row.date).toLocaleDateString("en-GB") : "-",
+        followUpsList,
+        forward:
+          row?.DeptName && row?.AssignedEmpName ? (
+            <>
+              <span>{row.DeptName}</span>
+              <ChevronRightIcon sx={{ fontSize: "14px", margin: "-2px 5px" }} />
+              <span>{row.AssignedEmpName}</span>
+            </>
+          ) : (
+            "-"
+          ),
+        rating: row.rating ?? 0,
+        callAnalysis: row.callAnalysis && Object.keys(row.callAnalysis)?.length > 0 ? "Analysis" : "Pending",
+        feedback: row?.feedback,
+        ticket: row?.ticket ? "Done" : "Upgrade to Ticket",
+        ...Object.fromEntries(["company", "callBy", "appname", "description", "receivedBy", "time", "status", "Estatus", "topicRaisedBy", "priority", "callStart", "callDetails", "CallDuration", "callClosed"].map((key) => [key, row[key] ?? ""])),
+      };
+    });
 
   const normalizedCallLogs = normalizeRowData(callLogs);
 
@@ -327,7 +457,7 @@ const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCa
       rows={normalizedCallLogs}
       columns={columns.map((col) => ({ ...col, flex: 1 }))}
       // columns={columns.map((col) => ({ ...col }))}
-      // onRowClick={(params) => onRowClick && onRowClick(params.row)}
+      onRowClick={(params) => onRowClick && onRowClick(params.row)}
       // autoPageSize
       disableMultipleRowSelection
       disableSelectionOnClick

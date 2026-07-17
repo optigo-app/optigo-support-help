@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import TrainingAPI from '../../../../apis/TrainingController';
+import { useAuth } from "./AuthProvider";
 
 const TrainingContext = createContext();
 
@@ -10,6 +11,8 @@ export const TrainingProvider = ({ children }) => {
         return stored ? JSON.parse(stored) : { customer: null, employees: null };
     });
     const [refresh, setrefresh] = useState(false);
+    const { user, isAuthenticated } = useAuth()
+    console.log("🚀 ~ TrainingProvider ~ user:", user)
 
     const COMPANY_MASTER_LIST = masterData.customer?.map(item => ({
         label: item?.CustomerCode,
@@ -118,13 +121,43 @@ export const TrainingProvider = ({ children }) => {
         }
     };
 
+
+    // Add FeedBack
+    /*
+json
+{
+    "Rating": 4,
+    "RatingDesc": "Good training",
+    "RatingBy": "1",
+    "SessionID": "1"
+}
+
+    */
+    const AddFeedBack = async ({ rating, comment, id }) => {
+        try {
+            const res = await TrainingAPI.AddRating({
+                Rating: rating,
+                RatingDesc: comment,
+                RatingBy: user?.id,
+                SessionID: id,
+            });
+            console.log(res, "Rating added successfully!");
+            setrefresh((prev) => !prev);
+        } catch (error) {
+            console.log("Error adding rating:", error);
+        }
+    }
+
+
+
     const value = {
         Traininglist,
         addTraining,
         editTraining,
         deleteTraining,
         COMPANY_MASTER_LIST,
-        EMPLOYEE_LIST
+        EMPLOYEE_LIST,
+        AddFeedBack
     };
 
     return (

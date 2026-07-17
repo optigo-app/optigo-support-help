@@ -1,10 +1,19 @@
-import React from "react";
-import { Typography, Box, Chip, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Drawer, IconButton, Paper } from "@mui/material";
+import React, { useState } from "react";
+import { Typography, Box, Chip, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Drawer, IconButton, Paper, TextField } from "@mui/material";
 import { X } from "lucide-react";
 import { formatDate, getApprovalStatus, getPaymentStatus, calculateTotalHours, parseEstimate, formatDateFun } from "../../../utils/helpers";
 import PaymentMethodModal from "./PaymentModal";
+import { styled } from "@mui/material/styles";
+import { motion, AnimatePresence } from "framer-motion";
+import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
+import Rating from "@mui/material/Rating";
+import { useDelivery } from "../../../context/DeliveryProvider";
+const MotionBox = motion(Box);
+
+
 
 const DetailPanel = ({ open, setOpen, isClient = false }) => {
+  console.log("🚀 ~ DetailPanel ~ open:", open)
   const [openModal, setOpenModal] = React.useState(false);
 
 
@@ -28,16 +37,15 @@ const DetailPanel = ({ open, setOpen, isClient = false }) => {
         },
       }}
     >
-      <TicketDetailsContent ticketData={open} closeDrawer={toggleDrawer(null)} onToggle={() => setOpenModal(true)} IsClient={isClient} />
+      <TicketDetailsContent onClose={() => setOpen(null)} ticketData={open} closeDrawer={toggleDrawer(null)} onToggle={() => setOpenModal(true)} IsClient={isClient} />
       <PaymentMethodModal onClose={() => setOpenModal(false)} open={openModal} ticketData={open} />
     </Drawer>
   );
 };
 
 // === Main Content Component ===
-const TicketDetailsContent = ({ closeDrawer, ticketData, onToggle = () => { }, IsClient }) => {
+const TicketDetailsContent = ({ closeDrawer, ticketData, onToggle = () => { }, IsClient, onClose = () => { } }) => {
   const approvalStatus = getApprovalStatus(ticketData?.ApprovedStatus ?? false);
-  console.log("🚀 ~ TicketDetailsContent ~ IsClient:", IsClient)
   const paymentStatus = getPaymentStatus(ticketData?.PaymentStatus ?? "");
 
   const dateFields = {
@@ -84,6 +92,17 @@ const TicketDetailsContent = ({ closeDrawer, ticketData, onToggle = () => { }, I
         {IsClient && <AssignmentTable ticketData={ticketData} />}
         {/* <TrainingSection ticketData={ticketData} /> */}
         {IsClient && <PaymentInfo ticketData={ticketData} onToggle={onToggle} />}
+        {!IsClient && !ticketData?.RatingValue && (
+          <FeedbackForm onClose={onClose} ticketData={ticketData} />
+        )}
+        {!!ticketData?.RatingValue && (
+          <FeedbackDisplay
+            ratingValue={ticketData?.RatingValue}
+            ratingDescription={ticketData?.RatingDescription}
+            ratingBy={ticketData?.RatingBy}
+          />
+        )}
+
       </Box>
     </>
   );
@@ -456,10 +475,10 @@ const TrainingSection = ({ ticketData }) => {
 
 const PaymentInfo = ({ ticketData, onToggle }) => {
   function isValidPaymentMethod(method) {
-  if (!method) return false;
-  const trimmed = method.trim();
-  return trimmed !== "" && trimmed !== "-";
-}
+    if (!method) return false;
+    const trimmed = method.trim();
+    return trimmed !== "" && trimmed !== "-";
+  }
   return <Box mt={3} px={2} mb={3}>
     <Paper elevation={0} variant="outlined" sx={{ p: 2, bgcolor: "#f3f3f396" }}>
       {isValidPaymentMethod(ticketData?.PaymentMethod) ? (
@@ -517,3 +536,162 @@ const PaymentInfo = ({ ticketData, onToggle }) => {
     </Paper>
   </Box>
 }
+
+const FeedbackForm = ({ ticketData, onClose }) => {
+  const { AddFeedBack } = useDelivery();
+  const [rating, setRating] = useState(null);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmitFeedback = () => {
+    setLoading(true);
+    AddFeedBack(ticketData?.SrNo, rating, feedbackText);
+    setLoading(false);
+    setRating(null);
+    setFeedbackText("");
+    onClose();
+  };
+
+  return (
+
+    <Box mt={4} p={2}>
+      <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+        Feedback
+      </Typography>
+      <StyledPaper>
+        <Typography variant="body2" color="text.secondary" mb={1}>
+          How was your experience with this delivery ?
+        </Typography>
+
+        <Box display="flex" alignItems="center" gap={1} mb={2}>
+
+          <Rating
+            name="feedback-rating"
+            value={rating}
+            onChange={(_, newValue) => setRating(newValue)}
+            icon={<StarRateRoundedIcon fontSize="large" />}
+            emptyIcon={<StarRateRoundedIcon fontSize="large" />}
+            max={5}
+            sx={{
+              color: "#FFC107",
+              mb: 0,
+              "& .MuiRating-iconEmpty": {
+                color: "#BDBDBD"
+              }
+            }}
+            aria-label="Delivery experience rating"
+            size="large"
+          />
+
+        </Box>
+
+        <AnimatePresence mode="wait">
+          {rating && rating <= 3 && (
+            <MotionBox
+              key="feedback-textarea"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <TextField
+                placeholder="Tell us what went wrong..."
+                multiline
+                minRows={2}
+                fullWidth
+                variant="outlined"
+                value={feedbackText}
+                onChange={(e) => setFeedbackText(e.target.value)}
+                sx={{ mb: 2 }}
+                maxRows={4}
+              />
+            </MotionBox>
+          )}
+        </AnimatePresence>
+
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={handleSubmitFeedback}
+          sx={{
+            background: "linear-gradient(90deg, #4A6CF7, #6988FF)",
+            color: "#fff",
+            textTransform: "none",
+            fontWeight: 500,
+            boxShadow: "0 2px 6px rgba(74, 108, 247, 0.3)",
+            "&:hover": {
+              background: "linear-gradient(90deg, #3E5CE4, #5B78F7)"
+            },
+          }}
+        >
+          {loading ? "Submitting..." : "Submit Feedback"}
+        </Button>
+
+      </StyledPaper>
+    </Box>
+  );
+};
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(1),
+  background: theme.palette.mode === "dark" ? "#1f1f1f" : "#f9f9f9",
+  boxShadow: "0px 1px 4px rgba(0,0,0,0.05)",
+  border: `1px solid ${theme.palette.divider}`,
+  transition: "all 0.3s ease",
+  "&:hover": {
+    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+  }
+}));
+
+
+
+
+const FeedbackDisplay = ({ ratingValue, ratingDescription, ratingBy }) => {
+  if (!ratingValue) return null;
+
+  return (
+    <Box p={2}>
+      <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+        Feedback
+      </Typography>
+      <StyledPaper>
+        <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+          <Rating
+            value={ratingValue}
+            readOnly
+            icon={<StarRateRoundedIcon fontSize="small" />}
+            emptyIcon={<StarRateRoundedIcon fontSize="small" />}
+            sx={{
+              color: "#FFC107",
+              "& .MuiRating-iconEmpty": {
+                color: "#BDBDBD",
+              },
+            }}
+          />
+        </Box>
+
+        {ratingDescription && (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ fontStyle: "italic" }}
+          >
+            “{ratingDescription}”
+          </Typography>
+        )}
+
+        {ratingBy && (
+          <Typography
+            variant="caption"
+            color="text.disabled"
+            display="block"
+            mt={1}
+          >
+            — {ratingBy}
+          </Typography>
+        )}
+      </StyledPaper>
+    </Box>
+  );
+};

@@ -1,13 +1,17 @@
-class TrainingAPI {
-    static BASE_URL = 'http://newnextjs.web/api/report';
-    // static BASE_URL = process.env.NODE_ENV === "production" ? "https://livenx.optigoapps.com/api/report" : "http://newnextjs.web/api/report";
+import { BaseAPI } from "./BaseAPI";
 
+class TrainingAPI extends BaseAPI{
+     static getBaseUrl() {
+    return super.BASE_URL;
+  }
+  static BASE_URL = this.getBaseUrl();
     static VERSION_NO = null;
     static SV = null;
     static SP = null;
     static APP_USER_ID = null;
     static YEAR_CODE = null;
     static isInitialized = false;
+
 
     static initialize(cookieData = null) {
         if (!cookieData) {
@@ -90,11 +94,16 @@ class TrainingAPI {
         }
     }
     // ✅ Token
-    static async getToken(userId) {
+    static async getToken(userId, isCorporate = true) {
         try {
+            const params = { appuserid: userId };
+            if (isCorporate) {
+                params.corporate = "true";
+            }
+
             const response = await TrainingAPI.requestToApi({
                 mode: 'gettoken',
-                params: { appuserid: userId },
+                params,
                 functionName: 'gettoken',
             });
 
@@ -120,6 +129,19 @@ class TrainingAPI {
             functionName: 'Create'
         });
     }
+
+       static async AddRating({
+        SessionID,Rating,RatingDesc,RatingBy
+    }) {
+        return await this.requestToApi({
+            mode: 'add_rating',
+            params: {
+                SessionID ,Rating,RatingDesc,RatingBy
+            },
+            functionName: 'AddRating'
+        });
+    }
+
     // ✅ Update - Now supports partial updates!
     static async updateTraining({
         SessionID, TrainingDate, Projectcode, TicketNo, TrainingType, TrainingMode,
@@ -161,9 +183,9 @@ class TrainingAPI {
     // ✅ List
     static async listTrainings() {
         return await this.requestToApi({
-            mode: 'list',
+            mode: 'list_CUST',
             params: {},
-            functionName: 'List'
+            functionName: 'List_CUST'
         });
     }
 

@@ -17,6 +17,12 @@ psd
 thumb
 sketch
 
+backup
+build
+dist
+coverage
+.vscode
+
 .vscode
 backup
 build

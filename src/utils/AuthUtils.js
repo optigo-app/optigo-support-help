@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import { SignJWT } from "jose";
 
 // const AllowedDomains = ["localhost", "http://calllog.web/", "http://calllog.web/", "calllog.web"];
 
@@ -11,57 +12,79 @@ import Cookies from "js-cookie";
 //     console.log("AuthUtils.js is running in development mode");
 // }
 export function decodeBase64(base64Str) {
-    try {
-        return decodeURIComponent(
-            atob(base64Str)
-                .split("")
-                .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
-                .join("")
-        );
-    } catch (error) {
-        console.error("Base64 decoding failed:", error);
-        return null;
-    }
+  try {
+    return decodeURIComponent(
+      atob(base64Str)
+        .split("")
+        .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
+        .join("")
+    );
+  } catch (error) {
+    console.error("Base64 decoding failed:", error);
+    return null;
+  }
 }
 
 export function GetCredentialsFromCookie() {
-    try {
-        const token = Cookies.get("skey");
-        if (!token) {
-            console.warn("skey cookie not found");
-            return null;
-        }
-        const decoded = jwtDecode(token);
-        const companyEncoded = decoded?.uid;
-        const user = companyEncoded ? decodeBase64(companyEncoded) : null;
-        return {
-            ...decoded,
-            userId: user,
-        };
-    } catch (error) {
-        console.error("Failed to parse JWT from skey cookie:", error);
-        return null;
+  try {
+    let token = null;
+    let isSkey = false;
+
+    const skey = Cookies.get("skey");
+    const helpSupport = Cookies.get("help_support");
+
+    if (skey) {
+      token = skey;
+      isSkey = true;
+    } else if (helpSupport) {
+      token = helpSupport;
+      isSkey = false;
     }
+
+    if (!token) {
+      console.warn("Neither help_support nor skey cookie found");
+      return null;
+    }
+
+    const decoded = jwtDecode(token);
+    const companyEncoded = decoded?.uid;
+    const user = companyEncoded ? decodeBase64(companyEncoded) : null;
+    return {
+      ...decoded,
+      userId: user,
+      isSkeyCookie: isSkey,
+    };
+  } catch (error) {
+    console.error("Failed to parse JWT from cookie:", error);
+    return null;
+  }
 }
 
-// export function createAndStoreToken(payload, expiresIn = '7d') {
-//     try {
-//       const token = jwt.sign(payload, 'TOP_SECRET_KEY', { expiresIn });
-//       const cookieOptions = {
-//         path: '/',
-//         secure: process.env.NODE_ENV === 'production',
-//         expires: 7,
-//         sameSite: 'strict',
-//       };
+const encodeBase64 = (str) => {
+  const encoded = btoa(str);
+  return encoded;
+};
 
-//       // 3. Store token in cookie
-//       Cookies.set('skey', token, cookieOptions);
+export async function createJWT(userInfo) {
+  if (!userInfo?.userid) throw new Error("Missing userid for JWT");
 
-//       console.log("JWT token created and stored in cookie.");
+  const base64UserId = encodeBase64(userInfo?.userid);
 
-//       return token;
-//     } catch (error) {
-//       console.error("Failed to create/store JWT token:", error);
-//       return null;
-//     }
-//   }
+  const payload = {
+    iss: "support.optigo",
+    aud: base64UserId,
+    uid: base64UserId,
+    yc: userInfo.yearcode,
+    sv: userInfo.svid,
+  };
+
+  const secret = new TextEncoder().encode("🔓frontend-secret");
+
+  const jwt = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("2d")
+    .sign(secret);
+
+  return jwt;
+}

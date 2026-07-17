@@ -68,13 +68,13 @@ export const getClientCardData = (dashboardData, utils) => {
             showTotal: true,
             secondarySubtitle: "Basic info only",
         },
-        {
-            title: "Avg Processing Time",
-            value: `${avgProcessingTime.toFixed(1)}h`,
-            icon: <ScheduleIcon sx={{ fontSize: 20, color: "#9c27b0" }} />,
-            subtitle: avgProcessingTime < 2 ? "Lightning fast!" : avgProcessingTime < 4 ? "Quick delivery" : "Standard timing",
-            color: avgProcessingTime < 2 ? "#4caf50" : avgProcessingTime < 4 ? "#ff9800" : "#9c27b0",
-            secondarySubtitle: "Stats at a glance",
-        }
+        // {
+        //     title: "Avg Processing Time",
+        //     value: `${avgProcessingTime.toFixed(1)}h`,
+        //     icon: <ScheduleIcon sx={{ fontSize: 20, color: "#9c27b0" }} />,
+        //     subtitle: avgProcessingTime < 2 ? "Lightning fast!" : avgProcessingTime < 4 ? "Quick delivery" : "Standard timing",
+        //     color: avgProcessingTime < 2 ? "#4caf50" : avgProcessingTime < 4 ? "#ff9800" : "#9c27b0",
+        //     secondarySubtitle: "Stats at a glance",
+        // }
     ];
 };

@@ -1,47 +1,103 @@
 import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
-import { Phone as PhoneIcon, PersonAdd as PersonAddIcon, Assignment as AssignmentIcon, Chat as ChatIcon } from "@mui/icons-material";
-
-const featureCards = [
+import { FaWpforms } from "react-icons/fa6";
+import { LuTickets } from "react-icons/lu";
+import PermPhoneMsgRoundedIcon from "@mui/icons-material/PermPhoneMsgRounded";
+import SendTimeExtensionRoundedIcon from "@mui/icons-material/SendTimeExtensionRounded";
+import { Link } from "react-router-dom";
+import { useUserRights } from "../../modules/hooks/useUserRights";
+import { useAuth } from "../../modules/context/UseAuth";
+import Cookies from "js-cookie";
+import CallLogDashBoard from "../../modules/components/CallLogger";
+import DeliveryDashboard from "../../modules/components/Delivery&Training/components/Delivery/Main";
+import TrainingDashboard from "../../modules/components/Delivery&Training/components/Training/Main";
+import TicketUiClient from "../../modules/components/TicketUi/latest/components/index";
+export const featureCards = [
   {
-    icon: <PhoneIcon sx={{ fontSize: 40, color: "#2196F3" }} />,
-    title: "Call Tracking",
-    description: "Getting started with Call Tracking",
+    icon: <PermPhoneMsgRoundedIcon style={{ fontSize: 40, color: "#2196F3" }} />,
+    title: "Calllogs & Request",
+    description: `Need help? Leave your request, and we'll call you back shortly.`,
+    TabId: 0,
+    id: "call-logs",
+    slug: "CallLog",
+    SystemId: 18290,
+    components: <CallLogDashBoard />
   },
   {
-    icon: <PersonAddIcon sx={{ fontSize: 40, color: "#4CAF50" }} />,
-    title: "Lead Center",
-    description: "Getting started with Lead Center",
+    icon: <LuTickets style={{ fontSize: 40, color: "#FF9800" }} />,
+    description: "Organized ticket tracking, made simple and effective.",
+    TabId: 1,
+    id: "ticketing-system",
+    title: "Tickets",
+    slug: "Ticket",
+    SystemId: 18294,
+    components: <TicketUiClient />
   },
   {
-    icon: <AssignmentIcon sx={{ fontSize: 40, color: "#FF9800" }} />,
-    title: "Form Tracking",
-    description: "Getting started with Form Tracking",
+    icon: <SendTimeExtensionRoundedIcon sx={{ fontSize: 40, color: "#4CAF50" }} />,
+    description: "No more guessing, know what’s happening with your orders, right here.",
+    TabId: 2,
+    id: "delivery-dashboard",
+    title: "Orders",
+    slug: 'Order Delivery Dashboard',
+    SystemId: 18291,
+    components: <DeliveryDashboard />
   },
   {
-    icon: <ChatIcon sx={{ fontSize: 40, color: "#9C27B0" }} />,
-    title: "Conversation Intelligence",
-    description: "Getting started with Conversation Intelligence",
+    icon: <FaWpforms style={{ fontSize: 40, color: "#9C27B0" }} />,
+    title: "Trainings",
+    description: "Stay informed with a full overview of your training journey.",
+    TabId: 3,
+    id: "training-onboarding",
+    slug: 'Training Dashboard',
+    SystemId: 18292,
+    components: <TrainingDashboard />
   },
 ];
 
-const FeatureSection = ({}) => {
+const FeatureSection = () => {
+  const [userRights] = useUserRights();
+  const { isThirdParty } = useAuth();
+  const isIframe = window.self !== window.top;
+  const isSkey = !!Cookies.get("skey");
+  if (isIframe && isSkey) return null;
+
+  const rightsSet = new Set(
+    (userRights || [])
+      .map((r) => r?.id)
+      .filter(Boolean)
+  );
+
+  const visibleCards = featureCards.filter((card) =>
+    rightsSet.has(card?.SystemId) && (!isThirdParty || ![18290, 18294, 18291, 18292].includes(card.SystemId))
+  );
+
+  const handleClick = (id) => {
+    localStorage.setItem("currentCategory_id", id);
+  };
+
+  if (visibleCards.length === 0) return null;
+
   return (
-    <>
-      <Grid container spacing={4} sx={{ mb: 8 }}>
-        {featureCards.map((card, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Card
-              sx={{
-                height: "100%",
-                textAlign: "center",
-                p: 2,
-                cursor: "pointer",
-                transition: "transform 0.2s",
-                "&:hover": {
-                  transform: "translateY(-4px)",
-                  boxShadow: 3,
-                },
-              }}
+    <Grid container spacing={4} sx={{ mb: 8 }}>
+      {visibleCards?.map((card, index) => (
+        <Grid item xs={12} sm={6} md={3} key={index}>
+          <Card
+            onClick={() => handleClick(Number(card.TabId))}
+            sx={{
+              height: "100%",
+              textAlign: "center",
+              p: 2,
+              cursor: "pointer",
+              transition: "transform 0.2s",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow: 3,
+              },
+            }}
+          >
+            <Link
+              to={`/${card?.TabId}/category/${encodeURI(card?.title)}`}
+              style={{ all: "unset" }}
             >
               <CardContent>
                 <Box sx={{ mb: 2 }}>{card.icon}</Box>
@@ -52,11 +108,11 @@ const FeatureSection = ({}) => {
                   {card.description}
                 </Typography>
               </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </>
+            </Link>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

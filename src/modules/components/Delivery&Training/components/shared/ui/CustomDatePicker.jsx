@@ -93,6 +93,7 @@ const CustomDualDatePicker = ({ value = {}, onChange = () => { } }) => {
                             padding: "8.5px 12px",
                         },
                     }}
+                    placeholder="📅 Select Date Range"
                     readOnly
                     InputProps={{
                         startAdornment: (

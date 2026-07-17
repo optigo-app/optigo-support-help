@@ -448,6 +448,7 @@ export const roleFieldsMap = {
     "index",
     "SrNo",
        "OrderNo", 
+       
     "Date",
     "Topic",
     "Description",
@@ -456,6 +457,7 @@ export const roleFieldsMap = {
     "trainingTo",        // Not listed, kept as is
     "trainingBy",        // Not listed, kept as is
     "scheduleTraining",  // Not listed, kept as is
+    "ServiceType",
     "PaymentMethod",
     "ApprovedStatus",
     "NoPrints",

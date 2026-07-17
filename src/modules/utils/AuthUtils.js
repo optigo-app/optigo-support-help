@@ -18,20 +18,35 @@ export function decodeBase64(base64Str) {
 
 export function GetCredentialsFromCookie() {
     try {
-        const token = Cookies.get("skey");
+        let token = null;
+        let isSkey = false;
+
+        const skey = Cookies.get("skey");
+        const helpSupport = Cookies.get("help_support");
+
+        if (skey) {
+            token = skey;
+            isSkey = true;
+        } else if (helpSupport) {
+            token = helpSupport;
+            isSkey = false;
+        }
+
         if (!token) {
-            console.warn("skey cookie not found");
+            console.warn("Neither help_support nor skey cookie found");
             return null;
         }
+
         const decoded = jwtDecode(token);
         const companyEncoded = decoded?.uid;
         const user = companyEncoded ? decodeBase64(companyEncoded) : null;
         return {
             ...decoded,
             userId: user,
+            isSkeyCookie: isSkey,
         };
     } catch (error) {
-        console.error("Failed to parse JWT from skey cookie:", error);
+        console.error("Failed to parse JWT from cookie:", error);
         return null;
     }
 }

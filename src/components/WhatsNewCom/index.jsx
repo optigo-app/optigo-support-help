@@ -5,6 +5,7 @@ import VersionCard from "./VersionCard";
 import HeroW from "./HeroW";
 import LoadMoreButton from "./LoadMoreButton";
 import VersionFilter from "./VersionFilter";
+import ScrollTopButton from './../Categories/ScrollTopButton';
 
 export default function ReleaseNotes() {
     const theme = useTheme();
@@ -98,6 +99,7 @@ export default function ReleaseNotes() {
                     />
                 )}
             </Container>
+            <ScrollTopButton/>
         </Box>
     );
 }

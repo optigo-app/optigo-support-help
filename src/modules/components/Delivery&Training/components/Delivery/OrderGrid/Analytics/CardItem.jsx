@@ -5,7 +5,7 @@ const CardItem = ({ card }) => {
     const IconComponent = card.icon;
 
     return (
-        <Grid item xs={12} sm={6} md={3} lg={2.4} xl={2}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4} xl={2.4}>
             <Card sx={{
                 height: "100%",
                 border: "1px solid #e0e0e0",

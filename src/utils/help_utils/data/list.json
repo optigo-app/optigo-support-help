@@ -1,0 +1,3809 @@
+[
+  {
+    "srNo": 1,
+    "module": "Album",
+    "section": "Sales CRM",
+    "screenshot": null,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/oobhAV8pNhQ",
+      "hindi": "https://youtu.be/ZYrnwywQxYI"
+    },
+    "createdBy": "Prashant"
+  },
+  {
+    "srNo": 2,
+    "module": "Material Purchase",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/QXEAQ2X5610",
+      "hindi": "https://youtu.be/NXYiPWav10k"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 3,
+    "module": "Customer Receive",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/gV8ffuW3KTA",
+      "hindi": "https://youtu.be/45_wWih0qJU"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 4,
+    "module": "Outsource",
+    "section": "Vendor",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/gPLylHXv2ws",
+      "hindi": "https://youtu.be/7oy6yI3ygR4"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 5,
+    "module": "Issue Material",
+    "section": "Vendor",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/Fu3On1yP6Fo",
+      "hindi": "https://youtu.be/X4U_w5Wldz0"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 6,
+    "module": "Books",
+    "section": "Company Details Setup",
+    "screenshot": true,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 7,
+    "module": "Adavnce Price Policy",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/U_5p8JFyr4Y",
+      "hindi": "https://youtu.be/4ysoRgizq8Y"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 8,
+    "module": "Diamond Price Policy",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/2qDcwjSufKc",
+      "hindi": "https://youtu.be/g0RfhA7RTp8"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 9,
+    "module": "Labour Price Policy",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/A7BA-29F2PA",
+      "hindi": "https://youtu.be/4QMdoQg7XxM"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 10,
+    "module": "ColorStone Price Policy",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/1cz18YSXjo4",
+      "hindi": "https://youtu.be/dVo309jaK5M"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 11,
+    "module": "Mapping Master",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/vneUiLcV7bg",
+      "hindi": "https://youtu.be/6Ympj0qOMR0"
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 12,
+    "module": "RM Reconcile",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 13,
+    "module": "WIP Reconcile",
+    "section": "Manufacturing",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 14,
+    "module": "Customer",
+    "section": "User",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/-ni3fOdRY08",
+      "hindi": "https://youtu.be/yCYjeizqatc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 15,
+    "module": "Manufacturer Vendor",
+    "section": "User",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/eB_tM-Z7mFc",
+      "hindi": "https://youtu.be/RuUa55N2eJ0"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 16,
+    "module": "Admin Reset Password",
+    "section": "User",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/F_ASyAPk7q8",
+      "hindi": "https://youtu.be/dRF-_j9kpEE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 17,
+    "module": "Customer Registration",
+    "section": "User",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/zdEGtPi__lA",
+      "hindi": "https://youtu.be/6ys5Kunfc4E"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 18,
+    "module": "Employee Reset Password",
+    "section": "User",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/ZpehFMtawII",
+      "hindi": "https://youtu.be/_3znTLMVmw8"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 19,
+    "module": "Department And Designation",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/yUnqYOuA9ko",
+      "hindi": "https://youtu.be/I5nUXCPbtNI"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 20,
+    "module": "Brand , Product Type , Setting Type",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/wqcl-bKGb5g",
+      "hindi": "https://youtu.be/yUBvmGlX4VI"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 21,
+    "module": "Metal Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/dgjFoXmuJwE",
+      "hindi": "https://youtu.be/K-1fbgX5qLc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 22,
+    "module": "Diamond Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/CEys7Xr6REA",
+      "hindi": "https://youtu.be/Z8R8mdbPjms"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 23,
+    "module": "ColorStone Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/OMvZHWpm5nE",
+      "hindi": "https://youtu.be/5wkiSB-ZO6I"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 24,
+    "module": "Finding Matser",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/3IRifsHlTyY",
+      "hindi": "https://youtu.be/5eeBLEohvLE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 25,
+    "module": "MISC Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/4Nn_Ac4w8p8",
+      "hindi": "https://youtu.be/LerIDPtaw0s"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 26,
+    "module": "Design Master",
+    "section": "PD",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/ixvC8yJV38Y",
+      "hindi": "https://youtu.be/pfoI7QA1100"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 27,
+    "module": "Quote",
+    "section": "Sales CRM",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/aesZX19qE_w",
+      "hindi": "https://youtu.be/98GAvR7fFE0"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 28,
+    "module": "Order / Sales Job Book",
+    "section": "Sales CRM",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/BjHqoZS7_o0",
+      "hindi": "https://youtu.be/gC4BxS7Z-Jk"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 29,
+    "module": "RM Stock",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/H2DJTjuuQ7c",
+      "hindi": "https://youtu.be/oTvIMg7INYg"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 30,
+    "module": "Mapping Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Prashant"
+  },
+  {
+    "srNo": 31,
+    "module": "Item Master",
+    "section": "Masters & Policy",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Prashant"
+  },
+  {
+    "srNo": 32,
+    "module": "Setting Secondary Price Policy",
+    "section": "Masters & Policy",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Prashant"
+  },
+  {
+    "srNo": 33,
+    "module": "Return Material",
+    "section": "Vendor",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/UnqrCXQAVMw",
+      "hindi": "https://youtu.be/h2MQ26XpSkU"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 34,
+    "module": "Stock Purchase",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/q-LLCfIG-zk",
+      "hindi": "https://youtu.be/rOfGZhrLkSs"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 35,
+    "module": "Stock Book",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/s3HSjKRwE-A",
+      "hindi": "https://youtu.be/ZzfcpU4JuRc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 36,
+    "module": "Tag Print",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 37,
+    "module": "Memo Issue",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/TFLyEnHsNxM",
+      "hindi": "https://youtu.be/l2uQtivHxXI"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 38,
+    "module": "Memo Return",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/zqq_oWo7hTw",
+      "hindi": "https://youtu.be/zOAW7uekN0A"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 39,
+    "module": "Jewellery Sale",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/WZZEXA1fBqY",
+      "hindi": "https://youtu.be/hCEIdQqgGHQ"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 40,
+    "module": "Sale Return",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/0JH4QDULCUk",
+      "hindi": "https://youtu.be/gKVlN9HBZck"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 41,
+    "module": "Material Sale",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/NwV6FpOYOmY",
+      "hindi": "https://youtu.be/WYXH1znTWMc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 42,
+    "module": "Material Sale Return",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/h9kQBBVUI7Q",
+      "hindi": "https://youtu.be/KNNerbj84yc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 43,
+    "module": "Receive Repair",
+    "section": "Sales CRM",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/pQJXQI_C5Mc",
+      "hindi": "https://youtu.be/OU16nFvMbYA"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 44,
+    "module": "Assign To Repair",
+    "section": "Vendor",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/xa04to6B_9o",
+      "hindi": "https://youtu.be/4S6xrsQCKVY"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 45,
+    "module": "Product Alteration",
+    "section": "Vendor",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/hjiDTGHvJ5Q",
+      "hindi": "https://youtu.be/5XNxcdFrhFM"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 46,
+    "module": "Product Alteration Receive",
+    "section": "Vendor",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/sJDl7QYoq4M",
+      "hindi": "https://youtu.be/9296EtgjGS4"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 47,
+    "module": "Product Estimate",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/lNfmcsHgj1c",
+      "hindi": "https://youtu.be/1D2xtkwHe6c"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 48,
+    "module": "Company to customer stock convert",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 49,
+    "module": "Dust collector - refining",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 50,
+    "module": "Lineid",
+    "section": "Sales CRM",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 51,
+    "module": "Metal settlement ",
+    "section": "Account",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": null,
+    "module": "Metal amount settlement ",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": null,
+    "module": "Diamond settlement ",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": null,
+    "module": "Diamond amount settlement ",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 52,
+    "module": "Set mrp",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 53,
+    "module": "Diamond grading",
+    "section": "Inventory",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 54,
+    "module": "Cache clear",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 55,
+    "module": "Group management and it effect in album",
+    "section": "FAQ",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 56,
+    "module": "Stock transfer",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 57,
+    "module": "Metal converstaion",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 58,
+    "module": "Finding creation",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 59,
+    "module": "Finding conversion",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 60,
+    "module": "Customer company name change",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 61,
+    "module": "Action button in customer",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 62,
+    "module": "Stock melt - job melting - refining",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 63,
+    "module": "Close job (Sales job book)",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 64,
+    "module": "Item master and gst update",
+    "section": "Masters & Policy",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 65,
+    "module": "Splity Tranfer",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 66,
+    "module": "Tax master",
+    "section": "Masters & Policy",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 67,
+    "module": "Design master -> Action button",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 68,
+    "module": "Image upload and proces",
+    "section": "PD",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 69,
+    "module": "Employee setting",
+    "section": "FAQ",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 70,
+    "module": "Prefix changes",
+    "section": "FAQ",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 71,
+    "module": "Stock book- Change diamond quality & color",
+    "section": "FAQ",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 72,
+    "module": "Stock book- finding labour different",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 73,
+    "module": "Multi-part payment",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 74,
+    "module": "Gold % wise labour",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 75,
+    "module": "Club job",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 76,
+    "module": "Policy verification",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "SOnal"
+  },
+  {
+    "srNo": 77,
+    "module": "How to create new bank account",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 78,
+    "module": "How to create new cash account",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 79,
+    "module": "Job wise retrun material",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "neha"
+  },
+  {
+    "srNo": 80,
+    "module": "retrun material loss entry, broken",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 81,
+    "module": "sale retrun(old tag)",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "neha"
+  },
+  {
+    "srNo": 82,
+    "module": "pending memo and jewllery book",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 83,
+    "module": "memo to sale",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "neha"
+  },
+  {
+    "srNo": 84,
+    "module": "in sale load design explain",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 85,
+    "module": "unlock bill batch- ETA",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 86,
+    "module": "Unlock bill batch -batch",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 87,
+    "module": "Blue lock- unlcok bill",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 88,
+    "module": "Cancel bill restore",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 89,
+    "module": "Lab add",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 90,
+    "module": "Huid and ceritficate add",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 91,
+    "module": "Sale tag",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 92,
+    "module": "Memo Tag",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 93,
+    "module": "Getback to outsource and given to other manufactuer",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 94,
+    "module": "Job created change metal type",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "neha"
+  },
+  {
+    "srNo": 95,
+    "module": "Metal price update",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 96,
+    "module": "Metal loss  in bill",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 97,
+    "module": "Product estimate",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "neha"
+  },
+  {
+    "srNo": 98,
+    "module": "jewellery book design master override",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 99,
+    "module": "Scan job",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 100,
+    "module": "Mode of delivery",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 101,
+    "module": "Dipatch and delivery note",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 102,
+    "module": "Righst based style master pointer",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 103,
+    "module": "Production move stock book",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 104,
+    "module": "customer and manufacturer purity change",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 105,
+    "module": "Company Type master",
+    "section": "User",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/RqorV7BWy6g",
+      "hindi": "https://youtu.be/vU9wKthxfC8"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 106,
+    "module": "Loss recovery page",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 107,
+    "module": "Loss recovery from Admin login",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  },
+  {
+    "srNo": 108,
+    "module": "Close job restore",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 109,
+    "module": "Quote close",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 110,
+    "module": "Club job (mfg job book)",
+    "section": "FAQ",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 111,
+    "module": "Alteration Type",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/Cz-RjCiVceM",
+      "hindi": "https://youtu.be/O2ShnqmNEC4"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 112,
+    "module": "Branch Bill Inward",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 113,
+    "module": "Cash",
+    "section": "Account",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/AvEET5GUuXI",
+      "hindi": "https://youtu.be/WWnBfAXdKoE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 114,
+    "module": "Bank",
+    "section": "Account",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/yTcm5wYB2yQ",
+      "hindi": "https://youtu.be/k5eXZo7eVh0"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 115,
+    "module": "Account Head",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Prashant"
+  },
+  {
+    "srNo": 116,
+    "module": "Stock transfer(raw material)",
+    "section": "Inventory",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Neha"
+  },
+  {
+    "srNo": 117,
+    "module": "Retail Order",
+    "section": "Sales CRM",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/CIDLsIhF4r0",
+      "hindi": "https://youtu.be/18FRE9yU9bM"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 118,
+    "module": "Retail Sale",
+    "section": "Books Keeping",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/5Fqb2xvRcKY",
+      "hindi": "https://youtu.be/qDzgRjdrTis"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 119,
+    "module": "     Priority Master ",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/yvn0BADtcrE",
+      "hindi": "https://youtu.be/RtnvdgUONF4"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 120,
+    "module": "Make Type Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/fk00F_rgiMw",
+      "hindi": "https://youtu.be/3eH_TYZIDcQ"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 121,
+    "module": "QC Master",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/kww8K7V4STA",
+      "hindi": "https://youtu.be/ybGjkOBKcJE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 122,
+    "module": "Dust Resources",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/4eVJLA-X4F8",
+      "hindi": "https://youtu.be/C6x70m3fVMc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 123,
+    "module": "MFG Department ",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/u0r3q3s0Fm4",
+      "hindi": "https://youtu.be/Tx0S1F9iXb0"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 124,
+    "module": "Metal Purity ",
+    "section": "Masters & Policy",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/ppDiUR-oBco",
+      "hindi": "https://youtu.be/9ky4WnS3Jbo"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 125,
+    "module": "ETA Req. Accpet ",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/T8S6yu51DrQ",
+      "hindi": "https://youtu.be/YDUUzjiJcQw"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 126,
+    "module": "Job Book",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 127,
+    "module": "Casting Process and casted Job",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/VsYhP6fHaEY",
+      "hindi": "https://youtu.be/gSL77uNeZAY"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 128,
+    "module": "Engage Material ",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/cu1gim41a0E",
+      "hindi": "https://youtu.be/KK4I6o_6IV0"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 129,
+    "module": "WAX Engage Material ",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/WaAIWDlFUGE",
+      "hindi": "https://youtu.be/9ftrCMUNXcE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 130,
+    "module": "Sprue Cutting",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/Ms-ECihq9DM",
+      "hindi": "https://youtu.be/75-AvGJj-uY"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 131,
+    "module": "Sprue Grinding",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/fNpL4glm2Gk",
+      "hindi": "https://youtu.be/U7-dCFTNXEE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 132,
+    "module": "MFG TRANSACTION",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 133,
+    "module": "Factory Outward",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/AboISD5z_JA",
+      "hindi": "https://youtu.be/9PhhOcx8Cpc"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 134,
+    "module": "Metal Loss Summary",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/H_qYN46stO8",
+      "hindi": "https://youtu.be/Sc_4AHa725w"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 135,
+    "module": "WIP Report",
+    "section": "Manufacturing",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/rsqOGDDfPlU",
+      "hindi": "https://youtu.be/n7eamkcwfSE"
+    },
+    "createdBy": "Jenish"
+  },
+  {
+    "srNo": 136,
+    "module": "Sample line tag",
+    "section": null,
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 137,
+    "module": "Getback to outsource",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Sonal"
+  },
+  {
+    "srNo": 138,
+    "module": "Metal and material rate to apply in multi currency ",
+    "section": null,
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": "Namrata"
+  }
+]

@@ -29,10 +29,10 @@ const GenericStatusChip = ({ value, onSelect, rowData, getDisplayData, options, 
 
   return (
     <>
-      <Tooltip
+      {/* <Tooltip
         title={isClient ? "You Are Not Authorized" : ""}
-      >
-        <Chip label={currentLabel} color={color} size="small" onClick={isClient ? undefined : handleClick}
+      >      </Tooltip> */}
+        <Chip label={value ? currentLabel : "-"} clickable={!isClient} color={color} size="small" onClick={isClient ? undefined : handleClick}
           sx={{
             cursor: isClient ? "default" : "pointer",
             pointerEvents: isClient ? "auto" : "auto",
@@ -46,7 +46,7 @@ const GenericStatusChip = ({ value, onSelect, rowData, getDisplayData, options, 
             color: textColor,
           }}
         />
-      </Tooltip>
+
 
       <Menu
         anchorEl={anchorEl}
@@ -97,7 +97,7 @@ const GenericStatusChip = ({ value, onSelect, rowData, getDisplayData, options, 
   );
 };
 // Approval Status Chip
-export const ApprovalStatusChip = ({ status, onSelect, rowData ,isClient }) => {
+export const ApprovalStatusChip = ({ status, onSelect, rowData, isClient }) => {
   return <GenericStatusChip value={status} isClient={isClient} onSelect={onSelect} rowData={rowData} getDisplayData={getApprovalStatus} options={ApprovalStatus} />;
 };
 
@@ -108,8 +108,8 @@ export const PaymentStatusChip = ({ status, onSelect, rowData, isClient }) => {
 };
 
 // Service Type Chip
-export const ServiceTypeChip = ({ type, onSelect, rowData }) => {
-  return <GenericStatusChip value={type} onSelect={onSelect} rowData={rowData} getDisplayData={getServiceType} options={mockServiceTypes} />;
+export const ServiceTypeChip = ({ type, onSelect, rowData , isClient }) => {
+  return <GenericStatusChip isClient={isClient} value={type} onSelect={onSelect} rowData={rowData} getDisplayData={getServiceType} options={mockServiceTypes} />;
 };
 
 export const DeliveryStatusChip = ({ status, onSelect, rowData, isClient }) => {

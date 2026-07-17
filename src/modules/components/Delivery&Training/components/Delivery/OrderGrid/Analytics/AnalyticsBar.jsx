@@ -15,6 +15,7 @@ import AnalyticsDashboardCards from "./AnalyticsBoard";
 import { Search } from "lucide-react";
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOffRounded';
 import ClearIcon from '@mui/icons-material/ClearRounded';
+import { useDelivery } from "../../../../context/DeliveryProvider";
 
 
 const Dashboard = ({ role, dashboardData, onformToggle, greeting, LoggedUser, filters = null, setFilters = () => { }, isAdmin }) => {
@@ -29,41 +30,8 @@ const Dashboard = ({ role, dashboardData, onformToggle, greeting, LoggedUser, fi
         }}
         id="wavy-circle"
       ></Box>
-      <Box sx={{ mb: 1, zIndex: 10 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 2.5 }}>
-          <Box>
-            <Typography
-              variant="body1"
-              sx={{
-                marginBottom: -0.5,
-                color: "rgb(45, 52, 54)",
-                // mixBlendMode: "color-dodge",
-                fontWeight: "600",
-              }}
-            >
-              {greeting}
-            </Typography>
-
-            <Typography
-              variant="h5"
-              sx={{
-                color: "text.primary",
-                textTransform: "capitalize",
-                fontWeight: 600,
-                mb: 1,
-              }}
-            >
-              {LoggedUser}
-            </Typography>
-
-            <Typography variant="body2" color="text.secondary">
-              Track and manage all deliveries and Orders .
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <DeliveryTabs filters={filters} setFilters={setFilters} />
-          </Box>
-        </Box>
+      <Box sx={{ zIndex: 10, pt: 3, pb: 1.35 }}>
+    
         <AnalyticsDashboardCards isClient={!isAdmin} dashboardData={dashboardData} />
         <FilterOptions role={role} isAdmin={isAdmin} onformToggle={onformToggle} filters={filters} setFilters={setFilters} />
       </Box>
@@ -73,11 +41,11 @@ const Dashboard = ({ role, dashboardData, onformToggle, greeting, LoggedUser, fi
 
 export default Dashboard;
 
-function FilterOptions({ role ,onformToggle, filters, setFilters, isAdmin }) {
-  console.log("🚀 ~ FilterOptions ~ role:", role)
+function FilterOptions({ role, onformToggle, filters, setFilters, isAdmin }) {
   const [open, setOpen] = useState(false);
   const IsHasFilters = isAnyFilterActive(filters);
   const [tempSearch, setTempSearch] = useState(filters.search);
+  const { COMPANY_MASTER_LIST } = useDelivery()
 
   useEffect(() => {
     setTempSearch(filters.search);
@@ -167,13 +135,13 @@ function FilterOptions({ role ,onformToggle, filters, setFilters, isAdmin }) {
                     <Search fontSize="small" />
                   </InputAdornment>
                 ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={(e) => handleFilterChange("search", "")}>
-                      <ClearIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                )
+                  endAdornment: tempSearch ? ( // show only when text exists
+      <InputAdornment position="end">
+        <IconButton onClick={() => handleFilterChange("search", "")}>
+          <ClearIcon fontSize="small" />
+        </IconButton>
+      </InputAdornment>
+    ) : null,
               }}
             />
           </Stack>
@@ -187,7 +155,7 @@ function FilterOptions({ role ,onformToggle, filters, setFilters, isAdmin }) {
                 <FilterAltOffIcon />
               </IconButton>
             )}
-            {isAdmin && <AutocompleteComponent isWantLabel={true} options={CompanyMaster} size="small" fullWidth={false} label={"Company Code"} sx={{ minWidth: 250 }} labelId="Company-label" value={filters.projectCode} onChange={(value) => handleFilterChange("projectCode", value)} />}
+            {isAdmin && <AutocompleteComponent isWantLabel={true} options={COMPANY_MASTER_LIST} size="small" fullWidth={false} label={"Company Code"} sx={{ minWidth: 250 }} labelId="Company-label" value={filters.projectCode} onChange={(value) => handleFilterChange("projectCode", value)} />}
             <CustomDualDatePicker value={filters.date} onChange={handleDateChange} />
             <Box sx={{ display: "flex", gap: 2 }}>
               <FormControl size="small" sx={{ minWidth: 168 }}>

@@ -1,8 +1,7 @@
-import React from "react";
-import MainLogin3 from "../../components/Auth_Ui/MainLogin3";
+import MainLogin from "../../components/Auth_Ui/MainLogin";
 
 const Login = () => {
-    return <MainLogin3 />;
+    return <MainLogin />;
 };
 
 export default Login;

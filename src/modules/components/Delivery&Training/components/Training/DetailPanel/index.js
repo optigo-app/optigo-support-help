@@ -9,6 +9,7 @@ import {
     Grid,
     Avatar,
     Link,
+    Rating,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -16,6 +17,7 @@ import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import Person4RoundedIcon from '@mui/icons-material/Person4Rounded';
 import { extractRecordingLink } from '../../../utils/deliveryUtils';
 import InsertLinkRoundedIcon from '@mui/icons-material/InsertLinkRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import { getColorByStatus, getInitial } from '../../../libs/data';
 const styles = {
     drawerPaper: {
@@ -61,7 +63,7 @@ const styles = {
 
 
 
-export default function TrainingDetailPanel({ open, onClose, isAdmin = false }) {
+export default function TrainingDetailPanel({ open, onClose, isAdmin = false, OnOpenFeedBackModal }) {
     return (
         <Drawer
             anchor="left"
@@ -84,10 +86,77 @@ export default function TrainingDetailPanel({ open, onClose, isAdmin = false }) 
                             Ticket #{open?.TicketNo}
                         </Typography>
                     </Box>
-                    <IconButton onClick={onClose}>
-                        <CloseIcon />
-                    </IconButton>
+
+                    {/* MODERN RATE CHIP */}
+                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+  
+  {/* IF NO RATING → Show Button */}
+  {!open?.Rating && (
+    <Box
+      onClick={() => OnOpenFeedBackModal(open?.SessionID)}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+        px: 1.8,
+        py: 0.9,
+        mr: 1.5,
+        borderRadius: "22px",
+        cursor: "pointer",
+        fontSize: "0.78rem",
+        fontWeight: 600,
+        userSelect: "none",
+        color: "#fff",
+        background: "#2563eb",
+        transition: "all 0.25s ease",
+        "&:hover": { background: "#1d4ed8" },
+        "&:active": { transform: "scale(0.97)" },
+      }}
+    >
+      <StarRoundedIcon sx={{ fontSize: 18 }} />
+      Rate Training
+    </Box>
+  )}
+
+  {/* IF RATING EXISTS → Show Rated Badge */}
+  {!!open?.Rating && (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 0.6,
+        px: 1.6,
+        py: 0.6,
+        mr: 1.5,
+        borderRadius: "20px",
+        background: "#F1F5F9",
+        border: "1px solid #E2E8F0",
+        fontSize: "0.75rem",
+        fontWeight: 600,
+        color: "#0F172A",
+      }}
+    >
+      <Rating
+        value={open?.Rating}
+        readOnly
+        size="small"
+        sx={{
+          "& .MuiRating-iconFilled": { color: "#FDBA21" },
+        }}
+      />
+      <Typography sx={{ ml: 0.5, fontWeight: 600 }}>
+        Rated
+      </Typography>
+    </Box>
+  )}
+
+  <IconButton onClick={onClose}>
+    <CloseIcon />
+  </IconButton>
+</Box>
+
                 </Box>
+
 
                 {/* Main Content */}
                 <Box mb={4} p={2}>
@@ -95,19 +164,25 @@ export default function TrainingDetailPanel({ open, onClose, isAdmin = false }) 
                     {/* Basic Info */}
                     <Box bgcolor="grey.100" p={2} borderRadius={2} mb={3}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <Typography variant="caption" color="textSecondary" textTransform="uppercase">
+                                    Title
+                                </Typography>
+                                <Typography>{open?.Title}</Typography>
+                            </Grid>
                             <Grid item xs={6}>
                                 <Typography variant="caption" color="textSecondary" textTransform="uppercase">
                                     Company
                                 </Typography>
                                 <Typography>{open?.Projectcode}</Typography>
                             </Grid>
-                           {isAdmin && <Grid item xs={6}>
+                            {isAdmin && <Grid item xs={6}>
                                 <Typography variant="caption" color="textSecondary" textTransform="uppercase">
                                     Customer Type
                                 </Typography>
                                 <Typography>{open?.CutomerType}</Typography>
                             </Grid>}
-                           {isAdmin && <Grid item xs={6}>
+                            {isAdmin && <Grid item xs={6}>
                                 <Typography variant="caption" color="textSecondary" textTransform="uppercase">
                                     Package Info
                                 </Typography>
@@ -252,6 +327,60 @@ export default function TrainingDetailPanel({ open, onClose, isAdmin = false }) 
                             <Typography variant="body2">{open?.Remark || 'No remarks available'}</Typography>
                         </Box>
                     </Box>
+                    {!!open?.Rating && (
+                    <Box mb={3}>
+                        <Typography
+                            variant="overline"
+                            color="textSecondary"
+                            display="block"
+                            mb={1}
+                        >
+                            Rating
+                        </Typography>
+                            <Box
+                                p={2.5}
+                                borderRadius={3}
+                                bgcolor="#FFFFFF"
+                                border="1px solid #F1F5F9"
+                                boxShadow="0 2px 8px rgba(0,0,0,0.05)"
+                                display="flex"
+                                flexDirection="column"
+                                gap={1.2}
+                            >
+                                {/* Stars */}
+                                <Rating
+                                value={open?.Rating}
+                                readOnly
+                                size="large"
+                                sx={{
+                                    "& .MuiRating-iconFilled": { color: "#FDBA21" },
+                                    "& .MuiRating-iconEmpty": { color: "#FDBA21" },
+                                }}
+                                />
+
+                                {/* Description */}
+                                <Typography
+                                fontSize={15}
+                                fontWeight={600}
+                                color="#0F172A"
+                                sx={{ textTransform: "capitalize" }}
+                                >
+                                {open?.RatingDesc || "No feedback provided"}
+                                </Typography>
+
+                                {/* Meta Info */}
+                                <Typography fontSize={12.5} color="#64748B">
+                                {open?.RatingDate &&
+                                    format(new Date(open?.RatingDate), "dd MMM yyyy, hh:mm a")}
+                                </Typography>
+
+                                <Typography fontSize={12.5} color="#94A3B8">
+                                by {open?.RatingBy || "N/A"}
+                                </Typography>
+                            </Box>
+                                                </Box>
+                            )}
+
                     {/* Topics Covered */}
                     {open?.Details !== "<p></p>\n" && <Box mb={3}>
                         <Typography variant="overline" color="textSecondary" display="block" mb={1}>

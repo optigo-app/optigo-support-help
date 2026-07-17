@@ -47,6 +47,12 @@ export const getDeliveryColumns = (setDetailModal, HandleEditMode, showNotificat
             flex: 1
         },
         {
+			field: "Title",
+			headerName: "Title",
+			renderHeader: () => <strong>Training Title</strong>,
+			flex: 1,
+		},
+        {
             field: "TrainingBy",
             headerName: "Trainer",
             renderHeader: () => <strong>Trainer</strong>,

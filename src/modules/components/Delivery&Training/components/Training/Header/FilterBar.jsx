@@ -2,6 +2,7 @@ import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextFie
 import { Search } from "lucide-react";
 import DualDatePicker from "../../shared/ui/DatePicker";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import SearchBar from "./SearchBar";
 const FilterBar = ({ filters, setFilters, initialFilters }) => {
 
     const isAllOrEmpty = (value) => value === "" || value === "All";
@@ -75,7 +76,7 @@ const FilterBar = ({ filters, setFilters, initialFilters }) => {
                     flex: 0.7,
                 }}
             >
-                <TextField
+                {/* <TextField
                     placeholder="Search Training ..."
                     size="small"
                     fullWidth
@@ -88,7 +89,8 @@ const FilterBar = ({ filters, setFilters, initialFilters }) => {
                             </InputAdornment>
                         ),
                     }}
-                />
+                /> */}
+                <SearchBar filters={filters} handleSearchChange={handleSearchChange} />
             </Box>
 
             <Box

@@ -15,9 +15,11 @@ import { Link } from 'react-router-dom';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Avatar } from '@mui/material';
 import { stringAvatar } from '../../utils/utils';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 
 export default function TemporaryDrawer({ open, setOpen }) {
-  const { user, Logout } = useAuth();
+  const { user, Logout, isThirdParty } = useAuth();
 
   const HandleLogOut = async () => {
     try {
@@ -29,6 +31,21 @@ export default function TemporaryDrawer({ open, setOpen }) {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+
+  const filteredNavItems = isThirdParty
+    ? [
+        {
+          label: "What's New",
+          path: "/whats-new",
+          icon: <NewReleasesIcon />,
+        },
+        {
+          label: "Video help",
+          path: "/help",
+          icon: <HelpOutlineIcon />,
+        },
+      ]
+    : navItems;
 
   const DrawerList = (
     <Box sx={{ width: 280 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -43,7 +60,7 @@ export default function TemporaryDrawer({ open, setOpen }) {
             <ListItemText primary={user?.fullName} />
           </ListItemButton>
         </ListItem>}
-        {navItems?.map((data, index) => (
+        {filteredNavItems?.map((data, index) => (
           <ListItem key={data?.label} disablePadding components={Link}>
             <ListItemButton href={data?.path} >
               <ListItemIcon>
@@ -54,22 +71,25 @@ export default function TemporaryDrawer({ open, setOpen }) {
           </ListItem>
         ))}
 
-        {!user ? <ListItem key={'login'} disablePadding components={Link} >
-          <ListItemButton href='/login'  >
-            <ListItemIcon>
-              <AccountCircleRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary='Login' />
-          </ListItemButton>
-        </ListItem> : <ListItem key={'logout'} onClick={HandleLogOut} disablePadding  >
-          <ListItemButton  >
-            <ListItemIcon>
-              <LogoutRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary='Logout' />
-          </ListItemButton>
-        </ListItem>
-        }
+        {!user && !isThirdParty ? (
+          <ListItem key={'login'} disablePadding components={Link} >
+            <ListItemButton href='/login'  >
+              <ListItemIcon>
+                <AccountCircleRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary='Login' />
+            </ListItemButton>
+          </ListItem>
+        ) : user ? (
+          <ListItem key={'logout'} onClick={HandleLogOut} disablePadding  >
+            <ListItemButton  >
+              <ListItemIcon>
+                <LogoutRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary='Logout' />
+            </ListItemButton>
+          </ListItem>
+        ) : null}
       </List>
     </Box>
   );

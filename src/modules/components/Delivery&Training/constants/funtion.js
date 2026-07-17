@@ -65,3 +65,4 @@ export const SetRole = (obj) => {
   // Default: Not an admin
   return { ...obj, role: 'user' };
 };
+

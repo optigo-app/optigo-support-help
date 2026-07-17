@@ -14,24 +14,34 @@ import CommonProvider from "./providers/CommonProvider";
 import Modules from "./modules";
 import { registerAuthServiceWorker } from "./modules/utils/registerAuthServiceWorker";
 import "react-photo-album/masonry.css";
+import { HelmetProvider } from "react-helmet-async";
+import { SocketProvider } from "./modules/context/SocketContext";
+import { NuqsAdapter } from "nuqs/adapters/react-router/v6";
 
 registerAuthServiceWorker();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
-    <BrowserRouter
-      basename={process.env.NODE_ENV === "development" ? "" : "/support"}
-    >
-      <Suspense fallback={<div></div>}>
-        <Modules>
-          <MaterialThemeProvider>
-            <CommonProvider>
-              <Routing />
-            </CommonProvider>
-          </MaterialThemeProvider>
-        </Modules>
-      </Suspense>
-    </BrowserRouter>
-  </>
+    <HelmetProvider>
+      <BrowserRouter
+      // basename="/support"
+      // basename={process.env.NODE_ENV === "development" ? "" : "/support"}
+      >
+        <NuqsAdapter>
+          <SocketProvider>
+            <Suspense fallback={<div></div>}>
+              <Modules>
+                <MaterialThemeProvider>
+                  <CommonProvider>
+                    <Routing />
+                  </CommonProvider>
+                </MaterialThemeProvider>
+              </Modules>
+            </Suspense>
+          </SocketProvider>
+        </NuqsAdapter>
+      </BrowserRouter>
+    </HelmetProvider>
+  </>,
 );

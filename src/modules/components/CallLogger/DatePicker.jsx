@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Box, Popover, InputAdornment, Button, Stack, MenuItem, IconButton } from "@mui/material";
+import { TextField, Box, Popover, InputAdornment, Button, Stack, MenuItem, IconButton, Tooltip } from "@mui/material";
 import { DateRangePicker } from "mui-daterange-picker";
 import { ThemeProvider } from "@mui/material/styles";
 import { Datetheme } from "../../libs/DateTheme";
@@ -58,6 +58,11 @@ const DualDatePicker = ({ filterState, setFilterState, tempDateRange, setTempDat
   return (
     <ThemeProvider theme={Datetheme}>
       <Box display="flex" gap={1} alignItems="center">
+           <Tooltip
+  title="Filter call logs by a specific date range. Defaults to showing all dates."
+  arrow
+                  placement="top"
+                >
         <TextField
           label="Filter By"
           select
@@ -76,6 +81,7 @@ const DualDatePicker = ({ filterState, setFilterState, tempDateRange, setTempDat
           <MenuItem value="callClosed">Call Closed</MenuItem>
           <MenuItem value="">None</MenuItem>
         </TextField>
+        </Tooltip>
 
         <TextField
           label="Date Range"

@@ -2,11 +2,13 @@ import { createContext, useCallback, useContext, useState, useEffect, useMemo, u
 import { format } from "date-fns";
 import CallLogApi from "../../apis/CallLogApiController";
 import { useAuth } from './UseAuth'
+import { useSocketEvent } from "../hooks/useSocketListener";
+
 
 const CallLogContext = createContext(null);
 
 export function CallLogProvider(props) {
-  const { user } = useAuth()
+  const { user, isAuthenticated } = useAuth()
   const [callLog, setCallLog] = useState([])
   const [CurrentCall, setCurrentCall] = useState(null);
   const currentTime = format(new Date(), "hh:mm a");
@@ -26,14 +28,17 @@ export function CallLogProvider(props) {
   const INTERNAL_ESTATUS_LIST = "INTERNAL_ESTATUS";
   const location = window.location;
 
+  const companyOptions = COMPANY_LIST.map((option) => ({
+    label: option?.ProjectCode,
+    value: option?.ProjectID,
+  })) || [];
 
-  const companyOptions =
-    COMPANY_LIST.map((option) => ({
-      label: option?.ProjectCode,
-      value: option?.ProjectID,
-    })) || [];
-
-  const departmentsNames = (EMPLOYEE_LIST && Object.groupBy?.(EMPLOYEE_LIST, (emp) => emp?.designation)) || {};
+  const departmentsNames = (EMPLOYEE_LIST || []).reduce((acc, emp) => {
+    const key = emp?.designation || "Other";
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(emp);
+    return acc;
+  }, {});
 
   const forwardOption = Object.entries(departmentsNames).flatMap(([designation, people]) =>
     people.map((emp) => ({
@@ -72,6 +77,7 @@ export function CallLogProvider(props) {
     const savedTarget = params.get("target") || "";
     const start = params.get("start");
     const end = params.get("end");
+
     const GetAllCallLogs = async () => {
       try {
         const data = await CallLogApi.getCallLogs({
@@ -86,7 +92,8 @@ export function CallLogProvider(props) {
       } catch (error) {
         console.log(error)
       }
-    }
+    };
+    if (!user) return;
     GetAllCallLogs()
   }, [refreshList])
 
@@ -101,10 +108,13 @@ export function CallLogProvider(props) {
         empId: call?.forward && call?.forward?.split(",")[1],
         description: call?.description,
         entryDate: call?.date,
-        projectID: call?.company
+        projectID: call?.company,
+        CorpId: user?.id,
+        source: "helpdesk"
       })
       const newCall = data?.rd1?.[0];
-      setrefreshList(!refreshList);
+      setrefreshList((prev) => !prev);
+
       if (!isConcurrent) {
         setCurrentCall(newCall);
       }
@@ -133,7 +143,8 @@ export function CallLogProvider(props) {
       )
       // const updatedCall = data?.rd1?.[0];
       // setCurrentCall(updatedCall);
-      setrefreshList(!refreshList);
+      setrefreshList((prev) => !prev);
+
     } catch (error) {
       console.log(error)
     }
@@ -155,7 +166,8 @@ export function CallLogProvider(props) {
           ...updatedFields,
         })
       }
-      setrefreshList(!refreshList);
+      setrefreshList((prev) => !prev);
+
       console.log(data, type)
     } catch (error) {
       console.log(error)
@@ -171,7 +183,8 @@ export function CallLogProvider(props) {
       })
       const updatedCall = data?.rd1?.[0];
       setCurrentCall(updatedCall);
-      setrefreshList(!refreshList);
+      setrefreshList((prev) => !prev);
+
     } catch (error) {
       console.log(error)
     }
@@ -185,20 +198,20 @@ export function CallLogProvider(props) {
           callLogId: callId,
           createdBy: user?.id
         });
-  
+
         const rdStatus = data?.rd?.[0];
         const rd1Status = data?.rd1?.[0];
-  
-        if ( rd1Status?.stat === 0 || rd1Status?.stat_code === 1001 || rdStatus?.stat === 0 || rdStatus?.stat_code === 1001) {
+
+        if (rd1Status?.stat === 0 || rd1Status?.stat_code === 1001 || rdStatus?.stat === 0 || rdStatus?.stat_code === 1001) {
           const errorMessage = rdStatus?.stat_msg || rd1Status?.stat_msg || "Unknown error.";
           const errorCode = rdStatus?.stat_code || rd1Status?.stat_code || 500;
           return { success: false, error: new Error(errorMessage), errorCode };
         }
-  
+
         setCurrentCall(data?.rd1?.[0]);
         setrefreshList((prev) => !prev);
         return { success: true, data };
-  
+
       } catch (err) {
         console.error("Error starting call:", err);
         return { success: false, error: err };
@@ -212,10 +225,11 @@ export function CallLogProvider(props) {
       try {
         const data = await await CallLogApi.endCall({
           callLogId: callId,
-          createdBy  : user?.id
+          createdBy: user?.id
         })
         // setCurrentCall(data?.rd1?.[0]);
-        setrefreshList(!refreshList);
+        setrefreshList((prev) => !prev);
+
       } catch (error) {
         console.log(error)
       }
@@ -230,7 +244,8 @@ export function CallLogProvider(props) {
         const data = await await CallLogApi.pauseCall({
           callLogId: callId,
         })
-        setrefreshList(!refreshList);
+        setrefreshList((prev) => !prev);
+
       } catch (error) {
         console.log(error)
       }
@@ -247,7 +262,8 @@ export function CallLogProvider(props) {
           createdBy: user?.id
         })
         console.log(data, "Accept Queue Call")
-        setrefreshList(!refreshList);
+        setrefreshList((prev) => !prev);
+
       } catch (error) {
         console.log(error)
       }
@@ -262,7 +278,7 @@ export function CallLogProvider(props) {
         const data = await await CallLogApi.resumeCall({
           callLogId: callId,
         })
-        setrefreshList(!refreshList);
+        setrefreshList((prev) => !prev);
       } catch (error) {
         console.log(error)
       }
@@ -277,7 +293,8 @@ export function CallLogProvider(props) {
         // const data = await await CallLogApi.ConcurrentCall({
         //   callLogId: callId,
         // })
-        // setrefreshList(!refreshList);
+        //         setrefreshList((prev) => !prev);
+
       } catch (error) {
         console.log(error)
       }
@@ -307,7 +324,28 @@ export function CallLogProvider(props) {
           createdBy
         )
         console.log(data, "data")
-        setrefreshList(!refreshList);
+        setrefreshList((prev) => !prev);
+      } catch (error) {
+
+      }
+    },
+    [updateCallLog, currentTime]
+  );
+
+  const addFeedback = useCallback(
+    async (callId, feedback, ratingByCustomer, contactMe, createdBy) => {
+      try {
+        const data = await CallLogApi.addFeedback(
+          {
+            callLogId: callId,
+            feedback,
+            ratingByCustomer,
+            contactMe,
+            createdBy
+          }
+        )
+        console.log(data, "data")
+        setrefreshList((prev) => !prev);
       } catch (error) {
 
       }
@@ -339,6 +377,30 @@ export function CallLogProvider(props) {
       })
       .sort((a, b) => new Date(b?.date) - new Date(a?.date));
   }, [callLog]);
+
+
+
+  useSocketEvent("AddCall", (data) => {
+    setrefreshList((prev) => !prev);
+    // setCallLog((prev) => [data, ...prev]);
+  });
+
+  // Accept Call Events
+  useSocketEvent("AcceptCall", (data) => {
+    setrefreshList((prev) => !prev);
+    // setCallLog((prev) => {
+    //   return prev.map((c) => (c.sr === data.sr ? { ...c, ...data } : c));
+    // });
+  });
+
+  // Forwarded Call Events
+  useSocketEvent("ForwardedCall", (data) => {
+    setrefreshList((prev) => !prev);
+    // setCallLog((prev) => {
+    //   const exists = prev.some((c) => c.sr === data.sr);
+    //   return exists ? prev.map((c) => (c.sr === data.sr ? { ...c, ...data } : c)) : [data, ...prev];
+    // });
+  });
 
 
   const contextValue = useMemo(
@@ -373,7 +435,8 @@ export function CallLogProvider(props) {
       AcceptQueueCall,
       ConCurrentCall,
       isFilterActiveRef,
-      COMPANY_INFO_MASTER
+      COMPANY_INFO_MASTER,
+      addFeedback
     }),
     [queue, callLog, CurrentCall, masterData]
   );

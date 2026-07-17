@@ -31,14 +31,13 @@ const DateItem = styled(Box)(({ theme }) => ({
 export default function DateCard({ ticketData, isClient = false }) {
   const dateFields = [
     { label: "Ticket Date", value: ticketData?.TicketDate },
-    { label: "Request Date", value: ticketData?.RequestDate },
     { label: "Confirmation Date", value: ticketData?.ConfirmationDate },
-    { label: "Last Updated", value: ticketData?.UpdatedAt },
-    { label: "Created At", value: ticketData?.Date },
+    { label: "Sample Approval Date", value: ticketData?.SampleApprovalDate },
+		{ label: "Delivery Date", value: ticketData?.DeliveryDate, order: 3 },
   ];
 
   const visibleDateFields = (isClient
-    ? dateFields.filter(({ label }) => label !== "Last Updated" && label !== "Created At")
+    ? dateFields.filter(({ label }) => label !== "Last Updated" )
     : dateFields
   );
   

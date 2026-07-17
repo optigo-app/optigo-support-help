@@ -1,7 +1,13 @@
 import { Box, Container, Typography, Button, Chip, Paper, alpha } from "@mui/material";
 import { AutoAwesome as SparklesIcon } from "@mui/icons-material";
 
-const HeroW = ({theme , isMobile ,isTablet}) => {
+const HeroW = ({ theme, isMobile, isTablet }) => {
+  const MoveToRead = () => {
+    window.scrollTo({
+      top: 550,
+      behavior: "smooth",
+    });
+  };
   return (
     <Paper
       elevation={0}
@@ -48,7 +54,7 @@ const HeroW = ({theme , isMobile ,isTablet}) => {
               WebkitTextFillColor: "transparent",
               mb: { xs: 1.5, sm: 2 },
               fontSize: { xs: "2rem", sm: "2.5rem", md: "3.5rem" },
-              lineHeight: { xs: 1.2, sm: 1.1 },
+              lineHeight: { xs: 1.2, sm: 1.5 },
             }}
           >
             What's New in Optigo Apps?
@@ -86,6 +92,7 @@ const HeroW = ({theme , isMobile ,isTablet}) => {
               },
               transition: "all 0.3s ease",
             }}
+            onClick={MoveToRead}
           >
             Get Started
           </Button>

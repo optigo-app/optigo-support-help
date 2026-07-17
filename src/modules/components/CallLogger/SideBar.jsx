@@ -21,7 +21,7 @@ const INITIAL_FORM_STATE = {
 };
 
 export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordToggle, data, callStatusValue }) {
-  const { user ,CompanyInfo } = useAuth();
+  const { user, CompanyInfo } = useAuth();
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
   const [errors, setErrors] = useState({});
   const [additionalSettingsOpen, setAdditionalSettingsOpen] = useState(false);
@@ -32,15 +32,17 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
   useEffect(() => {
     if (open) {
       if (!data) {
+        //  const companyValue = companyOptions?.find((option) => option?.label?.toLocaleLowerCase() === CompanyInfo?.companycode?.toLocaleLowerCase() || null);
+        const companyValue = companyOptions?.find((option) => option?.label?.split("/")?.[0]?.toLocaleLowerCase() === CompanyInfo?.companycode?.toLocaleLowerCase() || null)
         const now = new Date();
         setFormData({
           ...INITIAL_FORM_STATE,
           id: uuidv4(),
           date: now.toISOString().split("T")[0],
           time: formatTimeX(now),
-          receivedBy:  "",
-          company : CompanyInfo?.companyId,  
-          callBy : user?.fullName
+          receivedBy: "",
+          company: companyValue?.value,
+          callBy: user?.fullName
         });
 
         // Update time every minute
@@ -50,7 +52,9 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
 
         return () => clearInterval(timerId);
       } else {
+
         const companyValue = companyOptions?.find((option) => option?.label === data?.company)?.value || null;
+
         const appnameValue = APPNAME_LIST?.find((option) => option?.AppName === data.AppName)?.AppId || null;
 
         // Handle receivedBy - could be an ID or a string
@@ -112,7 +116,7 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
 
   // Handle company selection
   const handleCompanyChange = (event, newValue) => {
-    console.log("🚀 ~ handleCompanyChange ~ newValue:", newValue)
+
     setFormData((prev) => ({
       ...prev,
       company: newValue?.value || null,
@@ -168,6 +172,7 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
     const newErrors = {};
     if (!formData.company) newErrors.company = "Company is required";
     if (!formData.callBy) newErrors.callBy = "Customer Name is required";
+    if (!formData.description || !formData.description.trim()) newErrors.description = "Description is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -262,17 +267,13 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
           <Box sx={{ flexGrow: 1 }}>
             {/* Header */}
             <Typography variant="h6">
-              <CopyPlus size={22} />  {isConcurrent
-                ? "Add Concurrent Call"
-                : data
-                  ? "Edit Call Log"
-                  : "Add Call Log"}
+              <CopyPlus size={22} />  {"Add CallBack Request"}
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>
+            {/* <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>
               <Typography variant="caption" sx={{ color: "text.secondary" }}>
                 This form is only for Support team use.
               </Typography>
-            </Box>
+            </Box> */}
 
             <Divider sx={{ my: 2 }} />
 
@@ -339,11 +340,11 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
 
             {/* Company Selection */}
             <Autocomplete key={'company-input'} ref={companyInputRef} fullWidth options={companyOptions || []}
-             value={selectedCompany} onChange={handleCompanyChange}
+              value={selectedCompany} onChange={handleCompanyChange}
               getOptionLabel={(option) => option?.label || ""}
               disabled
-               isOptionEqualToValue={(option, value) => option?.value === value?.value}
-                renderInput={(params) => <TextField {...params} label="Company Name" margin="normal" error={!!errors.company} helperText={errors.company} />} />
+              isOptionEqualToValue={(option, value) => option?.value === value?.value}
+              renderInput={(params) => <TextField {...params} label="Company Name" margin="normal" error={!!errors.company} helperText={errors.company} />} />
 
             {/* Customer Name */}
             <TextField
@@ -354,11 +355,11 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
               margin="normal"
               error={!!errors.callBy}
               helperText={errors.callBy}
-            disabled
+              disabled
             />
 
             {/* Description */}
-            <TextField fullWidth label="Description" value={formData?.description || ""} onChange={handleTextFieldChange("description")} margin="normal" error={!!errors.description} helperText={errors.description} multiline rows={4} />
+            <TextField required fullWidth label="Description" value={formData?.description || ""} onChange={handleTextFieldChange("description")} margin="normal" error={!!errors.description} helperText={errors.description} multiline rows={4} />
             <Autocomplete
               fullWidth
               options={

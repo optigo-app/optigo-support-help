@@ -95,7 +95,7 @@ export const theme = createTheme({
   },
 });
 
-registerAuthServiceWorker();
+// registerAuthServiceWorker();
 
 const TrainingDashboard = () => {
   return (

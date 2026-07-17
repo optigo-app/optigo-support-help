@@ -1,8 +1,13 @@
-import { Box, Typography, Grid, Card, CardContent, IconButton } from "@mui/material";
+import { Box, Typography, Grid, Card, CardContent, IconButton, Button } from "@mui/material";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { Category } from "../../constants/faqData";
+import { useState } from "react";
+import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 
 const HelpTopicGrid = ({ handleCategoryClick }) => {
+  const MAX_VISIBLE = 12;
+  const [showAll, setShowAll] = useState(false);
+  const slicedCategory = showAll ? Category : Object?.fromEntries(Object?.entries(Category)?.slice(0, MAX_VISIBLE));
   return (
     <>
       {/* Help by Topic */}
@@ -10,9 +15,9 @@ const HelpTopicGrid = ({ handleCategoryClick }) => {
         Help by Topic
       </Typography>
 
-      <Grid container spacing={3} sx={{ mb: 8 }}>
-        {Object.keys(Category)?.map((topic, index) => {
-          const faqs = Category[topic];
+      <Grid container spacing={3}>
+        {Object?.keys(slicedCategory)?.map((topic, index) => {
+          const faqs = slicedCategory[topic];
           return (
             <Grid item xs={12} md={4} key={index}>
               <Card
@@ -52,6 +57,36 @@ const HelpTopicGrid = ({ handleCategoryClick }) => {
           );
         })}
       </Grid>
+      {Object?.keys(Category)?.length > MAX_VISIBLE && (
+        <Box mt={2} display="flex" justifyContent="flex-start">
+          <Button
+            onClick={() => setShowAll((prev) => !prev)}
+            variant="outlined"
+            color="primary"
+            size="small"
+            endIcon={showAll ? <RemoveCircleOutline /> : <AddCircleOutline />}
+            sx={{
+              borderRadius: "20px",
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: 14,
+              px: 2,
+              py: 0.5,
+              boxShadow: "none",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                backgroundColor: "primary.main",
+                color: "#fff",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              },
+            }}
+          >
+            {showAll ? "Show Less" : "Show More"}
+          </Button>
+        </Box>
+      )}
+
+      <Box sx={{ mb: 8 }}></Box>
     </>
   );
 };

@@ -4,19 +4,18 @@ import TrainingActionButton from "./TrainingActionButton";
 import SentMailActionButton from "./SentMailActionButton";
 import ActionButton from "./ActionButton";
 import { ApprovalStatusChip, DeliveryStatusChip, PaymentStatusChip, ServiceTypeChip } from "./CustomChips";
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import PaymentAction from "./PaymentAction";
 import { FormatDateIST, isUpcoming } from "../../../utils/helpers";
 import DateTooltip from './DateTooltip';
 
 export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowDetails, showNotification, isClient, HandleEditMode, setShowDeleteModal, SetOpenCompass) => {
-  console.log(isClient, "isClient")
   return [
     {
       field: "index",
       headerName: "ID",
-      width: 70,
+
       sortable: false,
       renderHeader: () => <strong>Sr.No</strong>,
       filterable: false,
@@ -34,7 +33,7 @@ export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowD
     {
       field: "OrderNo",
       headerName: "OrderNo",
-      width: 150,
+
       renderHeader: () => <strong>Order No</strong>,
       renderCell: (params) => {
         const isShowing = !isClient && isUpcoming(params?.row?.Status, params?.row?.Date);
@@ -75,15 +74,9 @@ export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowD
       },
     },
     {
-      field: "Topic",
-      headerName: "Topic",
-      width: 200,
-      renderHeader: () => <strong>Topic</strong>,
-    },
-    {
       field: "TopicType",
       headerName: "Topic Type",
-      width: 130,
+
       renderHeader: () => <strong>Topic Type</strong>,
     },
     {
@@ -95,62 +88,54 @@ export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowD
     // Date
     {
       field: "Date",
-      headerName: " Creation Date",
-      width: 165,
-      renderHeader: () => <strong> Creation Date</strong>,
+      headerName: "Request Date",
+
+      renderHeader: () => <strong>Date</strong>,
       renderCell: (params) => <DateTooltip isClient={isClient} params={params} />,
     },
-    // Ticket Number
-
-    // Client Code
-
-    // {
-    //   field: "TicketDate",
-    //   headerName: "Ticket Date",
-    //   width: 130,
-    //   type: "date",
-    //   valueFormatter: (params) => {
-    //     return params?.value?.toLocaleDateString("en-GB");
-    //   },
-    //   renderHeader: () => <strong>Ticket Date</strong>,
-    //   renderCell: (params) => <Typography variant="body2">{FormatDateIST(params?.value)}</Typography>,
-    // },
-    // {
-    //   field: "RequestDate",
-    //   headerName: "Request Date",
-    //   width: 150,
-    //   renderHeader: () => <strong>Request Date</strong>,
-    //   renderCell: (params) => <Typography variant="body2">{FormatDateIST(params?.value)}</Typography>,
-    // },
-    // {
-    //   field: "ConfirmationDate",
-    //   headerName: "Confirmation Date",
-    //   width: 150,
-    //   renderHeader: () => <strong>Confirmation Date</strong>,
-    //   renderCell: (params) => <Typography variant="body2">{FormatDateIST(params?.value)}</Typography>,
-    // },
     {
       field: "Description",
-      headerName: "description",
-      width: 200,
-      renderHeader: () => <strong>Description</strong>,
-      renderCell: (params) => <>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
-          <span
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              maxWidth: '150px',
-              minWidth: '100px'
+      headerName: "Description",
+      renderHeader: () => <strong>Topic & Description</strong>,
+      renderCell: (params) => {
+        const description = params?.value || "";
+        const topic = params?.row?.Topic || "";
+
+
+
+        return (
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              position: 'relative',
             }}
-            title={params?.value}
           >
-            {params?.value?.split(' ').slice(0, 5).join(' ') + (params?.value?.split(' ').length > 6 ? '...' : '')}
-          </span>
-          <DescriptionButton isClient={isClient} onEdit={HandleFormSave} params={params} />
-        </div>
-      </>,
+            <Typography
+              color="text.primary" // Strong, dark text
+              variant="subtitle2" fontWeight={600}>
+              {topic}
+            </Typography>
+            <Typography
+              color="text.secondary" // Softer, subdued color for secondary text
+              variant="body2"
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+              }}
+              title={description}
+              fontSize={`13px`}
+            >
+              {description}
+            </Typography>
+          </Box>
+        );
+      }
     },
 
     {
@@ -164,20 +149,20 @@ export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowD
       headerName: "Service",
       width: 150,
       renderHeader: () => <strong>Service</strong>,
-      renderCell: (params) => <ServiceTypeChip onSelect={HandleFormSave} rowData={params} type={params?.value?.trim()} />,
+      renderCell: (params) => <ServiceTypeChip isClient={isClient} onSelect={HandleFormSave} rowData={params} type={params?.value?.trim()} />,
     },
     {
       field: "OnDemand",
       headerName: "On Demand",
       width: 150,
       renderHeader: () => <strong>On Demand</strong>,
-      renderCell: (params) => <Typography textAlign={"center"} textTransform={'capitalize'} variant="body2">{params?.value}</Typography>,
+      renderCell: (params) => <Typography textAlign={"center"} textTransform={'capitalize'} variant="body2">  {params?.value?.trim() ==="yes" ?  "Client" : "Optigo"}</Typography>,
     },
     {
       field: "NoPrints",
-      headerName: "No of Prints",
+      headerName: "No of Quantity",
       width: 110,
-      renderHeader: () => <strong>{isClient ? "No of Topics" : "No of Prints"}</strong>,
+      renderHeader: () => <strong>No of Quantity</strong>,
     },
     {
       field: "Assignments",
@@ -193,33 +178,6 @@ export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowD
       width: 120,
       renderHeader: () => <strong>Sent Mail</strong>,
       renderCell: (params) => <SentMailActionButton SetOpenCompass={SetOpenCompass} showNotification={showNotification} params={params} />,
-    },
-
-
-    // {
-    //   field: "copyDescription",
-    //   headerName: "Copy Description",
-    //   width: 150,
-    //   renderHeader: () => <strong>Copy Description</strong>,
-    //   renderCell: (params) => <DescriptionButton isClient={isClient} onEdit={HandleFormSave} params={params} />,
-    // },
-
-    // {
-    //   field: "CodeUploadTime",
-    //   headerName: "CodeUploadTime",
-    //   width: 150,
-    //   renderHeader: () => <strong>Code Upload Time</strong>,
-    // },
-
-
-
-
-    {
-      field: "PaymentMethod",
-      headerName: "Payment Method",
-      width: 140,
-      renderHeader: () => <strong>Payment Method</strong>,
-      renderCell: (params) => <PaymentAction isClient={isClient} params={params} />,
     },
     {
       field: "PaymentStatus",
@@ -242,74 +200,6 @@ export const getDeliveryColumns = (HandleFormSave, setShowTrainingForm, setShowD
       renderHeader: () => <strong>Delivery Status</strong>,
       renderCell: (params) => <DeliveryStatusChip isClient={isClient} onSelect={HandleFormSave} rowData={params} status={params.value?.trim()} />,
     },
-    // {
-    //     field: "training",
-    //     headerName: "Training",
-    //     width: 120,
-    //     renderHeader: () => <strong>Training</strong>,
-    //     renderCell: (params) => {
-    //         const hasTraining = params && Array.isArray(params.value) && params.value.length > 0;
-    //         return hasTraining ? (
-    //             <Chip
-    //                 icon={<CheckCircleOutline fontSize="small" />}
-    //                 label="Added"
-    //                 size="small"
-    //                 sx={{
-    //                     backgroundColor: '#fff3cd',
-    //                     color: '#856404',
-    //                     fontWeight: 500,
-    //                     cursor: 'pointer',
-    //                 }}
-    //             />
-    //         ) : (
-    //             <Chip  
-    //                 label="Required"
-    //                 variant="outlined"
-    //                 size="small"
-    //                 onClick={() => setShowTrainingForm(params)}
-    //                 sx={{
-    //                     borderColor: '#f8d7da',
-    //                     color: '#721c24',
-    //                     fontWeight: 500,
-    //                     backgroundColor: '#fef1f2',
-    //                     cursor: 'pointer',
-    //                     '&:hover': {
-    //                         backgroundColor: '#f8d7da',
-    //                     },
-    //                 }}
-    //             />
-    //         );
-    //     }
-    // },
-    // {
-    //     field: "trainingTo",
-    //     headerName: "Training To",
-    //     width: 120,
-    //     renderHeader: () => <strong>Training To</strong>,
-    //     renderCell: (params) => {
-    //         const value = 5;
-    //         return value ? value : <Typography variant="body2" color="text.secondary">—</Typography>
-    //     },
-    // },
-    // {
-    //     field: "trainingBy",
-    //     headerName: "Training By",
-    //     width: 120,
-    //     renderHeader: () => <strong>Training By</strong>,
-
-    //     renderCell: (params) => {
-    //         const value =  0;
-    //         return value ? value : <Typography variant="body2" color="text.secondary">—</Typography>
-    //     },
-    // },
-    // {
-    //     field: "scheduleTraining",
-    //     headerName: "Schedule",
-    //     width: 150,
-    //     renderHeader: () => <strong>Schedule Training</strong>,
-    //     renderCell: (params) => <TrainingActionButton isClient={isClient} onSchedule={HandleFormSave} params={params} />,
-    // },
-
     {
       field: "actions",
       headerName: "Actions",

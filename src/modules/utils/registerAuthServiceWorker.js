@@ -6,27 +6,47 @@ export function registerAuthServiceWorker() {
           ? `${process.env.PUBLIC_URL}/sw.js`
           : `/sw.js`;
 
-      console.log('service worker url: ', swUrl)
-      navigator.serviceWorker.register(swUrl, {
-        scope: '/'
-      })
-        .then(registration => {
-          console.log('Auth Service Worker registered successfully:', registration.scope);
-          return registration.scope;
+      console.log('Service Worker URL:', swUrl);
+
+      navigator.serviceWorker
+        .register(swUrl, { scope: '/' })
+        .then((registration) => {
+          console.log('✅ Auth Service Worker registered:', registration.scope);
+
+          // 🆕 Detect new service worker when a new build is deployed
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (!newWorker) return;
+
+            newWorker.addEventListener('statechange', () => {
+              if (
+                newWorker.state === 'installed' &&
+                navigator.serviceWorker.controller
+              ) {
+                console.log('🆕 New service worker detected!');
+                const newVersion = window.__APP_VERSION__;
+
+                // 🚀 Notify app that a new version is available
+                window.dispatchEvent(
+                  new CustomEvent('NEW_VERSION_AVAILABLE', {
+                    detail: { version: newVersion },
+                  })
+                );
+              }
+            });
+          });
         })
-        .catch(error => {
-          console.error('Auth Service Worker registration failed:', error);
+        .catch((error) => {
+          console.error('❌ Service Worker registration failed:', error);
         });
     });
 
+    // Optional: logging
     if (navigator.serviceWorker.controller) {
-      console.log('Service worker is already active');
-      // initializeMessageChannel();
+      console.log('Service worker already active');
     } else {
-      // Wait for the service worker to be activated
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         console.log('Service worker now controlling the page');
-        // initializeMessageChannel();
       });
     }
   }
@@ -35,6 +55,7 @@ export function registerAuthServiceWorker() {
 export function getServiceWorkerRegistration() {
   return navigator.serviceWorker.getRegistration();
 }
+
 export function sendMessageToServiceWorker(message) {
   if (navigator.serviceWorker.controller) {
     navigator.serviceWorker.controller.postMessage(message);

@@ -1,5 +1,24 @@
-import React, { useCallback, useEffect, useState, useRef, useMemo } from "react";
-import { Box } from "@mui/material";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+} from "react";
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  IconButton,
+  Button,
+  Chip,
+  Paper,
+  Divider,
+  Grid,
+} from "@mui/material";
 import CallRecorderScreen from "./CallRecorderScreen";
 import GridHeader from "./GridHeader";
 import CallTable from "./CallTable";
@@ -15,12 +34,46 @@ import { appBarHeight } from "../../libs/data";
 import { useLocation, useNavigate } from "react-router-dom";
 import FeedbackModal from "./FeedBackModal";
 import AcceptCallModal from "./AcceptCallModal";
+import CloseIcon from "@mui/icons-material/Close";
 import CallLogApi from "../../../apis/CallLogApiController";
 import debounce from "lodash/debounce";
 import CenteredCircularLoader from "./Loading";
 import { useAuth } from "../../context/UseAuth";
 import withNotification from "./../../hoc/withNotification";
 import { ExcelReportCallog } from "../../utils/ExcelReportDowload";
+import { PopoverFeedbackCard } from "./PopoverFeedbackCard ";
+import FollowUpHistoryDialog from "../_ui/FollowUpsDialog";
+
+const sanitizeForJSON = (obj) => {
+  if (!obj || typeof obj !== "object") return obj;
+
+  if (React.isValidElement(obj)) return undefined;
+
+  if (Array.isArray(obj)) {
+    return obj.map(sanitizeForJSON).filter((val) => val !== undefined);
+  }
+
+  const clean = {};
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key];
+    if (React.isValidElement(value)) {
+      return;
+    }
+    if (typeof value === "function") {
+      return;
+    }
+    if (typeof value === "object" && value !== null) {
+      try {
+        clean[key] = sanitizeForJSON(value);
+      } catch (e) {
+        // Ignore circular fields
+      }
+    } else {
+      clean[key] = value;
+    }
+  });
+  return clean;
+};
 
 const CallLogManagementApp = ({ showNotification }) => {
   const STORAGE_KEYS = {
@@ -40,10 +93,20 @@ const CallLogManagementApp = ({ showNotification }) => {
     return savedTime ? parseInt(savedTime, 10) : 0;
   });
 
-  const { endCall, AcceptQueueCall, CurrentCall, setCurrentCall, startCall, setCallLog, callLog, PauseCall, ResumeCall, isFilterActiveRef } = useCallLog();
+  const {
+    endCall,
+    AcceptQueueCall,
+    CurrentCall,
+    setCurrentCall,
+    startCall,
+    setCallLog,
+    callLog,
+    PauseCall,
+    ResumeCall,
+    isFilterActiveRef,
+  } = useCallLog();
   const timerRef = useRef(null);
-
-  // Use stable references for component IDs to prevent unnecessary re-rendering
+  const [anchorEl, setAnchorEl] = useState({ data: null, anchor: null });
   const sidebarKey = useRef(Date.now()).current;
   const editDrawerKey = useRef(Date.now()).current;
   const [isLoading, setIsLoading] = useState(false);
@@ -53,12 +116,12 @@ const CallLogManagementApp = ({ showNotification }) => {
     return savedSliders
       ? JSON.parse(savedSliders)
       : {
-        addMode: false,
-        editMode: false,
-        dialogMode: false,
-        recordMode: false,
-        detailMode: false,
-      };
+          addMode: false,
+          editMode: false,
+          dialogMode: false,
+          recordMode: false,
+          detailMode: false,
+        };
   });
 
   const { user } = useAuth();
@@ -81,8 +144,12 @@ const CallLogManagementApp = ({ showNotification }) => {
   // Use a stable reference for the concurrent call state to prevent flickering
   const concurrentCallRef = useRef(null);
   const [conCurrentCall, setConCurrentCall] = useState(() => {
-    const savedConcurrentCall = localStorage.getItem(STORAGE_KEYS.CONCURRENT_CALL);
-    const parsedCall = savedConcurrentCall ? JSON.parse(savedConcurrentCall) : null;
+    const savedConcurrentCall = localStorage.getItem(
+      STORAGE_KEYS.CONCURRENT_CALL,
+    );
+    const parsedCall = savedConcurrentCall
+      ? JSON.parse(savedConcurrentCall)
+      : null;
     if (parsedCall) concurrentCallRef.current = parsedCall;
     return parsedCall;
   });
@@ -91,6 +158,7 @@ const CallLogManagementApp = ({ showNotification }) => {
   const [feedBackModal, setFeedBackModal] = useState(null);
   const [acceptModal, setAcceptModal] = useState(false);
   const [acceptCallId, setAcceptCallId] = useState(false);
+  const [followUpDialogOpen, setFollowUpDialogOpen] = useState(false);
 
   // filters states
   const [searchQuery, setSearchQuery] = useState("");
@@ -120,7 +188,9 @@ const CallLogManagementApp = ({ showNotification }) => {
 
     // If currently paused, add current pause duration
     if (isPaused && pauseStartTimeRef.current) {
-      const currentPauseDuration = Math.floor((now - pauseStartTimeRef.current) / 1000);
+      const currentPauseDuration = Math.floor(
+        (now - pauseStartTimeRef.current) / 1000,
+      );
       totalPausedTime += currentPauseDuration;
     }
 
@@ -133,12 +203,16 @@ const CallLogManagementApp = ({ showNotification }) => {
       if (!document.hidden && CurrentCall?.sr && !isPaused) {
         const accurateTime = calculateElapsedTime();
         setRecordingTime(accurateTime);
-        localStorage.setItem(STORAGE_KEYS.RECORDING_TIME, accurateTime.toString());
+        localStorage.setItem(
+          STORAGE_KEYS.RECORDING_TIME,
+          accurateTime.toString(),
+        );
       }
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, [CurrentCall?.sr, isPaused, calculateElapsedTime]);
 
   // ✨ NEW: Handle window focus as additional safeguard
@@ -147,12 +221,15 @@ const CallLogManagementApp = ({ showNotification }) => {
       if (CurrentCall?.sr && !isPaused) {
         const accurateTime = calculateElapsedTime();
         setRecordingTime(accurateTime);
-        localStorage.setItem(STORAGE_KEYS.RECORDING_TIME, accurateTime.toString());
+        localStorage.setItem(
+          STORAGE_KEYS.RECORDING_TIME,
+          accurateTime.toString(),
+        );
       }
     };
 
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
   }, [CurrentCall?.sr, isPaused, calculateElapsedTime]);
 
   // --- PERSISTENCE EFFECTS --- //
@@ -168,7 +245,7 @@ const CallLogManagementApp = ({ showNotification }) => {
       if (value === null) {
         localStorage.removeItem(key);
       } else if (typeof value === "object") {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, JSON.stringify(sanitizeForJSON(value)));
       } else {
         localStorage.setItem(key, value.toString());
       }
@@ -183,7 +260,10 @@ const CallLogManagementApp = ({ showNotification }) => {
   // Save current call to localStorage when it changes
   useEffect(() => {
     if (CurrentCall) {
-      localStorage.setItem(STORAGE_KEYS.CURRENT_CALL, JSON.stringify(CurrentCall));
+      localStorage.setItem(
+        STORAGE_KEYS.CURRENT_CALL,
+        JSON.stringify(sanitizeForJSON(CurrentCall)),
+      );
     }
   }, [CurrentCall]);
 
@@ -194,13 +274,19 @@ const CallLogManagementApp = ({ showNotification }) => {
 
   // Save paused duration to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.PAUSED_DURATION, pausedDuration.toString());
+    localStorage.setItem(
+      STORAGE_KEYS.PAUSED_DURATION,
+      pausedDuration.toString(),
+    );
   }, [pausedDuration]);
 
   // Save pause start time to localStorage when it changes
   useEffect(() => {
     if (pauseStartTimeRef.current instanceof Date) {
-      localStorage.setItem(STORAGE_KEYS.PAUSE_START_TIME, pauseStartTimeRef.current.getTime().toString());
+      localStorage.setItem(
+        STORAGE_KEYS.PAUSE_START_TIME,
+        pauseStartTimeRef.current.getTime().toString(),
+      );
     } else {
       localStorage.removeItem(STORAGE_KEYS.PAUSE_START_TIME);
     }
@@ -210,14 +296,17 @@ const CallLogManagementApp = ({ showNotification }) => {
   const debouncedSetConCurrentCall = useCallback(
     debounce((call) => {
       if (call) {
-        localStorage.setItem(STORAGE_KEYS.CONCURRENT_CALL, JSON.stringify(call));
+        localStorage.setItem(
+          STORAGE_KEYS.CONCURRENT_CALL,
+          JSON.stringify(sanitizeForJSON(call)),
+        );
         concurrentCallRef.current = call;
       } else {
         localStorage.removeItem(STORAGE_KEYS.CONCURRENT_CALL);
         concurrentCallRef.current = null;
       }
     }, 100),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -238,7 +327,9 @@ const CallLogManagementApp = ({ showNotification }) => {
     }
 
     // Initialize pauseStartTimeRef
-    const savedPauseStartTime = localStorage.getItem(STORAGE_KEYS.PAUSE_START_TIME);
+    const savedPauseStartTime = localStorage.getItem(
+      STORAGE_KEYS.PAUSE_START_TIME,
+    );
     if (savedPauseStartTime) {
       pauseStartTimeRef.current = new Date(parseInt(savedPauseStartTime, 10));
     }
@@ -246,7 +337,9 @@ const CallLogManagementApp = ({ showNotification }) => {
 
   // Handle timer resumption after page refresh
   useEffect(() => {
-    const savedCallStartTime = localStorage.getItem(STORAGE_KEYS.CALL_START_TIME);
+    const savedCallStartTime = localStorage.getItem(
+      STORAGE_KEYS.CALL_START_TIME,
+    );
 
     // If we have an active call (not paused) and a start time, recalculate elapsed time
     if (CurrentCall?.sr && !isPaused && savedCallStartTime) {
@@ -260,7 +353,9 @@ const CallLogManagementApp = ({ showNotification }) => {
 
     // If the call was paused during refresh, restore pause start time
     if (isPaused && CurrentCall?.sr) {
-      const savedPauseStartTime = localStorage.getItem(STORAGE_KEYS.PAUSE_START_TIME);
+      const savedPauseStartTime = localStorage.getItem(
+        STORAGE_KEYS.PAUSE_START_TIME,
+      );
       if (savedPauseStartTime) {
         pauseStartTimeRef.current = new Date(parseInt(savedPauseStartTime, 10));
       }
@@ -284,7 +379,7 @@ const CallLogManagementApp = ({ showNotification }) => {
     setFilterState({
       dateRange: { startDate: "", endDate: "" },
       filterTargetField: "",
-    })
+    });
   };
 
   const clearFiltersState = () => {
@@ -295,9 +390,9 @@ const CallLogManagementApp = ({ showNotification }) => {
     setFilterState({
       dateRange: { startDate: "", endDate: "" },
       filterTargetField: "",
-    })
+    });
     navigate({ pathname: location.pathname }, { replace: true });
-  }
+  };
 
   const getQueryParams = (search) => {
     const params = new URLSearchParams(search);
@@ -325,7 +420,7 @@ const CallLogManagementApp = ({ showNotification }) => {
         setIsLoading(false); // ✅ Stop loading
       }
     }, 500),
-    []
+    [],
   );
 
   // URL parameter management
@@ -335,13 +430,27 @@ const CallLogManagementApp = ({ showNotification }) => {
     if (viewMode) params.set("view", viewMode);
     if (companyStatus) params.set("companyStatus", companyStatus);
     if (status && status !== "all") params.set("status", status);
-    if (filterState?.filterTargetField) params.set("target", filterState.filterTargetField);
-    if (filterState?.dateRange?.startDate) params.set("start", filterState.dateRange.startDate);
-    if (filterState?.dateRange?.endDate) params.set("end", filterState.dateRange.endDate);
+    if (filterState?.filterTargetField)
+      params.set("target", filterState.filterTargetField);
+    if (filterState?.dateRange?.startDate)
+      params.set("start", filterState.dateRange.startDate);
+    if (filterState?.dateRange?.endDate)
+      params.set("end", filterState.dateRange.endDate);
 
     // Use replace to avoid adding to history
-    navigate({ pathname: location.pathname, search: params.toString() }, { replace: true });
-  }, [searchQuery, viewMode, companyStatus, filterState, status, navigate, location.pathname]);
+    navigate(
+      { pathname: location.pathname, search: params.toString() },
+      { replace: true },
+    );
+  }, [
+    searchQuery,
+    viewMode,
+    companyStatus,
+    filterState,
+    status,
+    navigate,
+    location.pathname,
+  ]);
 
   // Load URL parameters on mount
   useEffect(() => {
@@ -368,7 +477,14 @@ const CallLogManagementApp = ({ showNotification }) => {
   }, []);
 
   const isFilterActive = useMemo(() => {
-    return searchQuery || companyStatus || (status && status !== "all") || filterState?.filterTargetField || filterState?.dateRange?.startDate || filterState?.dateRange?.endDate;
+    return (
+      searchQuery ||
+      companyStatus ||
+      (status && status !== "all") ||
+      filterState?.filterTargetField ||
+      filterState?.dateRange?.startDate ||
+      filterState?.dateRange?.endDate
+    );
   }, [searchQuery, companyStatus, status, filterState]);
 
   useEffect(() => {
@@ -420,7 +536,8 @@ const CallLogManagementApp = ({ showNotification }) => {
       filtered = filtered.filter(
         (call) =>
           (call.receivedBy && call.receivedBy.toLowerCase() === loggedUser) ||
-          (call.AssignedEmpName && call.AssignedEmpName.toLowerCase() === loggedUser)
+          (call.AssignedEmpName &&
+            call.AssignedEmpName.toLowerCase() === loggedUser),
       );
     }
     return filtered;
@@ -451,7 +568,10 @@ const CallLogManagementApp = ({ showNotification }) => {
       timerRef.current = null;
     }
     pauseStartTimeRef.current = new Date();
-    localStorage.setItem(STORAGE_KEYS.PAUSE_START_TIME, pauseStartTimeRef.current.getTime().toString());
+    localStorage.setItem(
+      STORAGE_KEYS.PAUSE_START_TIME,
+      pauseStartTimeRef.current.getTime().toString(),
+    );
   }, [CurrentCall?.sr, PauseCall]);
 
   const handleResumeRecording = useCallback(async () => {
@@ -462,7 +582,10 @@ const CallLogManagementApp = ({ showNotification }) => {
       const pauseTime = (pauseEndTime - pauseStartTimeRef.current) / 1000;
       setPausedDuration((prev) => {
         const newDuration = prev + pauseTime;
-        localStorage.setItem(STORAGE_KEYS.PAUSED_DURATION, newDuration.toString());
+        localStorage.setItem(
+          STORAGE_KEYS.PAUSED_DURATION,
+          newDuration.toString(),
+        );
         return newDuration;
       });
       pauseStartTimeRef.current = null;
@@ -522,7 +645,13 @@ const CallLogManagementApp = ({ showNotification }) => {
       setCurrentCall(null);
       setConCurrentCall(null);
     }, 100);
-  }, [CurrentCall?.sr, endCall, pausedDuration, setCurrentCall, updateLocalStorage]);
+  }, [
+    CurrentCall?.sr,
+    endCall,
+    pausedDuration,
+    setCurrentCall,
+    updateLocalStorage,
+  ]);
 
   const onRowClick = useCallback(
     (rowData) => {
@@ -536,7 +665,7 @@ const CallLogManagementApp = ({ showNotification }) => {
         toggleSlider("recordMode");
       }
     },
-    [callLogMap, toggleSlider, sliders.recordMode]
+    [callLogMap, toggleSlider, sliders.recordMode],
   );
 
   const handleEditAndStartCall = useCallback((id) => {
@@ -560,7 +689,14 @@ const CallLogManagementApp = ({ showNotification }) => {
     handleStartRecording();
     showNotification("Call started", "success");
     setIsDialogOpen(false);
-  }, [pendingCallId, sliders.recordMode, handleToggleRecording, handleStartRecording, setIsDialogOpen, startCall]);
+  }, [
+    pendingCallId,
+    sliders.recordMode,
+    handleToggleRecording,
+    handleStartRecording,
+    setIsDialogOpen,
+    startCall,
+  ]);
 
   const onStartCall = useCallback(
     async (callId) => {
@@ -574,7 +710,7 @@ const CallLogManagementApp = ({ showNotification }) => {
       showNotification("Call started", "success");
       handleStartRecording();
     },
-    [startCall, handleStartRecording]
+    [startCall, handleStartRecording],
   );
 
   const handleCancel = useCallback(() => {
@@ -617,20 +753,22 @@ const CallLogManagementApp = ({ showNotification }) => {
         toggleSlider("addMode");
       }, 10);
     },
-    [toggleSlider]
+    [toggleSlider],
   );
 
   const onCallAnalysis = useCallback(
     (data) => {
       if (!data?.sr) return;
 
-      const selectedData = filteredCallLog.find((item) => item?.sr === data?.sr);
+      const selectedData = filteredCallLog.find(
+        (item) => item?.sr === data?.sr,
+      );
       if (!selectedData) return;
 
       setCurrentCall({ ...selectedData, isAnalysis: true });
       toggleSlider("detailMode");
     },
-    [filteredCallLog, toggleSlider]
+    [filteredCallLog, toggleSlider],
   );
 
   const handleAcceptCall = useCallback((id) => {
@@ -643,6 +781,19 @@ const CallLogManagementApp = ({ showNotification }) => {
     setAcceptCallId(null);
     setAcceptModal(false);
   }, [acceptCallId, AcceptQueueCall]);
+
+  const handleFollowUpClick = useCallback(
+    (rowData) => {
+      if (
+        rowData &&
+        !(rowData.nativeEvent || rowData.target || rowData.preventDefault)
+      ) {
+        setCurrentCall(rowData);
+      }
+      setFollowUpDialogOpen(true);
+    },
+    [setCurrentCall],
+  );
 
   const contentHeight = `100vh`;
 
@@ -659,7 +810,10 @@ const CallLogManagementApp = ({ showNotification }) => {
         });
 
         if (pauseStartTimeRef.current instanceof Date) {
-          localStorage.setItem(STORAGE_KEYS.PAUSE_START_TIME, pauseStartTimeRef.current.getTime().toString());
+          localStorage.setItem(
+            STORAGE_KEYS.PAUSE_START_TIME,
+            pauseStartTimeRef.current.getTime().toString(),
+          );
         }
       }
     };
@@ -668,7 +822,14 @@ const CallLogManagementApp = ({ showNotification }) => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [CurrentCall, recordingTime, isPaused, pausedDuration, sliders, updateLocalStorage]);
+  }, [
+    CurrentCall,
+    recordingTime,
+    isPaused,
+    pausedDuration,
+    sliders,
+    updateLocalStorage,
+  ]);
 
   const callStatusValue = {
     currentCallId: CurrentCall?.sr,
@@ -681,22 +842,48 @@ const CallLogManagementApp = ({ showNotification }) => {
     try {
       await ExcelReportCallog(filteredCallLog);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   if (isLoading && !callLog?.length) {
     return <CenteredCircularLoader />;
   }
 
   return (
-    <Box sx={{ height: contentHeight, display: "flex", flexDirection: "column", py: 2, bgcolor: "white" }}>
-      {feedBackModal !== null && <FeedbackModal id={feedBackModal} setFeedBackModal={setFeedBackModal} />}
-
+    <Box
+      sx={{
+        height: contentHeight,
+        display: "flex",
+        flexDirection: "column",
+        py: 2,
+        bgcolor: "white",
+      }}
+    >
+      {feedBackModal !== null && (
+        <FeedbackModal id={feedBackModal} setFeedBackModal={setFeedBackModal} />
+      )}
+      {anchorEl?.anchor && (
+        <PopoverFeedbackCard
+          anchorEl={anchorEl?.anchor}
+          open={Boolean(anchorEl?.anchor)}
+          rating={anchorEl?.data?.rating}
+          name={anchorEl?.data?.callBy}
+          description={anchorEl?.data?.feedback}
+          onClose={() => setAnchorEl({ data: null, anchor: null })}
+        />
+      )}
       {/* <CallRecorderScreen isPaused={isPaused} onPause={handlePauseRecording} onResume={handleResumeRecording} onStartCall={onStartCall} CurrentCall={CurrentCall} onEndCall={handleEndCall} onCloseRecord={handleRecordModeClose} isRecordingExpanded={sliders?.recordMode} recordingTime={recordingTime} onAddConCurrentCall={addConCurrentCall} onEditCall={handleAcceptCall} onEditToggle={() => toggleSlider("editMode")} onDetailsToggle={() => toggleSlider("detailMode")} setPostReview={setPostReview} callStatusValue={callStatusValue} /> */}
 
       <Box sx={{ mt: 0, transition: "0.3s ease-in-out" }}>
-        <GridHeader isFilterData={filteredCallLog?.length > 0 } onExcel={Dowloadexcel} onClearAll={clearFilters} {...filterProps} callStatusValue={callStatusValue} onAdd={() => toggleSlider("addMode")} />
+        <GridHeader
+          isFilterData={filteredCallLog?.length > 0}
+          onExcel={Dowloadexcel}
+          onClearAll={clearFilters}
+          {...filterProps}
+          callStatusValue={callStatusValue}
+          onAdd={() => toggleSlider("addMode")}
+        />
       </Box>
 
       <Box
@@ -706,20 +893,66 @@ const CallLogManagementApp = ({ showNotification }) => {
           // overflowX: "auto",
         }}
       >
-        <CallTable key={filterProps} RecordMode={sliders?.recordMode} setFeedBackModal={setFeedBackModal} onCallAnalysis={onCallAnalysis} onRowClick={onRowClick} callLogs={filteredCallLog} callStatusValue={callStatusValue} onEditCall={handleEditAndStartCall} />
+        <CallTable
+          setAnchorEl={setAnchorEl}
+          key={filterProps}
+          RecordMode={sliders?.recordMode}
+          setFeedBackModal={setFeedBackModal}
+          onCallAnalysis={onCallAnalysis}
+          onRowClick={onRowClick}
+          callLogs={filteredCallLog}
+          callStatusValue={callStatusValue}
+          onEditCall={handleEditAndStartCall}
+          onFollowUpClick={handleFollowUpClick}
+        />
       </Box>
 
       {/* <EditCallLogDrawer key={`edit-${editDrawerKey}-${CurrentCall?.sr || "none"}`} open={sliders?.editMode} onClose={() => toggleSlider("editMode")} callData={CurrentCall} /> */}
 
-      <CallLogDrawer onclearFilters={clearFiltersState} callStatusValue={callStatusValue} key={`sidebar-${sidebarKey}-${conCurrentCall?.sr || "none"}`} data={conCurrentCall || concurrentCallRef.current} open={sliders?.addMode} StartRecording={handleStartRecording} onRecordToggle={handleToggleRecording} onClose={() => toggleSlider("addMode")} />
+      <CallLogDrawer
+        onclearFilters={clearFiltersState}
+        callStatusValue={callStatusValue}
+        key={`sidebar-${sidebarKey}-${conCurrentCall?.sr || "none"}`}
+        data={conCurrentCall || concurrentCallRef.current}
+        open={sliders?.addMode}
+        StartRecording={handleStartRecording}
+        onRecordToggle={handleToggleRecording}
+        onClose={() => toggleSlider("addMode")}
+      />
 
-      {/* <CallLogDetailsSidebar onEditToggle={onEditToggle} key={`details-${CurrentCall?.sr || "none"}`} callLogData={CurrentCall} open={sliders?.detailMode} onClose={() => toggleSlider("detailMode")} /> */}
+      <CallLogDetailsSidebar
+        onEditToggle={onEditToggle}
+        key={`details-${CurrentCall?.sr || "none"}`}
+        callLogData={CurrentCall}
+        open={sliders?.detailMode}
+        onClose={() => toggleSlider("detailMode")}
+        onFollowUpClick={handleFollowUpClick}
+      />
 
-      <ConfirmBox handleCancel={handleCancel} handleConfirmStartCall={handleConfirmStartCall} isDialogOpen={isDialogOpen} />
+      <ConfirmBox
+        handleCancel={handleCancel}
+        handleConfirmStartCall={handleConfirmStartCall}
+        isDialogOpen={isDialogOpen}
+      />
 
-      <PostCallReviewForm open={postReview} onClose={() => setPostReview(false)} data={CurrentCall} />
+      <PostCallReviewForm
+        open={postReview}
+        onClose={() => setPostReview(false)}
+        data={CurrentCall}
+      />
 
-      <AcceptCallModal isDialogOpen={acceptModal} handleConfirmStartCall={handleAcceptApiCall} handleCancel={() => setAcceptModal(false)} />
+      <AcceptCallModal
+        isDialogOpen={acceptModal}
+        handleConfirmStartCall={handleAcceptApiCall}
+        handleCancel={() => setAcceptModal(false)}
+      />
+
+      {/* Follow Ups Dialog */}
+      <FollowUpHistoryDialog
+        followUpDialogOpen={followUpDialogOpen}
+        setFollowUpDialogOpen={setFollowUpDialogOpen}
+        CurrentCall={CurrentCall}
+      />
     </Box>
   );
 };

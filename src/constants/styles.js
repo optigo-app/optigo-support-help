@@ -1,4 +1,4 @@
-import { Box, Tabs, Card, Button } from "@mui/material";
+import { Box, Tabs, Card, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 
@@ -35,38 +35,39 @@ const ContentCard = styled(Card)(({ theme }) => ({
 }));
 
 const StyledTabs = styled(Tabs)(({ theme, variant }) => ({
-  minHeight: "48px",
+  minHeight: "30px",
+  zIndex: 12,
   "& .MuiTabs-indicator": {
     display: "none",
   },
   "& .MuiTab-root": {
-    minHeight: "48px",
+    minHeight: "30px",
     textTransform: "none",
     fontSize: "14px",
     color: "#5f6368",
-    backgroundColor: "#f8f9fa",
+    // backgroundColor: "#f8f9fa",
     border: "none",
-    borderRight: "1px solid rgba(85, 85, 85, 0.19)",
-    borderBottom: "1px solid rgba(85, 85, 85, 0.19)",
-    borderRadius: 0,
+    borderRadius: "3px 3px 0 0",
+    // BorderBottom: "11px solid rgba(85, 85, 85, 0.19)",
     "&:last-child": {
       borderRight: "none",
     },
     "&.Mui-selected": {
-      backgroundColor: "#ffffff",
+      backgroundColor: "#fff",
       color: "#1976d2",
       fontWeight: 500,
-      borderBottom: "none",
-      borderTop: "1px solid rgba(85, 85, 85, 0.19)",
+      // borderTop: "1px solid rgba(85, 85, 85, 0.19)",
+      // borderRight: "1px solid rgba(85, 85, 85, 0.19)",
+      // borderLeft: "1px solid rgba(85, 85, 85, 0.19)",
     },
     "&:hover": {
-      backgroundColor: "#f1f3f4",
+      backgroundColor: "#fff",
     },
   },
 }));
 
 const TabContent = styled(Box)(({ theme, variant }) => ({
-  padding: "5px 15px",
+  padding: "4px 15px",
   marginTop: "-1px",
   ...(variant === "colored" && {
     backgroundColor: "#428bca",
@@ -181,4 +182,39 @@ const Listbox = styled("ul")(({ theme }) => ({
   },
 }));
 
-export { StyledTabs, StyledSubTabs, SubTabButton, ContentCard, TabContent, Root, InputWrapper, Listbox };
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    borderRadius: 12,
+    minWidth: 180,
+    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05), 0px 4px 20px rgba(0, 0, 0, 0.08)",
+    padding: theme.spacing(1),
+    paddingbottom: 0,
+  },
+  "& .MuiMenu-list": {
+    padding: 0,
+    display: "flex",
+    flexDirection: "column",
+    gap: 0.4,
+  },
+}));
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  borderRadius: 8,
+  padding: "10px 12px",
+  transition: "all 0.2s ease",
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+    transform: "translateX(2px)",
+  },
+  "& .MuiListItemIcon-root": {
+    minWidth: 36,
+    color: theme.palette.text.secondary,
+  },
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  fontSize: "0.925rem",
+  fontWeight: 500,
+}));
+
+export { StyledTabs, StyledSubTabs, SubTabButton, ContentCard, TabContent, Root, InputWrapper, Listbox, StyledMenu, StyledMenuItem, StyledTypography };

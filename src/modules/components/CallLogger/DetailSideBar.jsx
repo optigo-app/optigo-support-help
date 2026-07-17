@@ -7,7 +7,7 @@ import CallAnalyticsDashboard from "./CallAnalytics";
 import CallLogDetailView from "./CallDetails";
 import PostDetailTab from "./PostDetailTab";
 
-export default function CallLogDetailsSidebar({ open, onClose, callLogData, onEditToggle }) {
+export default function CallLogDetailsSidebar({ open, onClose, callLogData, onEditToggle, onFollowUpClick }) {
   const defaultCallLogData = callLogData;
   const [activeTab, setActiveTab] = useState(0);
 
@@ -59,7 +59,7 @@ export default function CallLogDetailsSidebar({ open, onClose, callLogData, onEd
 
         {/* Content Section */}
         <Box sx={{ flexGrow: 1, overflowY: "auto", pr: 1 }}>
-          {activeTab === 0 && <CallLogDetailView toggle={onEditToggle} data={defaultCallLogData} />}
+          {activeTab === 0 && <CallLogDetailView toggle={onEditToggle} data={defaultCallLogData} onFollowUpClick={onFollowUpClick} />}
           {activeTab === 1 && <PostDetailTab data={defaultCallLogData} />}
           {/* <CallAnalyticsDashboard data={defaultCallLogData} /> */}
         </Box>

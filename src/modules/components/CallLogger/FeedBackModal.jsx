@@ -4,29 +4,35 @@ import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded"; // Em
 import StarRoundedIcon from "@mui/icons-material/StarRounded"; // Filled star icon
 import CloseIcon from "@mui/icons-material/Close";
 import { useCallLog } from "../../context/UseCallLog";
+import { useAuth } from "../../context/UseAuth";
 
 const FeedbackModal = ({ setFeedBackModal, id }) => {
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState("");
   const [contactMe, setContactMe] = useState(false);
   const [IsRating, setIsRating] = useState(false);
-  const { editCall } = useCallLog();
+  const { addFeedback } = useCallLog();
+  const {user} = useAuth();
 
   const handleSubmit = () => {
     if (!id) return;
-    editCall(id, { rating });
+    addFeedback(id, rating, comment, contactMe, user?.id);
     setFeedBackModal(null);
     setRating(null);
     setComment("");
     setContactMe(false);
-    setIsRating(false)
+    setIsRating(false);
   };
 
   return (
-    <Dialog open={Boolean(id)} onClose={() => setFeedBackModal(null)} maxWidth="xs" fullWidth
-    sx={{
-      zIndex: 131100,
-    }}
+    <Dialog
+      open={Boolean(id)}
+      onClose={() => setFeedBackModal(null)}
+      maxWidth="xs"
+      fullWidth
+      sx={{
+        zIndex: 131100,
+      }}
     >
       <DialogTitle
         sx={{
@@ -74,13 +80,13 @@ const FeedbackModal = ({ setFeedBackModal, id }) => {
 
             <TextField fullWidth placeholder="We’d love to hear your suggestions" multiline rows={3} value={comment} onChange={(e) => setComment(e.target.value)} variant="outlined" size="small" />
 
-            <FormControlLabel
-              sx={{
-                mb: -3,
-              }}
-              control={<Checkbox checked={contactMe} onChange={(e) => setContactMe(e.target.checked)} size="small" />}
-              label={<Typography variant="body2">I would like to be contacted about my issue.</Typography>}
-            />
+              {/* <FormControlLabel
+                sx={{
+                  mb: -3,
+                }}
+                control={<Checkbox checked={contactMe} onChange={(e) => setContactMe(e.target.checked)} size="small" />}
+                label={<Typography variant="body2">I would like to be contacted about my issue.</Typography>}
+              /> */}
           </>
         )}
       </DialogContent>

@@ -3,28 +3,27 @@ import { Phone as PhoneIcon, School as SchoolIcon, LocalShipping as TruckIcon, M
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
 import LeaderboardRoundedIcon from "@mui/icons-material/LeaderboardRounded";
 import { images } from "../assets";
-import HomeIcon from '@mui/icons-material/Home';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HomeIcon from "@mui/icons-material/Home";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 export const navItems = [
   {
-    label: 'Home',
-    path: '/',
-    icon: <HomeIcon />
+    label: "Home",
+    path: "/",
+    icon: <HomeIcon />,
   },
   {
     label: "What's New",
-    path: '/whats-new',
-    icon: <NewReleasesIcon />
+    path: "/whats-new",
+    icon: <NewReleasesIcon />,
   },
-  {
-    label: 'Help Files',
-    path: '/help',
-    icon: <HelpOutlineIcon />
-  }
+  // {
+  //   label: 'Help Files',
+  //   path: '/help',
+  //   icon: <HelpOutlineIcon />
+  // }
 ];
-
 
 export const menuItems = [
   { label: "Home", icon: <Home /> },
@@ -115,42 +114,52 @@ export const helpCategories = [
   },
 ];
 
+
 export const mainTabs = [
   {
     id: "calllog",
-    label: "CallLog",
+    label: "CallBack",
     icon: <PhoneIcon sx={{ fontSize: 16 }} />,
     color: "#fbbf24",
+    TabId: 0,
+    slug:'CallLog',
+    SystemId: 18290,
+  },
+  {
+    id: "ticket",
+    label: "Tickets",
+    icon: <ConfirmationNumberRoundedIcon sx={{ fontSize: 16 }} />,
+    color: "purple",
+    TabId: 1,
+    slug:'Ticket',
+    SystemId: 18294,
+  },
+  {
+    id: "delivery",
+    label: "Orders",
+    icon: <TruckIcon sx={{ fontSize: 16 }} />,
+    color: "#10b981",
+    TabId: 2,
+    slug:'Order Delivery Dashboard',
+    SystemId: 18291,
   },
   {
     id: "training",
     label: "Training",
     icon: <SchoolIcon sx={{ fontSize: 16 }} />,
     color: "#3b82f6",
-  },
-  {
-    id: "delivery",
-    label: "Delivery",
-    icon: <TruckIcon sx={{ fontSize: 16 }} />,
-    color: "#10b981",
-  },
-  {
-    id: "ticket",
-    label: "Ticket",
-    icon: <ConfirmationNumberRoundedIcon sx={{ fontSize: 16 }} />,
-    color: "purple",
-  },
-  {
-    id: "lead",
-    label: "Leads",
-    icon: <LeaderboardRoundedIcon sx={{ fontSize: 16 }} />,
-    color: "violet",
+    TabId: 3,
+    slug:'Training Dashboard',
+    SystemId: 18292,
   },
   {
     id: "more3",
     label: "More",
     icon: <MoreHorizontalIcon sx={{ fontSize: 16 }} />,
     color: "#9ca3af",
+    TabId: 4,
+    slug:'More',
+    SystemId: null,
   },
 ];
 

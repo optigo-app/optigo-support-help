@@ -1,7 +1,7 @@
-import { Chip, Box, Tooltip } from "@mui/material";
+import { Chip, Box, Tooltip, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DateCard from "./DateCard";
-import { FormatDateIST } from "../../../utils/helpers";
+import { FormatDateIST, getMostRecentDate } from "../../../utils/helpers";
 
 const AssignmentChip = styled(Chip)(({ theme }) => ({
   transition: "all 0.3s ease",
@@ -15,6 +15,13 @@ const AssignmentChip = styled(Chip)(({ theme }) => ({
 }));
 
 const DateTooltip = ({ params, isClient = false }) => {
+  const row = params?.row || {};
+  const dateFields = ["TicketDate", "RequestDate", "ConfirmationDate"];
+
+  const mostRecent = getMostRecentDate(row, dateFields);
+  const description = mostRecent ? FormatDateIST(mostRecent.value, "dd-MM-yyyy") : "No Date";
+  const label = mostRecent?.label || "";
+
   return (
     <Tooltip
       PopperProps={{
@@ -37,8 +44,37 @@ const DateTooltip = ({ params, isClient = false }) => {
       }}
       title={<DateCard ticketData={params?.row} isClient={isClient} />}
     >
-      <Box className="assignments-cell" sx={{ position: "relative" }}>
-        <AssignmentChip label={FormatDateIST(params?.value)} color="default" size="small" />
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          position: 'relative',
+        }}
+      >
+        <Typography
+          color="text.primary" // Strong, dark text
+          variant="subtitle2" fontWeight={600}
+          fontSize={`13px`}
+        >
+          {label}
+        </Typography>
+        <Typography
+          color="text.secondary" // Softer, subdued color for secondary text
+          variant="body2"
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+          }}
+          title={description}
+          fontSize={`13px`}
+        >
+          {description}
+        </Typography>
       </Box>
     </Tooltip>
   );
