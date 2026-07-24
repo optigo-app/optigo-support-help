@@ -677,7 +677,7 @@ const SelectTrainingPath = () => {
                 }}
               >
                 <path
-                  d="M10 20 Q 100 5 190 25 Q 100 35 520 100 150"
+                  d="M10 20 Q 100 5 190 25 Q 100 35 10 25"
                   stroke="#2563eb"
                   strokeWidth="3"
                   fill="none"

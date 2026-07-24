@@ -64,14 +64,7 @@ const USERS = [
         "id": 18247,
         "title": "ADD TRAINING"
     },
-    {
-        "id": 18256,
-        "title": "Ticket"
-    },
-    {
-        "id": 18262,
-        "title": "Ticket ( Admin )"
-    },
+ 
     {
         "id": 18290,
         "title": "CallBack Request"
@@ -83,6 +76,14 @@ const USERS = [
     {
         "id": 18293,
         "title": "CallLog"
+    },
+       {
+        "id": 18256,
+        "title": "Ticket"
+    },
+    {
+        "id": 18262,
+        "title": "Ticket ( Admin )"
     },
     {
         "id": 18294,

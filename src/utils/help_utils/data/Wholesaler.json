@@ -458,8 +458,8 @@
       "english": true
     },
     "youtube": {
-      "english": null,
-      "hindi": null
+      "english": "https://youtu.be/dRF-_j9kpEE",
+      "hindi": "https://youtu.be/F_ASyAPk7q8"
     },
     "createdBy": "Jenish"
   },
@@ -487,8 +487,8 @@
       "english": true
     },
     "youtube": {
-      "english": "https://youtu.be/zdEGtPi__lA",
-      "hindi": "https://youtu.be/6ys5Kunfc4E"
+      "english": "https://youtu.be/6ys5Kunfc4E",
+      "hindi": "https://youtu.be/zdEGtPi__lA"
     },
     "createdBy": "Jenish"
   },
@@ -516,8 +516,8 @@
       "english": true
     },
     "youtube": {
-      "english": null,
-      "hindi": null
+      "english": "https://youtu.be/_3znTLMVmw8",
+      "hindi": "https://youtu.be/ZpehFMtawII"
     },
     "createdBy": "Jenish"
   },
@@ -3595,35 +3595,7 @@
     },
     "createdBy": "Jenish"
   },
-  {
-    "srNo": 125,
-    "module": "ETA Req. Accpet ",
-    "moduleHindi": "ETA Req. Accpet",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": true,
-    "script": {
-      "hindi": true,
-      "english": true
-    },
-    "audio": {
-      "hindi": true,
-      "english": true
-    },
-    "recording": {
-      "hindi": true,
-      "english": true
-    },
-    "finalVideo": {
-      "hindi": true,
-      "english": true
-    },
-    "youtube": {
-      "english": "https://youtu.be/T8S6yu51DrQ",
-      "hindi": "https://youtu.be/YDUUzjiJcQw"
-    },
-    "createdBy": "Jenish"
-  },
+ 
   {
     "srNo": 126,
     "module": "Job Book",
@@ -3679,35 +3651,6 @@
     "youtube": {
       "english": null,
       "hindi": null
-    },
-    "createdBy": "Jenish"
-  },
-  {
-    "srNo": 128,
-    "module": "Engage Material ",
-    "moduleHindi": "Engage सामग्री",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": true,
-    "script": {
-      "hindi": true,
-      "english": true
-    },
-    "audio": {
-      "hindi": true,
-      "english": true
-    },
-    "recording": {
-      "hindi": true,
-      "english": true
-    },
-    "finalVideo": {
-      "hindi": true,
-      "english": true
-    },
-    "youtube": {
-      "english": "https://youtu.be/cu1gim41a0E",
-      "hindi": "https://youtu.be/KK4I6o_6IV0"
     },
     "createdBy": "Jenish"
   },

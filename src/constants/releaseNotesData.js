@@ -1,4 +1,135 @@
 export const releaseNotesData = {
+  R77: [
+    {
+      title: "Accounts",
+      items: [
+        "Cash & Bank Pages :\n Navigation Flow Enhancement Added a seamless navigation flow between Cash and Bank pages. Users can now directly redirect from the Cash page to the Bank page and from the Bank page to the Cash page",
+        "GST summary report :\nadded RCm applicalble effects in it and calculation changes in it",
+        "Import Module Enhancement :\nAccount Opening can now be imported directly through the Import Module. Users can perform bulk imports of opening account balances, eliminating the need for manual entry",
+      ],
+    },
+    {
+      title: "Common Updates",
+      items: [
+        "Customer Excel Export Enhancement :\nAdded Customer Aadhaar Number in the Excel Export.",
+        "Jewellery Book Enhancement :\nAdded the following value fields in the Jewellery Book:\n • Purchase Cost\n • Current Cost\n • Current Price\n • Sale Amount\n • MRP Price",
+        "Tag Price Info Enhancement :\nAdded Diamond Summary and Color Stone Summary in the Tag Price Info module.",
+        "Quotation Enhancement :\nWhen a Design is selected or updated in the Quotation module and metal details are added, the Metal Weight will now be calculated and updated automatically based on the predefined Density values.",
+        "Customer Registration Enhancement :\nAdded Field Settings in the Customer Registration module.\nAdministrators can now configure and manage customer registration fields as per business requirements. Added support for additional customer information fields, including:\nAadhaar Card Number\nOther configurable customer details through Field Settings.",
+        "Stock Book Enhancement :\nAdded Reference User Name in the Stock Book.",
+        "Design Collection Enhancement :\nAdded Age-wise Sorting in the Design Collection module, allowing users to easily view and manage designs based on their age.\nEnhanced Advanced Search with support for multiple Manufacturer selection, enabling more flexible and efficient design filtering.\nAdded the following new search parameters in Advanced Search:\n • Manufacturing Design No.\n • Parent Design No.\nThe same advanced search options have also been implemented in the Design Master module",
+        "Fg stock melt :\nOption of print and excel in report",
+        "Repair report :\nAdded diffrence pure weight in it",
+        "Added type bifercation in reports ( Sale,Sale Return, Memo , Memo return )",
+      ],
+    },
+    {
+      title: "Manufacturing Flow Updates",
+      items: [
+        "Today Metal Stock Report Enhancement :\nAdded Loss and Customer Balance columns to the Today Metal Stock report.",
+        "The following reports are now available in the new interface :\n • DX Metal Loss Summary\n • DX Employee Department-wise Loss\n • DX Design-wise Loss\n • DX Loss Refining Report\n • DX Casting Loss Report\n • DX FG Loss Report\n • DX FG Detail Report (New)",
+        "Metal Loss Summary & Worker Report Enhancement :\nAdded Brand information in both the Metal Loss Summary and Worker Report. Also added Loss(%) issue wt  in it.",
+      ],
+    },
+    {
+      title: "Special Updates",
+      items: [
+        "Pro QC Enhancements",
+        "Manufacturing Department Integration\nAdded the option to include and manage Manufacturing Departments within Pro QC. ",
+        "Employee PIN Authentication :\nEmployee PIN validation can now be configured and managed from the backend for enhanced security and accountability.",
+        "Pro QC Master\nIntroduced a Pro QC Master module to define and maintain:\n • QC Questions\n • QC Masters/Parameters",
+        "Article Master Enhancement :\nAdded an In Stock filter in the Article Master module.\nUsers can now easily filter and view only those articles that are currently available in stock.",
+        "Repair Flow Enhancement :\nJobs assigned under the assign to Repair Flow will no longer be moved to the Factory Flow.",
+        "RM Stock Enhancement :\nUsers can now upload images for Raw Materials directly within the RM Stock module.\nThe uploaded raw material images will be automatically displayed in Raw Material Reports.",
+        "WhatsApp & Email Enhancements :\nAdded WhatsApp and Email integration across all major system events and transactions.\nAdded quick-action buttons in grid views for easier and faster access to WhatsApp and Email functions.",
+        "Design Sync Enhancement :\nAdded a Design Sync feature that allows designs to be synchronized from one Account Code to another Account Code.\nDesigns created or updated in the source account can be automatically synchronized to the target account The system supports auto-update synchronization at midnight, so any design changes made in the source account are reflected in the linked accounts without manual intervention.",
+        "Production Cost Analysis Update :\nIn Production Cost Analysis, the Purchase Cost from Stock Purchase will now be considered for items assigned to the Repair process.\nPreviously, when a job was assigned to Repair, the purchase cost was not reflected in the cost analysis. With this update, the system will automatically fetch and include the relevant purchase cost, ensuring accurate production cost calculations for repair jobs.",
+        "Upcoming update for Solitaire : We have introduced integration of Solitaire and Gemstone  in ERP whivh includes usage of it in transactions, manufacturing, inventory management, reports, and customer processes..Woekflow will run similar to existing Diamond and Colorstone functionality with extra paramenters in it such as cut,culet,etc",
+        "Sales Job Book Enhancement :\nAdded Bag Print functionality in the Sales Job Book.",
+        "PD Order Updates :\nAdded new fields in PD Order:\n • Sales Person\n • MRP\n • MRP Range\n • Currency",
+        "WhatsApp Notification Update :\nAdded a WhatsApp Due Date Reminder feature.",
+      ],
+    },
+    {
+      title: "Wholesale & Retail flow Updates",
+      items: [
+        "FG Sale Report Enhancements :\nAdded Company Diamond and Customer Diamond filters to enable more refined and accurate sales analysis. Previously, selecting All fetched data only for the current Financial Year. This limitation has been removed. The All option will now display complete sales data across all financial years, allowing users to view the entire sales history without being restricted by the financial year filter.",
+        "Stock Purchase to Factory Flow :\nResolved the quantity discrepancy issue in the Stock Purchase to Factory flow.\nQuantities are now accurately transferred and reflected throughout the ",
+        "Alteration Updates :\nAlteration Status in Sales Job Book\nThe Alteration Status is now visible in the Sales Job Book, providing better tracking and visibility of alteration jobs.\nRate Applicability in Alteration Receive All applicable rates will now be considered in the Alteration Receive process.\nThe rate calculation and application logic will work similarly to the current functionality available in Stock Purchase, ensuring consistency and accurate valuation.",
+        "Retail Bill Enhancement :\nAdded support for MRP (Including Tax) in the Retail Bill module.\nUsers can now enter and manage MRP values that already include applicable taxes. Option will be avaiable according to user access ",
+        "Retail Order Enhancements :\nAdded the following new fields in Retail Order:\n • Metal Loss\n • Wastage\n • Making Charges\n • Metal Rate\nMetal Loss, Wastage, Making Charges, and Metal Rate can now be auto-fetched from the respective masters, reducing manual entry and ensuring pricing consistency.",
+        "Job-wise Bagging & Material Assignment to Vendor :\nIntroduced a Job-wise Bagging process through the Issue Material module.\nDiamonds can now be issued from the Default Company and grouped into bags against specific manufacturing jobs.\nAdded functionality to assign bagged diamonds directly to vendors for processing and manufacturing activities.",
+        "Billing Enhancement :\nAdded Custom Duty and Margin options in the Billing module and other events too ",
+        "Multi-Currency Enhancement :\nIn the Multi-Currency module, the Metal Rate  will show according to applied currency by default at all events",
+        "Wastage Calculation Enhancement in Finding :\nImproved the Wastage calculation logic for Findings.\nPreviously, when wastage values were auto-fetched, the wastage amount was proportionately divided across the findings.\nWith this update, wastage will now be applied individually to each finding item based on its configured settings.",
+        "Sales Update :\n Added an option to view the Bill Currency directly in the grid while adding or editing vouchers. Available for the following voucher types:\n • Memo\n • Memo Return\n • Sale\n • Sale Return",
+      ],
+    },
+  ],
+  R76: [
+    {
+      title: "Manufacturing Flow Updates",
+      items: [
+        "WIP Reconcile :\nA Production Status filter with multiple selection option has been added in WIP Reconcile.\nThis allows better filtering and analysis of WIP records.",
+        "Dynamic Casting :\nSame batch can now be assigned to different employees in Dynamic Department with split weight.",
+        "Product making guide :\nDecreased the timign of it to 10 second",
+        "Production :\nMulti-metal flow glitches related to S1 and S2 resolved.",
+        "Metal Loss Report :\nAdded Excel Export option.",
+        "Handmade Flow :\nHandmade flow will continue even if:\nJob has metal weight (Sprue Weight)\nAssigned to different department",
+      ],
+    },
+    {
+      title: "Accounts",
+      items: [
+        "New Report – HSN Wise GST Report :\nA new HSN Wise Report has been added to view GST details based on HSN classification.\nThis report helps in easier GST analysis and return preparation. ",
+        "TDS Report :\nA Net Amount field has been added to the TDS Report for better financial clarity and reporting accuracy.",
+        "GSTR-1 Excel :\nUpdated according to latest Government GSTR-1 Format.",
+        "Bank Reconciliation :\nAdded accounts from:\nLoans & Liabilities > Bank Account ",
+        "Ledger :\nSeparate Ledger view for :\nBroker\nEmployee\nCash",
+      ],
+    },
+    {
+      title: "Common Updates",
+      items: [
+        "Update – Bulk Stock Melt Report :\nFinding Weight (WT) column has been added in the Bulk Stock Melt Report.",
+        "Update – Quotation Module :\nAn option has been added to update and display Remarks directly in the Quotation Grid.\n Users can now easily view and edit remarks without opening the detailed quotation screen.",
+        "Update – Sales Module :\nA new Ledger Icon has been added in the Sales screen.\nClicking the icon will redirect directly to the respective customer’s ledger for quick reference.",
+        "Quick Access :\n A setting-based option has been added to hide entries event-wise if locked employee-wise, according to user access rights.",
+        "Quotation Module :\nWhen proceeding, the system shows if the design already exists in different events.\nNow, you can delete multiple entries using “Select All” instead of deleting them one by one.",
+        "Sales Job book :\nYou can select mutiple status in it",
+        "Whats app :\nLabel changing in system from SMS to whatsapp at all places. If whatsapp not activated in system by defualt flag will be off event wise in it",
+        "Material Sale :\nAdd reference number in material sale",
+        "Design Master :\nAdded setting-based facility to make Part field mandatory.",
+        "Material purchase :\nYou can add rate for multiple record",
+        "PD report :\nNew report for pd for analysis",
+        "Discount Updates :\nDiscount can now be set:\n Policy-wise\nMultiple Criteria-wise\nCustomer-wise (configured from Discount Policy)",
+      ],
+    },
+    {
+      title: "Special Updates",
+      items: [
+        "Update – Receive Repair Entry :\nReceive Repair entries can now be shown in the Ledger (setting-based option added).\nEntries created during billing will reflect accordingly in the ledger as per the enabled setting.",
+        "Update – Gold Demand Report :\nA new checkbox option has been added in the Gold Demand Report to view data based on Used Weight from WIP. ",
+        "Quote :\nAn option to select and display Diamond Type has been added in the Quotation Grid.\nDiamond Type can now be:\n• Applied design-wise\n• Used in Advanced Search \nThis improves filtering and quotation accuracy. ",
+        "Update – Stock Reconcile :\nStock Reconcile now allows reconciliation of Customer Stock using the Customer Filter option.\nThis enables easier tracking and reconciliation of customer-wise stock.",
+        "Update – Raw Material History :\nRF Bag-wise Raw Material History has been updated. \nThe report now includes:\n• All related events\n • Closing balance matched with RM Stock ",
+        "Dispatch Module :\nSeparate Save and Dispatch buttons. \nPrevents accidental dispatch when user only wants to save shipment details.",
+        "Stock Purchase Import :\nAdd diamond handling field in it",
+        "Company name :\n Now you can create same company name with multiple gst",
+        "QA Book :\nIf Job is in Pending Status, it cannot be moved to Stock",
+        "Whats app :\nYou can add birthday and anniversay whatsapp autoschedule",
+        "Bill :\nadded insureance amount in it",
+        "Labour Set :\nCan create Advance Policy from Labour Set and Labour Set from Advance Policy.\nAdded Diamond Handling option. \nAdded Making Amount option.",
+        "Sale :\nAdded advance search option in it",
+        "Material Memo :\nMaterial can now be issued to Employee via Memo.",
+        "EVO – Visitor Analysis Module\nTrack, analyze, collect feedback, add remarks, manage discounts, and build long-term customer relationships with data-driven insights.",
+        "Price 360 :\nWill show data in it according to metal type wise",
+        "My Account :\nAdded Login Provision in which you can view your account current package, features in it , reset and cut off options in it, add one modules request, ip security request, data storage and file storage according to usage",
+        "Price Master Policy :\nSingle name configuration based on setting.",
+        "ProCatalog :\nBuilt for Speed. Designed for Performance.\nOptimized performance for seamless browsing and quicker decisions. ",
+      ],
+    },
+  ],
   R75: [
     {
       title: ` WhatsApp Integration In Optigo`,
@@ -15,7 +146,9 @@ export const releaseNotesData = {
     },
     {
       title: "Important Updates",
-      items: [`Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`],
+      items: [
+        `Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`,
+      ],
     },
     {
       title: "Manufacturing Flow Updates",
@@ -222,7 +355,9 @@ During job verification scanning, you can print pending items for Memo and Sale.
     },
     {
       title: "Important Updates",
-      items: [`Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`],
+      items: [
+        `Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`,
+      ],
     },
     {
       title: "Manufacturing Flow Updates",
@@ -265,7 +400,13 @@ EVO App by Optigo is a next-generation digital jewelry retailing and in-house so
     },
     {
       title: "Accounts",
-      items: [`GSTR Reports GSTR1 & GSTR2 Excel export.`, `GST Summary Report Excel export added.`, `Settlement Reports now include discount data.`, `Bill Settlement Report event-wise due amount display.`, `Account Freeze added option to filter active/inactive accounts.`],
+      items: [
+        `GSTR Reports GSTR1 & GSTR2 Excel export.`,
+        `GST Summary Report Excel export added.`,
+        `Settlement Reports now include discount data.`,
+        `Bill Settlement Report event-wise due amount display.`,
+        `Account Freeze added option to filter active/inactive accounts.`,
+      ],
     },
 
     {
@@ -327,7 +468,9 @@ Lead completion report with Excel option.
     },
     {
       title: "Important Updates",
-      items: [`Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`],
+      items: [
+        `Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`,
+      ],
     },
     {
       title: "Manufacturing Flow Updates",
@@ -388,19 +531,33 @@ you can print material wise bag print in it.`,
   "R71-72": [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Casting Process: In casting there will be option of dynamic transaction issue return department."],
+      items: [
+        "Casting Process: In casting there will be option of dynamic transaction issue return department.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Diamond Round off: If necessary, the diamond value can be shown for the client display level and its ledger with two decimal places after the item is in stock.", "Label updates: Labeling of club and merge jobs in stock books and sales.", "Jewellery Book: Excel export was added, along with the batch, PO, line, and certification numbers."],
+      items: [
+        "Diamond Round off: If necessary, the diamond value can be shown for the client display level and its ledger with two decimal places after the item is in stock.",
+        "Label updates: Labeling of club and merge jobs in stock books and sales.",
+        "Jewellery Book: Excel export was added, along with the batch, PO, line, and certification numbers.",
+      ],
     },
     {
       title: "E-Commerce Updates",
-      items: ["EComm-WebSites: The E-commerce app is now ready for iOS.", "Website: Album will display according to display order in it."],
+      items: [
+        "EComm-WebSites: The E-commerce app is now ready for iOS.",
+        "Website: Album will display according to display order in it.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["Gold demand Report: For the stock book and work-in-progress report, stock orders and job-based bifurcation were added.", "GSTR Report: added extra columns for exporting to customers, removed delivery charges, made it relevant to purchases, renamed the event, and fixed a few small bugs.", "Diamond: It has an additional size column. As requested, its effects will appear on prints.", "Search by stock: Click the design number link to see the material information."],
+      items: [
+        "Gold demand Report: For the stock book and work-in-progress report, stock orders and job-based bifurcation were added.",
+        "GSTR Report: added extra columns for exporting to customers, removed delivery charges, made it relevant to purchases, renamed the event, and fixed a few small bugs.",
+        "Diamond: It has an additional size column. As requested, its effects will appear on prints.",
+        "Search by stock: Click the design number link to see the material information.",
+      ],
     },
     {
       title: "Special Updates",
@@ -418,11 +575,19 @@ you can print material wise bag print in it.`,
   R70: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Factory Outward Page: Manufacturing process more speedy in factory outward.", "Casting Process: In casting there will be option of dynamic transaction issue return department.", "Order Type: Order Type display in transaction, engage material pages."],
+      items: [
+        "Factory Outward Page: Manufacturing process more speedy in factory outward.",
+        "Casting Process: In casting there will be option of dynamic transaction issue return department.",
+        "Order Type: Order Type display in transaction, engage material pages.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Reconcile: Stock Reconcile mismatch print provided and excel export in.", "Product cost analysis: From now onwards for  job work metal rate will fetch 0 in purchase cost and mrp.", "Job import: Outsource job import will be now available too"],
+      items: [
+        "Reconcile: Stock Reconcile mismatch print provided and excel export in.",
+        "Product cost analysis: From now onwards for  job work metal rate will fetch 0 in purchase cost and mrp.",
+        "Job import: Outsource job import will be now available too",
+      ],
     },
     {
       title: "E-Commerce Updates",
@@ -430,21 +595,37 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Common Updates",
-      items: ["Import MRP: From now onwards you can add import through import process too.", "Excel export: Stock book and sale report add  lineid and batch no in it.", "Daily statement: Added subhead and event name in it."],
+      items: [
+        "Import MRP: From now onwards you can add import through import process too.",
+        "Excel export: Stock book and sale report add  lineid and batch no in it.",
+        "Daily statement: Added subhead and event name in it.",
+      ],
     },
     {
       title: "Special Updates",
-      items: ["Loss Report Excel: Excel of data for FG outward department wise and total loss in it including issue and return in it.", "Quotation: From now onwards you can add multi labor in quotation for special findings.", "Policy master: You can add weight range through Exclude Finding from it.", "Icatalogue: calculation updates for multi labour applied in it.", "job print: you can print material wise bag print in it."],
+      items: [
+        "Loss Report Excel: Excel of data for FG outward department wise and total loss in it including issue and return in it.",
+        "Quotation: From now onwards you can add multi labor in quotation for special findings.",
+        "Policy master: You can add weight range through Exclude Finding from it.",
+        "Icatalogue: calculation updates for multi labour applied in it.",
+        "job print: you can print material wise bag print in it.",
+      ],
     },
   ],
   R69: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["WIP Report: If age 0-2 hours then it will show in blue color and Excel export including PO number and Line number in it."],
+      items: [
+        "WIP Report: If age 0-2 hours then it will show in blue color and Excel export including PO number and Line number in it.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Stock Book: Multiselection and priority colors have been added, similar to the sales jobs page.", "Set MRP: You can now update the MRP in terms of amount itself.", "Due Date Report: Added sales rep. in it."],
+      items: [
+        "Stock Book: Multiselection and priority colors have been added, similar to the sales jobs page.",
+        "Set MRP: You can now update the MRP in terms of amount itself.",
+        "Due Date Report: Added sales rep. in it.",
+      ],
     },
     {
       title: "Common Updates",
@@ -463,57 +644,110 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["QA Book: Provided QA pending status in it and when it moves to stock book will show aging accordingly", "PRO QC: Option of QC for production and sales in Tablet view."],
+      items: [
+        "QA Book: Provided QA pending status in it and when it moves to stock book will show aging accordingly",
+        "PRO QC: Option of QC for production and sales in Tablet view.",
+      ],
     },
   ],
   R68: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["MFG Location Selection Option: From now onwards while returning job to production, you need to select location.", "WIP Report: Added delivery batch in excel export.", "Finding Creation: Added logs for finding bags created along with criteria in grid itself.", "Engage Report: New report for logs for users who has engaged job init. History of last three months will be visible in it.", "Metal loss Summmary: Added pure wt column for return job.", "Transaction: Transaction Will show wax diamonds diffrenet in it.", "Melt updates: Refinery job melting entries will appear in the melt department, where loss will be computed."],
+      items: [
+        "MFG Location Selection Option: From now onwards while returning job to production, you need to select location.",
+        "WIP Report: Added delivery batch in excel export.",
+        "Finding Creation: Added logs for finding bags created along with criteria in grid itself.",
+        "Engage Report: New report for logs for users who has engaged job init. History of last three months will be visible in it.",
+        "Metal loss Summmary: Added pure wt column for return job.",
+        "Transaction: Transaction Will show wax diamonds diffrenet in it.",
+        "Melt updates: Refinery job melting entries will appear in the melt department, where loss will be computed.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Jewellery Book: Job reference number was added to the Excel export.", "Material Wise Reports: Added pure weight and finding details in it.", "Quick Search: Added history of splitted jobs from main job in it.", "Sale Return: From now onwards in sale return finding entries will show differently in it.", "Scan Job: Added two buttons in memo return and sale return.", "Closing Balance: Closing balance will show last paid date in it in customer."],
+      items: [
+        "Jewellery Book: Job reference number was added to the Excel export.",
+        "Material Wise Reports: Added pure weight and finding details in it.",
+        "Quick Search: Added history of splitted jobs from main job in it.",
+        "Sale Return: From now onwards in sale return finding entries will show differently in it.",
+        "Scan Job: Added two buttons in memo return and sale return.",
+        "Closing Balance: Closing balance will show last paid date in it in customer.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["Material Purchase: Price fetch auto in material purchase from price policy for diamond, colorstone and misc.", "Jobs: If design master have multimetal then multimetal flag will get auto fetch in it."],
+      items: [
+        "Material Purchase: Price fetch auto in material purchase from price policy for diamond, colorstone and misc.",
+        "Jobs: If design master have multimetal then multimetal flag will get auto fetch in it.",
+      ],
     },
   ],
   R67: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Procuremnt Report: WIP Report will get splitted into two parts  - Pending Rquest , bagging in it and other status in WIP . Also procurement will show pending material status too in it. A specific report has been added for the process, which shows pending jobs whose material is still pending and will stay different in this report until it is changed to work-in-progress.", "Engage Flow: Material will now be engaged at all times, regardless of whether the work is in issue or receive state. Report on procurement.", "Employee issue: A return link has been added, which can be accessed right here. The employee's return weight will be added to the metal rfbag."],
+      items: [
+        "Procuremnt Report: WIP Report will get splitted into two parts  - Pending Rquest , bagging in it and other status in WIP . Also procurement will show pending material status too in it. A specific report has been added for the process, which shows pending jobs whose material is still pending and will stay different in this report until it is changed to work-in-progress.",
+        "Engage Flow: Material will now be engaged at all times, regardless of whether the work is in issue or receive state. Report on procurement.",
+        "Employee issue: A return link has been added, which can be accessed right here. The employee's return weight will be added to the metal rfbag.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["BULK PURCHANGE PENDING: introduced a new page from which you can access the vendor-free tagging page.", "Material wise sale and stock report: Added vendor in it . Also added search option of filters such as color and size .", "Item master: The New HSN master is dynamic and and generated right here.", "Certificate import: Inserted a stamping column to retrive values in jobs where stamping is applied via import."],
+      items: [
+        "BULK PURCHANGE PENDING: introduced a new page from which you can access the vendor-free tagging page.",
+        "Material wise sale and stock report: Added vendor in it . Also added search option of filters such as color and size .",
+        "Item master: The New HSN master is dynamic and and generated right here.",
+        "Certificate import: Inserted a stamping column to retrive values in jobs where stamping is applied via import.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["Discard finding color: Color will now be bound by metal color instead of using a separate master to finding master color."],
+      items: [
+        "Discard finding color: Color will now be bound by metal color instead of using a separate master to finding master color.",
+      ],
     },
     {
       title: "Special Updates",
-      items: ["Retail Bill Updates: 1. The choice to apply taxes to invoices other than cgst+sgst and igst. 2. Added Go button in it to run it smoothly in tablet view. 3. Option of auto priviledge card in it and SMS facility for security purpose.", "Saving Scheme Updates: Cash date and reference number were added.", "Retail Order : Data will automatically replicate and establish a new order in it if an existing design number or work number is added."],
+      items: [
+        "Retail Bill Updates: 1. The choice to apply taxes to invoices other than cgst+sgst and igst. 2. Added Go button in it to run it smoothly in tablet view. 3. Option of auto priviledge card in it and SMS facility for security purpose.",
+        "Saving Scheme Updates: Cash date and reference number were added.",
+        "Retail Order : Data will automatically replicate and establish a new order in it if an existing design number or work number is added.",
+      ],
     },
   ],
   R65: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Loss Recover: From now if job return to production and want to recover loss through transaction(MFG) page, it will not allow to recover FG outward loss from transaction page. It will only allow to recover current Production loss from transaction(MFG) page.", "Return to Fatory: Have updated the technology to streamline the factory return and factory outward stock book processes.", "Speed Tasks: It operates faster in it when items are deleted and restored from bill.", "Recast Jobs: You may now dynamically add tags and reasons through masters and generate an Excel output as of now.", "Procurement Report: WIP Report will lget splitted into two parts - Pending Rquest, bagging in it and other status in WIP. Also procurement will show pending material status too."],
+      items: [
+        "Loss Recover: From now if job return to production and want to recover loss through transaction(MFG) page, it will not allow to recover FG outward loss from transaction page. It will only allow to recover current Production loss from transaction(MFG) page.",
+        "Return to Fatory: Have updated the technology to streamline the factory return and factory outward stock book processes.",
+        "Speed Tasks: It operates faster in it when items are deleted and restored from bill.",
+        "Recast Jobs: You may now dynamically add tags and reasons through masters and generate an Excel output as of now.",
+        "Procurement Report: WIP Report will lget splitted into two parts - Pending Rquest, bagging in it and other status in WIP. Also procurement will show pending material status too.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["FG Stock Summary: You may now view date search stock for jewelry on ZForm.", "Repairing Report New: Columns for metal loss and pure weight were added."],
+      items: [
+        "FG Stock Summary: You may now view date search stock for jewelry on ZForm.",
+        "Repairing Report New: Columns for metal loss and pure weight were added.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["Material Wise Stock Report: This report can be viewed, along with the job number.", "Issue Material: Notes can be added to it and modified as needed.", "Repair Bill: Reparing flow has been adjusted, and as of right now, a different effect will also be shown in the ledger.", "Memo to Sale for Customer Memo : Memo amounts in bills will always be carried over into billing.", "Quote Updates : updated adjustments in bulk for the added size and quantity options. Additionally, bulk finidngs can be assigned and removed from it."],
+      items: [
+        "Material Wise Stock Report: This report can be viewed, along with the job number.",
+        "Issue Material: Notes can be added to it and modified as needed.",
+        "Repair Bill: Reparing flow has been adjusted, and as of right now, a different effect will also be shown in the ledger.",
+        "Memo to Sale for Customer Memo : Memo amounts in bills will always be carried over into billing.",
+        "Quote Updates : updated adjustments in bulk for the added size and quantity options. Additionally, bulk finidngs can be assigned and removed from it.",
+      ],
     },
     {
       title: "Special Updates",
-      items: ["Type in Diamond, ColorStone and Misc : Have included a type in the content to define it with different HSN and TAX and give information about it throughout the entire flow."],
+      items: [
+        "Type in Diamond, ColorStone and Misc : Have included a type in the content to define it with different HSN and TAX and give information about it throughout the entire flow.",
+      ],
     },
   ],
   R64: [
@@ -551,25 +785,46 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Common Updates",
-      items: ["Help: You can access help for various features by clicking the 'i' icon on each page. For example, Product alteration, split transfer, advance pricing policy, material sale, etc."],
+      items: [
+        "Help: You can access help for various features by clicking the 'i' icon on each page. For example, Product alteration, split transfer, advance pricing policy, material sale, etc.",
+      ],
     },
     {
       title: "Special Updates",
-      items: ["iCatalog: You can accept offline exhibition and travel orders with the help of iCatalog.", "Jadau Process Flow: The Jadau production process involves splitting a single job based on the requested ETA, according to the specific type of Jadau, streamlining the production workflow."],
+      items: [
+        "iCatalog: You can accept offline exhibition and travel orders with the help of iCatalog.",
+        "Jadau Process Flow: The Jadau production process involves splitting a single job based on the requested ETA, according to the specific type of Jadau, streamlining the production workflow.",
+      ],
     },
   ],
   R63: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["FG Outward: From now onwards FG outward will be possible only if the employee has its sales location rights else not. Brand filter added in advance filter of FG detail report.", "Finding Conversion: Currently if metal bag issued in finding conversion then bag gets locked and cannot be used in stock transfer, From now onwards you can use it.", "WIP Report Print: From now, The WIP report print will be show item list according to the promise date (the one nearest to the promise date will appear first)."],
+      items: [
+        "FG Outward: From now onwards FG outward will be possible only if the employee has its sales location rights else not. Brand filter added in advance filter of FG detail report.",
+        "Finding Conversion: Currently if metal bag issued in finding conversion then bag gets locked and cannot be used in stock transfer, From now onwards you can use it.",
+        "WIP Report Print: From now, The WIP report print will be show item list according to the promise date (the one nearest to the promise date will appear first).",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["Design Master: Default size added will show in grid list and design master view.", "Customer: Common action button in customer for operating multiple customer actions such as activation, price policy, customer type through a single click.", "Online Designs: Option of get back in online designs in ready to move.", "HUID and Certification: Currently if HUID not added then stamping details not getting saved. From now onwards it will get saved with default pcs as 1 in it.", "User rights: From now onwards employee too will have rights for user permission tab according to rights based."],
+      items: [
+        "Design Master: Default size added will show in grid list and design master view.",
+        "Customer: Common action button in customer for operating multiple customer actions such as activation, price policy, customer type through a single click.",
+        "Online Designs: Option of get back in online designs in ready to move.",
+        "HUID and Certification: Currently if HUID not added then stamping details not getting saved. From now onwards it will get saved with default pcs as 1 in it.",
+        "User rights: From now onwards employee too will have rights for user permission tab according to rights based.",
+      ],
     },
     {
       title: "Special Updates",
-      items: ["Sales QC process: You will be able to view Order weight too in it.", "GSTR Report: Have made proper details in GSTR Report according to government norms and rules.", "Stylebank import and export: Can validate excel import for not creating any new masters in it and Its setting based on our side.", "Due Date Report: Have updated bill settlement module. From now onwards you can view due date according to settlement too.", "Concept: Added brand in concept PD Order and jobs - We have added brand filter in PD order and jobs page."],
+      items: [
+        "Sales QC process: You will be able to view Order weight too in it.",
+        "GSTR Report: Have made proper details in GSTR Report according to government norms and rules.",
+        "Stylebank import and export: Can validate excel import for not creating any new masters in it and Its setting based on our side.",
+        "Due Date Report: Have updated bill settlement module. From now onwards you can view due date according to settlement too.",
+        "Concept: Added brand in concept PD Order and jobs - We have added brand filter in PD order and jobs page.",
+      ],
     },
   ],
   R62: [
@@ -585,7 +840,10 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail Flow Updates",
-      items: ["Handling Charges: If company diamonds then also you can apply handling charges in it from billing. If diamond is of vendor then no handling will get applied in it while purchase.", "Irys RFID integration: Technical Updates in it as for making process fast and easy in it."],
+      items: [
+        "Handling Charges: If company diamonds then also you can apply handling charges in it from billing. If diamond is of vendor then no handling will get applied in it while purchase.",
+        "Irys RFID integration: Technical Updates in it as for making process fast and easy in it.",
+      ],
     },
     {
       title: "Common Updates",
@@ -602,17 +860,31 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["Order Info: Now you can view PO number, line number, and batch number in this report and can do excel export.", "Memo IGI Excel: Have added two extra columns in it Design no and job no. Also displayed gross weight and diamond weight in two decimals.", "Easy Pages: Added following two pages for simplification of flow - Mfg Easy page and Accounts Easy page."],
+      items: [
+        "Order Info: Now you can view PO number, line number, and batch number in this report and can do excel export.",
+        "Memo IGI Excel: Have added two extra columns in it Design no and job no. Also displayed gross weight and diamond weight in two decimals.",
+        "Easy Pages: Added following two pages for simplification of flow - Mfg Easy page and Accounts Easy page.",
+      ],
     },
   ],
   R61: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Mount and Finding Scrap Return : From now onwards you can directly convert finding and mount scrap to metal from transaction page.", "Dust Collector Report : Added Date filter in it.", "FG Detail Date Wise New   : We have added Category in  it.", "WIP Report  : Added delay hours in it for current department along with sorting    You can  add planing date  for Multiple jobs too.", "WIP Reconcile : From now onwards pending request jobs too will get scanned in it."],
+      items: [
+        "Mount and Finding Scrap Return : From now onwards you can directly convert finding and mount scrap to metal from transaction page.",
+        "Dust Collector Report : Added Date filter in it.",
+        "FG Detail Date Wise New   : We have added Category in  it.",
+        "WIP Report  : Added delay hours in it for current department along with sorting    You can  add planing date  for Multiple jobs too.",
+        "WIP Reconcile : From now onwards pending request jobs too will get scanned in it.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["MRP Updates : If job added in MRP and added discount in it in memo then in billing by default same Price will fetch in it.", "Stock Purchase Import : From now onwards Memo Purchase import will work too.", "Lock Validation : From now onwards if E-invoice created then such invoices will get lcoked. For special permission you can unlock it from Admin."],
+      items: [
+        "MRP Updates : If job added in MRP and added discount in it in memo then in billing by default same Price will fetch in it.",
+        "Stock Purchase Import : From now onwards Memo Purchase import will work too.",
+        "Lock Validation : From now onwards if E-invoice created then such invoices will get lcoked. For special permission you can unlock it from Admin.",
+      ],
     },
     {
       title: "Common Updates",
@@ -635,35 +907,62 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["NOTE  : Topics are Reflect to your account only its relevant to your Account.", "Icatalogue : You can now add company type wise price master."],
+      items: [
+        "NOTE  : Topics are Reflect to your account only its relevant to your Account.",
+        "Icatalogue : You can now add company type wise price master.",
+      ],
     },
   ],
   R60: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Split Job in Factory : From now, it is possible to split the metal weight from main job into two separate jobs, each of which will be processed differently for the further manufacturing process.", "RM Stock  : Added Group For production status so that you can get multiple department wise production status in RM stock .", "Conversion  : Purity Conversion will now work perfectly if you have more than one pure metal."],
+      items: [
+        "Split Job in Factory : From now, it is possible to split the metal weight from main job into two separate jobs, each of which will be processed differently for the further manufacturing process.",
+        "RM Stock  : Added Group For production status so that you can get multiple department wise production status in RM stock .",
+        "Conversion  : Purity Conversion will now work perfectly if you have more than one pure metal.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Customer Registration : Customers who create  using Customer Registration their mobile numbers will be automatically verified."],
+      items: [
+        "Customer Registration : Customers who create  using Customer Registration their mobile numbers will be automatically verified.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["Employee Excel Export : Added some fields such as emergency contact person, emergency contact number.", "Salary Report : In the Salary Report, add a column for gms and pcs.", "Item Wise Audit Report : Included tax amount for sale event in this report.", "Design Collection : We have added a Gender filter to the advance search.", "Excel Export : Kalyan Export for Billing was added.", "Multicurrency : From now you can add labour and delivery charges in labor set and wastage price according to the currencies.", "Line id import : : Using the line id import feature, you can import line id through excel according to order."],
+      items: [
+        "Employee Excel Export : Added some fields such as emergency contact person, emergency contact number.",
+        "Salary Report : In the Salary Report, add a column for gms and pcs.",
+        "Item Wise Audit Report : Included tax amount for sale event in this report.",
+        "Design Collection : We have added a Gender filter to the advance search.",
+        "Excel Export : Kalyan Export for Billing was added.",
+        "Multicurrency : From now you can add labour and delivery charges in labor set and wastage price according to the currencies.",
+        "Line id import : : Using the line id import feature, you can import line id through excel according to order.",
+      ],
     },
     {
       title: "Special Updates",
-      items: ["NOTE  : Topics are Reflect to your account only its relevant to your Account.", "Icatalogue : You can now add company type wise price master."],
+      items: [
+        "NOTE  : Topics are Reflect to your account only its relevant to your Account.",
+        "Icatalogue : You can now add company type wise price master.",
+      ],
     },
   ],
   R59: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Bulk Flow in Manufacturing : Now you can use single job flow for multiple\n                                    items and split in sales.", "Worker Without Finding summary : Added recalculate button for data refreshed.", "Order Status Report : You can see  the job  running status according to SKU in order status report.", "WIP Reconcile Report : Such jobs will no longer be counted in WIP when their weight is 0."],
+      items: [
+        "Bulk Flow in Manufacturing : Now you can use single job flow for multiple\n                                    items and split in sales.",
+        "Worker Without Finding summary : Added recalculate button for data refreshed.",
+        "Order Status Report : You can see  the job  running status according to SKU in order status report.",
+        "WIP Reconcile Report : Such jobs will no longer be counted in WIP when their weight is 0.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Received Repair : Finding weight will now be taken into received repair jobs."],
+      items: [
+        "Received Repair : Finding weight will now be taken into received repair jobs.",
+      ],
     },
     {
       title: "Common Updates",
@@ -681,17 +980,27 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["Payroll Update 1.Now admin will play role in salary report too."],
+      items: [
+        "Payroll Update 1.Now admin will play role in salary report too.",
+      ],
     },
   ],
   R58: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["Metal conversion : We are updating the conversion formula for lower purity to higher purity\n              (e.g. 14K --> 18K) as per below Current Formula : 1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity) Converted gms = (1000*58) / 75 = 773.333 Upcoming Formula : 1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity) Require 24k gold to be added = ((75-58)*1000) / (99.99-58.00) = 404.858\n              \n              Converted gms = 1000gms + 404.858 = 1404.858", "Wip Reconcile Report : Generated WIP Reconcile Report in which data will get saved and can view\n              pending jobs in it."],
+      items: [
+        "Metal conversion : We are updating the conversion formula for lower purity to higher purity\n              (e.g. 14K --> 18K) as per below Current Formula : 1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity) Converted gms = (1000*58) / 75 = 773.333 Upcoming Formula : 1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity) Require 24k gold to be added = ((75-58)*1000) / (99.99-58.00) = 404.858\n              \n              Converted gms = 1000gms + 404.858 = 1404.858",
+        "Wip Reconcile Report : Generated WIP Reconcile Report in which data will get saved and can view\n              pending jobs in it.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Sales Report : Now you can make analysis of Offline Orders Vs Online Orders through\n              filter in sale report and jewellery book in advance search.", "Customer Registration : Minor UI updates by changing position of it as first quick sale, cash\n              sale and then registration form.", "Billing : From now onwards if rate not applied for company in diamond,colorstone and misc then it\n              will show alert in save and continue button too.", "Bill Settlement : From now onwards amount will settle including discount in it."],
+      items: [
+        "Sales Report : Now you can make analysis of Offline Orders Vs Online Orders through\n              filter in sale report and jewellery book in advance search.",
+        "Customer Registration : Minor UI updates by changing position of it as first quick sale, cash\n              sale and then registration form.",
+        "Billing : From now onwards if rate not applied for company in diamond,colorstone and misc then it\n              will show alert in save and continue button too.",
+        "Bill Settlement : From now onwards amount will settle including discount in it.",
+      ],
     },
     {
       title: "Common Updates",
@@ -711,17 +1020,26 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["Dashboard Amendment : Update some formulas in metal info and hyper link will get redirect to its\n              respective place too."],
+      items: [
+        "Dashboard Amendment : Update some formulas in metal info and hyper link will get redirect to its\n              respective place too.",
+      ],
     },
   ],
   R57: [
     {
       title: "Manufacturing Flow Updates",
-      items: ["FG Detail New and Today Fg Details New : Added location and job type filter in it .", "Plastic Batch : Sprue wt is compulsory in it ,without sprue wt batch will not get save."],
+      items: [
+        "FG Detail New and Today Fg Details New : Added location and job type filter in it .",
+        "Plastic Batch : Sprue wt is compulsory in it ,without sprue wt batch will not get save.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Jewellery Sale : You will get alert once round off is not added in bill.", "Outsource Report : If order is assigned to vendor then it will show order weight and if FG\n              Studded then will show stock weight in it .", "Stock Purchase : We have issued mix diamonds and take return sieve size wise, then diamonds will\n              be auto deducted from the mix in stock."],
+      items: [
+        "Jewellery Sale : You will get alert once round off is not added in bill.",
+        "Outsource Report : If order is assigned to vendor then it will show order weight and if FG\n              Studded then will show stock weight in it .",
+        "Stock Purchase : We have issued mix diamonds and take return sieve size wise, then diamonds will\n              be auto deducted from the mix in stock.",
+      ],
     },
     {
       title: "Common Updates",
@@ -741,7 +1059,13 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["Whatsapp Events : From now onwards whatsapp msg sent option is available in General Ledger, Sales\n              Return, Issue Material, Return Material and Memo Issue.", "E-Invoice : Option of E-invoice added in General Sale, General Sale Return, Material Sale Return.", "Dashboard : You can view your company stock numbers how much metal,diamond, color stone,\n              solitaire is in, out and assigned to vendor.", "IRIS RFID Scan : Implementation of IRIS RFID for jewellery sale, Quotation and Memo .", "Bulk Transaction : You can issue multiple job in production for it to single employee at a time."],
+      items: [
+        "Whatsapp Events : From now onwards whatsapp msg sent option is available in General Ledger, Sales\n              Return, Issue Material, Return Material and Memo Issue.",
+        "E-Invoice : Option of E-invoice added in General Sale, General Sale Return, Material Sale Return.",
+        "Dashboard : You can view your company stock numbers how much metal,diamond, color stone,\n              solitaire is in, out and assigned to vendor.",
+        "IRIS RFID Scan : Implementation of IRIS RFID for jewellery sale, Quotation and Memo .",
+        "Bulk Transaction : You can issue multiple job in production for it to single employee at a time.",
+      ],
     },
   ],
   R56: [
@@ -760,7 +1084,13 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Retail Bill : Now you can update metal rate in it.\n              Also some label and UI updates in it.", "Retail order : Some fine tuning in it which includes\n              label and UI updates in it.", "Retail Bill : From now onwards you will get alert\n              memo and billing wise. You can add such products list wise\n              too.", "Retail Bill : Now onwards in billing by default, all\n              values will come from retail order. you can even settle\n              received metal at the time of order in billing itself.", "Sales : You can add job wise remark in product info."],
+      items: [
+        "Retail Bill : Now you can update metal rate in it.\n              Also some label and UI updates in it.",
+        "Retail order : Some fine tuning in it which includes\n              label and UI updates in it.",
+        "Retail Bill : From now onwards you will get alert\n              memo and billing wise. You can add such products list wise\n              too.",
+        "Retail Bill : Now onwards in billing by default, all\n              values will come from retail order. you can even settle\n              received metal at the time of order in billing itself.",
+        "Sales : You can add job wise remark in product info.",
+      ],
     },
     {
       title: "E-Commerce Updates",
@@ -800,11 +1130,26 @@ you can print material wise bag print in it.`,
   R55: [
     {
       title: "Manufacturing flow updates",
-      items: ["FG Summary : Outward batch replace with FG Summary page.\n                (New batch data are display in it )\n                for image view please refer stock book > image view .", "Filters : Now you can view Job work and sales order\n                filter in WIP and Today FG Detail New, FG Detail New, FG\n                Detail Date Wise.", "WIP Reconcile : Now you can reconcile WIP jobs too.", "Product Guide : Added job instructions in it & Order Size and Customer Code added too in it.", "Material Wise WIP : Plastic batch jobs too will be available in it."],
+      items: [
+        "FG Summary : Outward batch replace with FG Summary page.\n                (New batch data are display in it )\n                for image view please refer stock book > image view .",
+        "Filters : Now you can view Job work and sales order\n                filter in WIP and Today FG Detail New, FG Detail New, FG\n                Detail Date Wise.",
+        "WIP Reconcile : Now you can reconcile WIP jobs too.",
+        "Product Guide : Added job instructions in it & Order Size and Customer Code added too in it.",
+        "Material Wise WIP : Plastic batch jobs too will be available in it.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Billing :", "Now you can add package weight in bulk jobs even after\n                  billing.", "Now you can apply setting rate in billing manually too.", "Pc wise labor can be applied in sale and purchase.", "You can Convert MRP to customer policy in billing.", "Retail Order : Retail Order flow is now ready to use\n                along with auto entry of received material from customer.", "Sale : Now you can change Bill mode from labour to jewellery and vice versa . Also added option\n                changing HSN in jewellery book too.", "Bill : Now you can apply handling job wise diamond wise differently too."],
+      items: [
+        "Billing :",
+        "Now you can add package weight in bulk jobs even after\n                  billing.",
+        "Now you can apply setting rate in billing manually too.",
+        "Pc wise labor can be applied in sale and purchase.",
+        "You can Convert MRP to customer policy in billing.",
+        "Retail Order : Retail Order flow is now ready to use\n                along with auto entry of received material from customer.",
+        "Sale : Now you can change Bill mode from labour to jewellery and vice versa . Also added option\n                changing HSN in jewellery book too.",
+        "Bill : Now you can apply handling job wise diamond wise differently too.",
+      ],
     },
     {
       title: "E-Commerce Updates",
@@ -812,7 +1157,15 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Common Updates",
-      items: ["Pure wt : Now you can see metal, finding and mount pure wt in locker summary .", "Design Wt variation : All jobs can be viewed in it.", "PD Order : Option of update HSN in PD Order through\n                jobs page.", "Issue Link : Added job wise issue link from Outsource\n                and repair.", "RM Report new : Now you can view RM Report for\n                pending orders manufacturer wise.", "Estimate Print : We have other charges and setting\n                charges in this print in billing.", "Job wise issue material : You will able to see job\n                wise issue material of customer and company in bold."],
+      items: [
+        "Pure wt : Now you can see metal, finding and mount pure wt in locker summary .",
+        "Design Wt variation : All jobs can be viewed in it.",
+        "PD Order : Option of update HSN in PD Order through\n                jobs page.",
+        "Issue Link : Added job wise issue link from Outsource\n                and repair.",
+        "RM Report new : Now you can view RM Report for\n                pending orders manufacturer wise.",
+        "Estimate Print : We have other charges and setting\n                charges in this print in billing.",
+        "Job wise issue material : You will able to see job\n                wise issue material of customer and company in bold.",
+      ],
     },
     {
       title: "Special Updates",
@@ -830,11 +1183,22 @@ you can print material wise bag print in it.`,
   R54: [
     {
       title: "Manufacturing flow updates",
-      items: ["WIP Reconcile : Now you can reconcile WIP jobs too.", "Deliver Wise Loss : Added summary report in which you can track loss department group wise and\n                delivery batch wise loss.", "Filters : Now you can view Job work and sales order filter in WIP and Finished goods report", "WIP Reconcile : Now you can reconcile WIP jobs too", "Product Gide : Added job instructions in it"],
+      items: [
+        "WIP Reconcile : Now you can reconcile WIP jobs too.",
+        "Deliver Wise Loss : Added summary report in which you can track loss department group wise and\n                delivery batch wise loss.",
+        "Filters : Now you can view Job work and sales order filter in WIP and Finished goods report",
+        "WIP Reconcile : Now you can reconcile WIP jobs too",
+        "Product Gide : Added job instructions in it",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Billing :", "Now you can add package weight in bulk jobs even after billing", "Pc wise labour can be applied in sale and purchase.", "You can Convert MRP to customer policy in billing ."],
+      items: [
+        "Billing :",
+        "Now you can add package weight in bulk jobs even after billing",
+        "Pc wise labour can be applied in sale and purchase.",
+        "You can Convert MRP to customer policy in billing .",
+      ],
     },
     {
       title: "E-Commerce Updates",
@@ -842,7 +1206,15 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Common Updates",
-      items: ["Pure wt : Now you can see metal, finding and mount pure wt in locker summary .", "Design Wt variation : All jobs can be viewed in it.", "PD Order : Option of update HSN in PD Order through\n                jobs page.", "Issue Link : Added job wise issue link from Outsource\n                and repair.", "RM Report new : Now you can view RM Report for\n                pending orders manufacturer wise.", "Estimate Print : We have other charges and setting\n                charges in this print in billing.", "Job wise issue material : You will able to see job\n                wise issue material of customer and company in bold."],
+      items: [
+        "Pure wt : Now you can see metal, finding and mount pure wt in locker summary .",
+        "Design Wt variation : All jobs can be viewed in it.",
+        "PD Order : Option of update HSN in PD Order through\n                jobs page.",
+        "Issue Link : Added job wise issue link from Outsource\n                and repair.",
+        "RM Report new : Now you can view RM Report for\n                pending orders manufacturer wise.",
+        "Estimate Print : We have other charges and setting\n                charges in this print in billing.",
+        "Job wise issue material : You will able to see job\n                wise issue material of customer and company in bold.",
+      ],
     },
     {
       title: "Special Updates",
@@ -859,11 +1231,23 @@ you can print material wise bag print in it.`,
   R53: [
     {
       title: "Manufacturing flow updates",
-      items: ["WIP Report : In advance search added multiple customer, order search in it.", "Metal Loss Summary : We have emplyee name too.", "Casting : From nowownwards expected wight can be added in it.", "Casting : In Silver casting , you can add alloy too as in Gold.", "Delivery Date wise Report : Added report in which you can see summary count delivery date wise\n                customer wise and deaprtment grouping wise.", "Deliver Wise Loss : Added summary report in which you can track loss department group wise and\n                delivery batch wise loss.", "Delivery wise WIP : Added report in which you can see summary count delivery date wise customer wise\n                and deaprtment grouping wise."],
+      items: [
+        "WIP Report : In advance search added multiple customer, order search in it.",
+        "Metal Loss Summary : We have emplyee name too.",
+        "Casting : From nowownwards expected wight can be added in it.",
+        "Casting : In Silver casting , you can add alloy too as in Gold.",
+        "Delivery Date wise Report : Added report in which you can see summary count delivery date wise\n                customer wise and deaprtment grouping wise.",
+        "Deliver Wise Loss : Added summary report in which you can track loss department group wise and\n                delivery batch wise loss.",
+        "Delivery wise WIP : Added report in which you can see summary count delivery date wise customer wise\n                and deaprtment grouping wise.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Retail Bill : You can less weight from job in retail bill.", "Auto merge : From now onwards you can merge job from Stock Purchase itself. Special Notes : This module is not reversible so be sure to do this operation as wanted.", 'Bulk Purchase : From now onwards you can add quantity in tagging even if not added in bulk through\n                adding special character as "-1" in quanity.'],
+      items: [
+        "Retail Bill : You can less weight from job in retail bill.",
+        "Auto merge : From now onwards you can merge job from Stock Purchase itself. Special Notes : This module is not reversible so be sure to do this operation as wanted.",
+        'Bulk Purchase : From now onwards you can add quantity in tagging even if not added in bulk through\n                adding special character as "-1" in quanity.',
+      ],
     },
     {
       title: "Common Updates",
@@ -883,7 +1267,11 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["Group by Solitaire shape : By use of parent design no will make one group of design by solitaire shape\n                and will change design with its detail by selection of solitaire shape from website.", "Mobile view banners : To complete responsive or mobile view of our E-commerce website dynamic mobile\n                banner upload is available for main banner, product banner, category wise banner, default banner.", "360 image view : Now Product 360 image view is available to update on website like image and video."],
+      items: [
+        "Group by Solitaire shape : By use of parent design no will make one group of design by solitaire shape\n                and will change design with its detail by selection of solitaire shape from website.",
+        "Mobile view banners : To complete responsive or mobile view of our E-commerce website dynamic mobile\n                banner upload is available for main banner, product banner, category wise banner, default banner.",
+        "360 image view : Now Product 360 image view is available to update on website like image and video.",
+      ],
     },
   ],
   R52: [
@@ -923,7 +1311,11 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Jewellery Book : Now merged items will be viewed single in this book.", "Sale : Now if unmerged from billing itself, the price policy will get recalculated in it.", "Retail bill : Now customer address will shown here and after bill generated you can change customer\n                  and all the events will be moved to updated customer."],
+      items: [
+        "Jewellery Book : Now merged items will be viewed single in this book.",
+        "Sale : Now if unmerged from billing itself, the price policy will get recalculated in it.",
+        "Retail bill : Now customer address will shown here and after bill generated you can change customer\n                  and all the events will be moved to updated customer.",
+      ],
     },
     {
       title: "Common Updates",
@@ -943,7 +1335,10 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Special Updates",
-      items: ["SMS : Now you can use whats app instead of SMS events . Instructions for it will be given in special\n                  page in advance for it.", "HSN : HSN is mandatory in quotation, sale order and all other events."],
+      items: [
+        "SMS : Now you can use whats app instead of SMS events . Instructions for it will be given in special\n                  page in advance for it.",
+        "HSN : HSN is mandatory in quotation, sale order and all other events.",
+      ],
     },
   ],
   R51: [
@@ -960,11 +1355,24 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Retail Bill : From now onwards you can view pure weight in it.", "Customer Registration: From now onwards in cash saleit will get redirect to retail bill.", "Stock Purchase : From now onwars you can add pcs too in tag.", "Customer Registration : Added shortcut for going to retail bill."],
+      items: [
+        "Retail Bill : From now onwards you can view pure weight in it.",
+        "Customer Registration: From now onwards in cash saleit will get redirect to retail bill.",
+        "Stock Purchase : From now onwars you can add pcs too in tag.",
+        "Customer Registration : Added shortcut for going to retail bill.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["CRM log Reports : We have added two reports in it Weekly logs and sales Rep wise logs as added in CRM\n                in call log.", "Quick tagging updates : You will see wastage as read only in it.", "Stock Availbility : By default company jobs will not show there.If check box on then you will able to\n                view it.", "Stock Book : Added filter for bulk jobs and merge jobs in it.", "Order RM Report : Now if finding checkbox off then finding weight will get merge on metal weight.", "Hash Tag : Added total counts in it and filter too in design master advance search.", "Sale Export : We have added field of FG date too in this export."],
+      items: [
+        "CRM log Reports : We have added two reports in it Weekly logs and sales Rep wise logs as added in CRM\n                in call log.",
+        "Quick tagging updates : You will see wastage as read only in it.",
+        "Stock Availbility : By default company jobs will not show there.If check box on then you will able to\n                view it.",
+        "Stock Book : Added filter for bulk jobs and merge jobs in it.",
+        "Order RM Report : Now if finding checkbox off then finding weight will get merge on metal weight.",
+        "Hash Tag : Added total counts in it and filter too in design master advance search.",
+        "Sale Export : We have added field of FG date too in this export.",
+      ],
     },
   ],
   R50: [
@@ -1037,11 +1445,25 @@ you can print material wise bag print in it.`,
   R49: [
     {
       title: "Manufacturing flow updates",
-      items: ["Now in bag print material codes will be displayed.", "Now order type fillter is available in Stock book and WIP Report.", "In WIP Report make type fillter is available in advance search.", "During making sale order you will see add in gross wt option if the check box is on then wt will be\n                added in gross wt.", "New module is implemented in software for plastic.", "Now in material history you can find detech material entry.", "In stock melt you can add partial weight.", "In outsource report diamond and colorstone pcs & wt column will be displayed.", "In setting report now you can see misc details in it."],
+      items: [
+        "Now in bag print material codes will be displayed.",
+        "Now order type fillter is available in Stock book and WIP Report.",
+        "In WIP Report make type fillter is available in advance search.",
+        "During making sale order you will see add in gross wt option if the check box is on then wt will be\n                added in gross wt.",
+        "New module is implemented in software for plastic.",
+        "Now in material history you can find detech material entry.",
+        "In stock melt you can add partial weight.",
+        "In outsource report diamond and colorstone pcs & wt column will be displayed.",
+        "In setting report now you can see misc details in it.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Now in stock purchase you will create a new tag with new tag entry button without selecting collection,\n                category and subcategory.", "Now you can enter customer code when you are converting jobs in stock book.", "When you are making retail sale bill payment must be clear (Due payment is not allowed) to save the\n                bill."],
+      items: [
+        "Now in stock purchase you will create a new tag with new tag entry button without selecting collection,\n                category and subcategory.",
+        "Now you can enter customer code when you are converting jobs in stock book.",
+        "When you are making retail sale bill payment must be clear (Due payment is not allowed) to save the\n                bill.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1072,11 +1494,15 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Product Altereation : Now in product alteration you can see newely added material in print."],
+      items: [
+        "Product Altereation : Now in product alteration you can see newely added material in print.",
+      ],
     },
     {
       title: "E-Commerce Updates",
-      items: ["Fillter : On diamond store you can apply and reset fillter according to your choice."],
+      items: [
+        "Fillter : On diamond store you can apply and reset fillter according to your choice.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1096,15 +1522,24 @@ you can print material wise bag print in it.`,
   R47: [
     {
       title: "Manufacturing flow updates",
-      items: ["RM Reconcile : You can match your physical stock with RM Reconcile process.", "SKU No & Line No : Now SKU No and line no will be dislayed on jobs page."],
+      items: [
+        "RM Reconcile : You can match your physical stock with RM Reconcile process.",
+        "SKU No & Line No : Now SKU No and line no will be dislayed on jobs page.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["In retail bill solitaire diamond details will be displayed and you can customise all other details also\n                you can purchase old metal."],
+      items: [
+        "In retail bill solitaire diamond details will be displayed and you can customise all other details also\n                you can purchase old metal.",
+      ],
     },
     {
       title: "E-Commerce Updates",
-      items: ["Banner : Now you can remove banner from banner upload page.", "EVO : Now you can add new customers using our EVO app.", "Metal Purity : Now onwards you can see metal purity on your website."],
+      items: [
+        "Banner : Now you can remove banner from banner upload page.",
+        "EVO : Now you can add new customers using our EVO app.",
+        "Metal Purity : Now onwards you can see metal purity on your website.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1124,11 +1559,22 @@ you can print material wise bag print in it.`,
   R46B: [
     {
       title: "Manufacturing flow updates",
-      items: ["We have implemented a new report where you can find issued material in it. This report is available in [Books Keeping > Report > Job Wise Statement] .", "A new dispatch button added it will work same as issue material.", "Brand and Default size field has been added in cad verification."],
+      items: [
+        "We have implemented a new report where you can find issued material in it. This report is available in [Books Keeping > Report > Job Wise Statement] .",
+        "A new dispatch button added it will work same as issue material.",
+        "Brand and Default size field has been added in cad verification.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Now you can apply loss percentage during making stock purchase entry. You can pre define it from\n                wastage price.", "Now you can return material job wise during stock purchase.", "Now customer's city, state will be displayed on memo, sale,sale return and qoute print.", "Now you can calculate metal price from online designs page.", "In outsource report net weight will be displayed as pure weight.", "Now you can calculate all from combination calculate button."],
+      items: [
+        "Now you can apply loss percentage during making stock purchase entry. You can pre define it from\n                wastage price.",
+        "Now you can return material job wise during stock purchase.",
+        "Now customer's city, state will be displayed on memo, sale,sale return and qoute print.",
+        "Now you can calculate metal price from online designs page.",
+        "In outsource report net weight will be displayed as pure weight.",
+        "Now you can calculate all from combination calculate button.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1220,11 +1666,18 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Now you can add package weight in quick tagging", "Now you can add jobs whose mrp has been set.", "We have imaplemented a new report as sales analysis which is available in [Books Keeping > Report >\n                  Sales Analysis]", "We have imaplemented a new report as Pending to purchase which is available in [Books Keeping >\n                  Report > Pending to purchase] where you will get details of jobs whose process of stock purchase\n                is not done."],
+      items: [
+        "Now you can add package weight in quick tagging",
+        "Now you can add jobs whose mrp has been set.",
+        "We have imaplemented a new report as sales analysis which is available in [Books Keeping > Report >\n                  Sales Analysis]",
+        "We have imaplemented a new report as Pending to purchase which is available in [Books Keeping >\n                  Report > Pending to purchase] where you will get details of jobs whose process of stock purchase\n                is not done.",
+      ],
     },
     {
       title: "E-Commerce Updates",
-      items: ["Now you can set mrp of product in backend from mrp price which is available in [Ecatlog & backoffice\n                  > Price calculation > MRP Price]"],
+      items: [
+        "Now you can set mrp of product in backend from mrp price which is available in [Ecatlog & backoffice\n                  > Price calculation > MRP Price]",
+      ],
     },
     {
       title: "Common Updates",
@@ -1259,7 +1712,13 @@ you can print material wise bag print in it.`,
   R44: [
     {
       title: "Manufacturing flow updates",
-      items: ["Now in jobs in casting if you had selected two different color jobs then you will get an alert message.", "Now you can see jobs status as per your production.", "Now in quick search you can see jobs location.", "Now in material wise wip you can view customer name and company name too.", "If you have not selected on button in MFG Department for specific department than you can not unlock\n                material in perticular department."],
+      items: [
+        "Now in jobs in casting if you had selected two different color jobs then you will get an alert message.",
+        "Now you can see jobs status as per your production.",
+        "Now in quick search you can see jobs location.",
+        "Now in material wise wip you can view customer name and company name too.",
+        "If you have not selected on button in MFG Department for specific department than you can not unlock\n                material in perticular department.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1299,7 +1758,12 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Common Updates",
-      items: ["Repair Print Jewellery Sale: Added new print in which your customer can view following details: 1)\n                Received Jewellery : Details of jewellery recieved for repair. 2) Repaired jewellery : Details of\n                jewellery after repairing is completed. 3) Added material : Details of extra material added. 4) Detached\n                materail : Details of detached material.", "Now you can Split Job into multiple jobs. [Books Keeping >> Sales Book >> Auto Split].", "Daily Statement - Now entries of each transaction will be shown in this report. Previously, few events\n                were left out from this.", "Invoice Wise Sale Report: Added Company Name along with customer code."],
+      items: [
+        "Repair Print Jewellery Sale: Added new print in which your customer can view following details: 1)\n                Received Jewellery : Details of jewellery recieved for repair. 2) Repaired jewellery : Details of\n                jewellery after repairing is completed. 3) Added material : Details of extra material added. 4) Detached\n                materail : Details of detached material.",
+        "Now you can Split Job into multiple jobs. [Books Keeping >> Sales Book >> Auto Split].",
+        "Daily Statement - Now entries of each transaction will be shown in this report. Previously, few events\n                were left out from this.",
+        "Invoice Wise Sale Report: Added Company Name along with customer code.",
+      ],
     },
   ],
   R42: [
@@ -1316,11 +1780,20 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Old Gold Entry: Now you can also make old gold entry from Payment tab in sale invoice. Also, amount of\n                old gold is also displayed here along with Cash & Bank payments.", "Old Gold Refining: Now use new page to issue & receive of melted metal. Go to Inventory >> Stock\n                  Melt >> Melt Refining . Also added Old Gold Report to view profit earned in the process [Inventory >> Stock Melt >> Old Gold Report].", "Festival Master: Now you can also mention Festival in customer's profile. To add Festival master, go\n                to Master & Policy >> User Master >> Festival."],
+      items: [
+        "Old Gold Entry: Now you can also make old gold entry from Payment tab in sale invoice. Also, amount of\n                old gold is also displayed here along with Cash & Bank payments.",
+        "Old Gold Refining: Now use new page to issue & receive of melted metal. Go to Inventory >> Stock\n                  Melt >> Melt Refining . Also added Old Gold Report to view profit earned in the process [Inventory >> Stock Melt >> Old Gold Report].",
+        "Festival Master: Now you can also mention Festival in customer's profile. To add Festival master, go\n                to Master & Policy >> User Master >> Festival.",
+      ],
     },
     {
       title: "Common Updates",
-      items: ["My Account: Now all values such as Sale, Orders, Party Balance, etc. will display in currency of\n                respective customer. Also, your default print in Back-end will open when will customer open print.", "Now you can also view job count in E-Audit (Purchase Register & Stock Register).", "Now you can de-active any customer's account with help of Active/De-active option available with each\n                customer. Such customer's name will not be binded while making any entry/invoice such as Jewellery Sale,\n                Customer receive, etc. Also, you can add remark while de-activating.", "Currency Exchange rate: Now you can set exchange rate in 4 decimal points."],
+      items: [
+        "My Account: Now all values such as Sale, Orders, Party Balance, etc. will display in currency of\n                respective customer. Also, your default print in Back-end will open when will customer open print.",
+        "Now you can also view job count in E-Audit (Purchase Register & Stock Register).",
+        "Now you can de-active any customer's account with help of Active/De-active option available with each\n                customer. Such customer's name will not be binded while making any entry/invoice such as Jewellery Sale,\n                Customer receive, etc. Also, you can add remark while de-activating.",
+        "Currency Exchange rate: Now you can set exchange rate in 4 decimal points.",
+      ],
     },
   ],
   R41B36: [
@@ -1342,7 +1815,13 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Quick Tagging: Now you can also use 'Re-order' in Quick Tagging and can also add Sale MRP.", "CRM - Now you can also view details of 'Family/staff info', add KYC details, create Sale Invoice and\n                other tasks from this single page. [Sales CRM >> Sales >> CRM]", "Enhancements in Job detail feature.", "Added masters of City, State and Area. These masters will bill bind in Customer Registration form. [Master & Policy >> User Master >> City, State, Area & City Area Binding]", "Added option to set discount on Metal Loss in Product Estimate & Jewellery Sale."],
+      items: [
+        "Quick Tagging: Now you can also use 'Re-order' in Quick Tagging and can also add Sale MRP.",
+        "CRM - Now you can also view details of 'Family/staff info', add KYC details, create Sale Invoice and\n                other tasks from this single page. [Sales CRM >> Sales >> CRM]",
+        "Enhancements in Job detail feature.",
+        "Added masters of City, State and Area. These masters will bill bind in Customer Registration form. [Master & Policy >> User Master >> City, State, Area & City Area Binding]",
+        "Added option to set discount on Metal Loss in Product Estimate & Jewellery Sale.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1394,7 +1873,12 @@ you can print material wise bag print in it.`,
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Added new column as 'MFG Design#' in Outsource report.", "Quick Tagging: Now you can also input Gross weight same as currently working in Stock Purchase.", "Stock Purchase : Now you can mention 'Purchase MRP' as well as 'Sale MRP' of job while making it's\n                purchase entry.", "Quick Tagging : For only gold products , easy way of entry of products through generate button."],
+      items: [
+        "Added new column as 'MFG Design#' in Outsource report.",
+        "Quick Tagging: Now you can also input Gross weight same as currently working in Stock Purchase.",
+        "Stock Purchase : Now you can mention 'Purchase MRP' as well as 'Sale MRP' of job while making it's\n                purchase entry.",
+        "Quick Tagging : For only gold products , easy way of entry of products through generate button.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1434,11 +1918,19 @@ you can print material wise bag print in it.`,
   R40: [
     {
       title: "Manufacturing flow updates",
-      items: ["Expected Loss restriction - Removed this validation for jobs whose metal type is Silver.", "Quotation & Sales Order: Now you can remove Metal rate from all designs by using 'Metal Rate Zero'\n                feature.", "Added 'Location' filter in Advance Search in Sample Stock page. [Inventory >> Stock MGMT >>\n                  Sample Stock]", "Enhancement in Setting report."],
+      items: [
+        "Expected Loss restriction - Removed this validation for jobs whose metal type is Silver.",
+        "Quotation & Sales Order: Now you can remove Metal rate from all designs by using 'Metal Rate Zero'\n                feature.",
+        "Added 'Location' filter in Advance Search in Sample Stock page. [Inventory >> Stock MGMT >>\n                  Sample Stock]",
+        "Enhancement in Setting report.",
+      ],
     },
     {
       title: "Wholesale & Retail flow Updates",
-      items: ["Jewellery Sale: UI enhancements in payment tab.", "Return material: Now 'Broken' & 'Lost' material will be displayed seperately in Print."],
+      items: [
+        "Jewellery Sale: UI enhancements in payment tab.",
+        "Return material: Now 'Broken' & 'Lost' material will be displayed seperately in Print.",
+      ],
     },
     {
       title: "Common Updates",
@@ -1513,6 +2005,423 @@ you can print material wise bag print in it.`,
   ],
 };
 
+// export const releaseNotesData = {
+//   R75: [
+//     {
+//       title: ` WhatsApp Integration In Optigo`,
+//       items: [
+//         `
+//         Now you can send WhatsApp messages to your users by using our messaging service. Kindly contact to support person for information and interested in applying this feature.
+//       `,
+//         `
+
+//       Support :
+
+// 0261-360-3500`,
+//       ],
+//     },
+//     {
+//       title: "Important Updates",
+//       items: [`Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`],
+//     },
+//     {
+//       title: "Manufacturing Flow Updates",
+//       items: [
+//         `WIP Reconcile  :
+// The system will display the specific reason why the job failed reconciliation directly on the WIP Reconcile page.
+// `,
+//         `MFG Transaction :
+// To avoid negative stock entries when a bag is issued to one employee and returned by another, the following columns have been removed from the transaction summary, and the weight will be merged for the same criteria.
+//  Bag Prepared By
+// Employee
+// Department
+// `,
+
+//         `Sprue Cutting :
+// Added a filter to view batches that are ready to move to the next department (Sprue Grinding).`,
+//       ],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: [
+//         `Sales :
+// Point of Sale concept will work in Memo too, as currently working in Sale.`,
+
+//         `Factory / Job Transfer :
+// Initially, Gross Wt and Net Wt were getting saved. From now on, Dia, CS, Misc, and Finding Wt will also be shown in Job Transfer history.`,
+
+//         `Retail Bill Old Gold Updates :
+// From now on, Rate and Amount will be calculated based on the client’s default purity setting, which can be configured from Metal Master.`,
+
+//         `Retail Bill :
+// Option of customization in Retail Bill will work based on user rights.`,
+
+//         `Sale Bill :
+// We have implemented a 'Making Charge' dropdown in Customize All, from which the customer can also apply making charges on the metal rate.`,
+
+//         `Diamond Round-Off :
+// Currently running in Sale on a customer-wise basis. This condition has now been added in Memo as well.`,
+
+//         `Jewellery Book :
+// New interface for viewing report of Jewellery Book.
+// Added Manufacturer Name in print.`,
+
+//         `Old Gold Report :
+// Added columns for Dia, M, CS, and Misc.`,
+
+//         `Stock Purchase :
+// Now you can select Centerstone in Colorstone too, as currently running in Design Master.`,
+
+//         `Sale Return Report :
+// Added Sale Return (Old Tag) entries report from here.
+// Have made all columns in Excel export as currently running in Sale Report, e.g., Metal Loss.`,
+
+//         `Outsource :
+// If an item is in bulk, there will be an option to issue bulk quantity in Outsource.`,
+
+//         `Retail Order :
+// Option for metal rate to be applied on Gross Weight and Net Weight.`,
+
+//         `Assign to Repair :
+// If received from the manufacturer and detached, there will be an option for Customer Purity.
+// Remarks can also be added while detaching.`,
+
+//         `Remaining Diamond Balance :
+// Added amount in it for valuation.`,
+//       ],
+//     },
+//     {
+//       title: "Accounts",
+//       items: [
+//         `GSTR2 Excel :
+// Format updated in the system as per the government GSTR-2 format.`,
+
+//         `GSTR2 Reconciliation :
+// A process has been added to verify the system’s GSTR-2 Excel against the government format and display the mismatched fields.`,
+
+//         `Credit / Debit Note :
+// Added a reset feature for employee-wise tax rights based on it.`,
+
+//         `Daily Statement :
+// Added a reason for declining.`,
+//       ],
+//     },
+
+//     {
+//       title: "Common Updates",
+//       items: [
+//         `Memo Material :
+// Added a Findings tab in the grid view.`,
+
+//         `Quotation :
+// Added a discount option criteria based on Metal, Diamond, Colorstone, and Misc Amount.`,
+
+//         `Outsource Report :
+// You can filter data using the Promise Date search.
+// Added image view and print options.`,
+
+//         `Received Repair :
+// Quick access rights will now work on this page, as they currently work in Sales, Memo, etc.`,
+
+//         `Material Return :
+// If material is issued job-wise, PO-wise, or batch-wise, you can see the corresponding numbers on the screen itself to return the material in the same manner.
+// The number is also included in material info reports such as Diamond Info, Colorstone Info, and Misc Info.`,
+
+//         `Material Sale :
+// You can now add a discount in Diamond, as currently applied in Material Purchase.`,
+
+//         `Grading Valuation :
+// Added valuation based on the grading policy.`,
+
+//         `Gold Demand Report :
+// Added a checkbox for Used WT. If checked, WIP will display the Used WT.`,
+
+//         `Sales Job Book :
+// From now on, only manufacturers whose items are issued for outsourcing will be shown in the dropdown.`,
+
+//         `Live Gold Rate :
+// The live gold rate is synchronized from amsbullion.com.`,
+
+//         `Purchase Return :
+// Added a labour option for Finding and Mount, as currently applied in Material Purchase.`,
+
+//         `Customer Receive / Material Purchase :
+// Added a material summary in the grid while adding a purchase/receive.
+// In Material Purchase, it will also show the Pure WT.`,
+//       ],
+//     },
+//     {
+//       title: "Special Updates",
+//       items: [
+//         `RFID Implementation :
+// Integration with Optigo is available through Loyal String RFID.`,
+
+//         `Scan Job :
+// Currently working tag-wise and will now also work line ID-wise.`,
+
+//         `Worker Report Pro :
+// Added Excel export option.`,
+
+//         `WhatsApp Integration – 2025 :
+// Full integration with events (Bill, Memo, Cash, Bank, etc.).
+// Unified WhatsApp Chat Module for centralized communication.
+// WhatsApp Broadcasting enabled for bulk customer messaging.`,
+
+//         `Design Analysis Report :
+// New interface provided for Design Analysis Report.`,
+
+//         `Today Metal Stock :
+// Provided a report that shows live gold stock at respective events such as Stock, WIP, etc.`,
+
+//         `Design-wise Stock Alert :
+// You can now view design-wise stock alerts.`,
+
+//         `Saving Scheme :
+// Added Select All option for adding discount in scheme.`,
+
+//         `Jewellery Book :
+// From now on, design will be overwritten from here.`,
+
+//         `Design Report PD :
+// Added the following columns: Manufacturer, MFG Design#, Parent Design#, Designer Name.`,
+
+//         `Quotation :
+// Added default MRP option, which fetches design-wise MRP.
+// Metal rate in Customize will show according to currency by default.`,
+
+//         `Article Master Updates :
+// New Design Variant creation page (Add New / Import / Combination Master).
+// Auto-fetch Size from Category Size Master in Design Master.
+// Added Shopify Excel export option.
+// Option to create orders from Article Master backend.
+// Display of Article Number in backend at various events (Memo Report, Sale Report, Stock Book, Jewellery Book).`,
+
+//         `Design-wise MRP :
+// Design Master now provides an MRP option based on user rights.`,
+
+//         `Design Collection Quick Scan :
+// Orders can now be created from MFG Design.`,
+
+//         `Tag Info :
+// In tablet view, a camera option is available for product scanning.`,
+
+//         `Jewellery Estimate :
+// Items can be added to an advance order, which redirects to Stock Order from the Estimate page.`,
+
+//         `Shipment :
+// During job verification scanning, you can print pending items for Memo and Sale.`,
+//       ],
+//     },
+//   ],
+//   R74: [
+//     {
+//       title: ` WhatsApp Integration In Optigo`,
+//       items: [
+//         `
+//         Now you can send WhatsApp messages to your users by using our messaging service. Kindly contact to support person for information and interested in applying this feature.
+//       `,
+//         `
+
+//       Support :
+
+// 0261-360-3500`,
+//       ],
+//     },
+//     {
+//       title: "Important Updates",
+//       items: [`Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`],
+//     },
+//     {
+//       title: "Manufacturing Flow Updates",
+//       items: [
+//         `Recast Module :
+// UI updates with revised recast option.
+// New conditions & filters for recast jobs.`,
+//         `WIP Summary new date filter.
+// `,
+//         `Rm Report :
+// Stock Availability production now shows company stock required vs. available vs. balance.`,
+//       ],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: [
+//         `Retail Bill multiple bank entries supported.`,
+//         `Quotation :
+// Report with pending & completed quotation details + material info.
+// Added Sales Rep field in quotation & sales order.`,
+//         `Order Reports :
+// Order Summary Report added elect All option in status filter.
+// Order Type filter in Sale Report.
+// Sales Person wise Sale Report added.`,
+//         `Stock Purchase :
+// Sample line order for reorder supported.
+// Option to add HUID & certification number.`,
+//         `Reports :
+// FG Stock Summary added image & price, with option to ignore jobs.
+// Stock Report New UI.`,
+//         `Sale Return will now show Gross Wt, Net Wt, Dia Wt.`,
+//       ],
+//     },
+//     {
+//       title: "E-Commerce Updates",
+//       items: [
+//         `Evo Mobile App (Android & iOS) updates :
+// EVO App by Optigo is a next-generation digital jewelry retailing and in-house solution. It empowers jewelry retailers with QR-based login, seamless on-floor customer engagement, and a premium in-store experience.`,
+//       ],
+//     },
+//     {
+//       title: "Accounts",
+//       items: [`GSTR Reports GSTR1 & GSTR2 Excel export.`, `GST Summary Report Excel export added.`, `Settlement Reports now include discount data.`, `Bill Settlement Report event-wise due amount display.`, `Account Freeze added option to filter active/inactive accounts.`],
+//     },
+
+//     {
+//       title: "Common Updates",
+//       items: [
+//         `Design Master :
+// Added option for exclusive design flow.
+// Auto weight fetch for findings through Finding Master.
+// Auto-fill details added.
+// Include deactivated designs flag in design collection.
+// New image view filter in design collection.
+// Design Analysis Report now includes vendor, designer name, parent design no., MFG design no.`,
+//         `Issue Material :
+// Tunch editable in issue material.
+// Auto-fill details added.
+// Vendor balance can now be viewed while issuing material.
+// All metal types visible by default.`,
+//         `Material Sale :
+// Finding tab added.
+// Pcs deletion impacts RM stock accordingly.`,
+//         `Customer Registration postal code & mobile number no longer mandator.
+// CRM Enhancements :
+// Retail order creation added.
+// Cash & bank button added.
+// CRM report includes area field.`,
+//       ],
+//     },
+//     {
+//       title: "Special Updates",
+//       items: [
+//         `Sales Rep App improved tag info view in mobile.
+// Dashboard new summary view with Year, Location, Customer, Category, Vendor & Sales Rep filters.
+// MRP & Billing :
+// Default tax auto-bind in IN Tag Info.
+// Locker rights applied for MRP and bill fetching.`,
+//         `Job Management :
+// Excel download for job transfer.
+// Job completion date report added.
+// Bulk process job numbers reflected in job book & WIP report.
+// Job book close jobs individual splits in production now handled.
+// Lead completion report with Excel option.
+// `,
+//       ],
+//     },
+//   ],
+//   R73: [
+//     {
+//       title: ` WhatsApp Integration In Optigo`,
+//       items: [
+//         `
+//         Now you can send WhatsApp messages to your users by using our messaging service. Kindly contact to support person for information and interested in applying this feature.
+//       `,
+//         `
+
+//       Support :
+
+// 0261-360-3500`,
+//       ],
+//     },
+//     {
+//       title: "Important Updates",
+//       items: [`Call back System : New feature in which you can send us call back request. Also you can see your tickets status here itself.`],
+//     },
+//     {
+//       title: "Manufacturing Flow Updates",
+//       items: [
+//         `Factory Outward Page :
+// Manufacturing process more speedy in factory outward.`,
+//         `Casting Process :
+// In casting there will be option of dynamic transaction issue return department.`,
+//         `Order Type :
+// Order Type display in transaction, engage material pages.`,
+//       ],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: [
+//         `Reconcile :
+// Stock Reconcile mismatch print provided and excel export in.`,
+//         `Product cost analysis :
+// From now onwards for job work metal rate will fetch 0 in purchase cost and mrp.`,
+//         `Job import :
+// Outsource job import will be now available too`,
+//       ],
+//     },
+//     {
+//       title: "E-Commerce Updates",
+//       items: [
+//         `EComm-WebSites :
+// Razor pay integration available now.`,
+//       ],
+//     },
+//     {
+//       title: "Common Updates",
+//       items: [
+//         `Import MRP :
+// From now onwards you can add import through import process too.`,
+//         `Excel export :
+// Stock book and sale report add lineid and batch no in it`,
+//         `Daily statement :
+// Added subhead and event name in it.`,
+//       ],
+//     },
+//     {
+//       title: "Special Updates",
+//       items: [
+//         `Loss Report Excel :
+// Excel of data for FG outward department wise and total loss in it including issue and return in it.`,
+//         `Quotation :
+// From now onwards you can add multi labor in quotation for special findings.`,
+//         `Policy master :
+// You can add weight range through Exclude Finding from it.`,
+//         `Icatalogue :
+// calculation updates for multi labour applied in it.`,
+//         `job print :
+// you can print material wise bag print in it.`,
+//       ],
+//     },
+//   ],
+//   "R71-72": [
+//     {
+//       title: "Manufacturing Flow Updates",
+//       items: ["Casting Process: In casting there will be option of dynamic transaction issue return department."],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: ["Diamond Round off: If necessary, the diamond value can be shown for the client display level and its ledger with two decimal places after the item is in stock.", "Label updates: Labeling of club and merge jobs in stock books and sales.", "Jewellery Book: Excel export was added, along with the batch, PO, line, and certification numbers."],
+//     },
+//     {
+//       title: "E-Commerce Updates",
+//       items: ["EComm-WebSites: The E-commerce app is now ready for iOS.", "Website: Album will display according to display order in it."],
+//     },
+//     {
+//       title: "Common Updates",
+//       items: ["Gold demand Report: For the stock book and work-in-progress report, stock orders and job-based bifurcation were added.", "GSTR Report: added extra columns for exporting to customers, removed delivery charges, made it relevant to purchases, renamed the event, and fixed a few small bugs.", "Diamond: It has an additional size column. As requested, its effects will appear on prints.", "Search by stock: Click the design number link to see the material information."],
+//     },
+//     {
+//       title: "Special Updates",
+//       items: [
+//         "SCAVU: SCAVU(NEXOSYNC) is used to sync entries for orders and purchase bills between Optigo systems.",
+//         "Procasting: Procasting is a new app where you can track details of casting, including investment, burnout, casting, quenching, and more.",
+//         "Product Cost Analysis: Added cost column in it, in which MRP will calculate according to current price.",
+//         "Vendor Status: With vendor import, you can now add VENDOR STATUS as well.",
+//         "Jobs: It now has a group status that can be changed by firm, and jobs will now be found immediately through the search page. A hyperlink has been added to the order status report so that users may examine the internal bifurcation count.",
+//         "Loss In MultiMetal: Loss can be maintained differently for multimetal operations if automultimetal flow and loss take different values for gold and silver in S1 and S2.",
+//         "Job import: Now outsurce job import too can be performed in stock purchase import.",
+//       ],
+//     },
+//   ],
 //   R70: [
 //     {
 //       title: "Manufacturing Flow Updates",
@@ -1542,7 +2451,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Stock Book: Multiselection and priority colors have been added, similar to the sales jobs page.", "Set MRP: You can now update the MRP in terms of amount itself.", "Due Date Report: Added sales rep. in it."],
+//       items: ["Stock Book: Multiselection and priority colors have been added, similar to the sales jobs page.", "Set MRP: You can now update the MRP in terms of amount itself.", "Due Date Report: Added sales rep. in it."],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1571,7 +2480,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Jewellery Book: Job reference number was added to the Excel export.", "Material Wise Reports: Added pure weight and finding details in it.", "Quick Search: Added history of splitted jobs from main job in it.", "Sale Return: From now onwards in sale return finding entries will show differently in it.", "Scan Job: Added two buttons in memo return and sale return.", "Closing Balance:Closing balance will show last paid date in it in customer."],
+//       items: ["Jewellery Book: Job reference number was added to the Excel export.", "Material Wise Reports: Added pure weight and finding details in it.", "Quick Search: Added history of splitted jobs from main job in it.", "Sale Return: From now onwards in sale return finding entries will show differently in it.", "Scan Job: Added two buttons in memo return and sale return.", "Closing Balance: Closing balance will show last paid date in it in customer."],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1585,7 +2494,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["BULK PURCHANGE PENDING: introduced a new page from which you can access the vendor-free tagging page.", "Material wise sale and stock report: Added vendor in it . Also added search option of filters such as color and size .", "Item master: The New HSN master is dynamic and and generated right here.", "Certificate import: Inserted a stamping column to retrive values in jobs where stamping is applied via import."],
+//       items: ["BULK PURCHANGE PENDING: introduced a new page from which you can access the vendor-free tagging page.", "Material wise sale and stock report: Added vendor in it . Also added search option of filters such as color and size .", "Item master: The New HSN master is dynamic and and generated right here.", "Certificate import: Inserted a stamping column to retrive values in jobs where stamping is applied via import."],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1593,14 +2502,13 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Special Updates",
-//       items: ["Retail Bill Updates: 1. The choice to apply taxes to invoices other than cgst+sgst and igst.   2. Added Go button in it to run it smoothly in tablet view.  3. Option of auto priviledge card in it and SMS facility for security purpose.", "Saving Scheme Updates: Cash date and reference number were added.", "Retail Order : Data will automatically replicate and establish a new order in it if an existing design number or work number is added."],
+//       items: ["Retail Bill Updates: 1. The choice to apply taxes to invoices other than cgst+sgst and igst. 2. Added Go button in it to run it smoothly in tablet view. 3. Option of auto priviledge card in it and SMS facility for security purpose.", "Saving Scheme Updates: Cash date and reference number were added.", "Retail Order : Data will automatically replicate and establish a new order in it if an existing design number or work number is added."],
 //     },
 //   ],
-//   R66: null,
 //   R65: [
 //     {
 //       title: "Manufacturing Flow Updates",
-//       items: ["Loss Recover: From now if job return to production and want to recover loss through transaction(MFG) page, it will not allow to recover FG outward loss from transaction page.  It will only allow to recover current Production loss from transaction(MFG) page.", "Return to Fatory: Have updated the technology to streamline the factory return and factory outward stock book processes.", "Speed Tasks: It operates faster in it when items are deleted and restored from bill.", "Recast Jobs: You may now dynamically add tags and reasons through masters and generate an Excel output as of now.", "Procurement Report: WIP Report will lget splitted into two parts - Pending Rquest, bagging in it and other status in WIP. Also procurement will show pending material status too."],
+//       items: ["Loss Recover: From now if job return to production and want to recover loss through transaction(MFG) page, it will not allow to recover FG outward loss from transaction page. It will only allow to recover current Production loss from transaction(MFG) page.", "Return to Fatory: Have updated the technology to streamline the factory return and factory outward stock book processes.", "Speed Tasks: It operates faster in it when items are deleted and restored from bill.", "Recast Jobs: You may now dynamically add tags and reasons through masters and generate an Excel output as of now.", "Procurement Report: WIP Report will lget splitted into two parts - Pending Rquest, bagging in it and other status in WIP. Also procurement will show pending material status too."],
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
@@ -1711,7 +2619,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["MRP Updates :  If job added in MRP and added discount in it in memo then in billing by default same Price will fetch in it.", "Stock Purchase Import :  From now onwards Memo Purchase import will work too.", "Lock Validation :  From now onwards if E-invoice created then such invoices will get lcoked. For special permission you can unlock it from Admin."],
+//       items: ["MRP Updates : If job added in MRP and added discount in it in memo then in billing by default same Price will fetch in it.", "Stock Purchase Import : From now onwards Memo Purchase import will work too.", "Lock Validation : From now onwards if E-invoice created then such invoices will get lcoked. For special permission you can unlock it from Admin."],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1720,7 +2628,7 @@ you can print material wise bag print in it.`,
 //         "Express APP  : Customer Limit extended upto 50 in it.",
 //         "Discount Updates in Memo  : Now you can apply discount in memo single job wise too.",
 //         "Return Material  : Have made Return material page more speedy.",
-//         "Jewellery Book:UI updates and you can make Album from Jewellery Book too.",
+//         "Jewellery Book: UI updates and you can make Album from Jewellery Book too.",
 //         "HUID and Certification Updates  : Currently if huid and certification number added and then got returned to production then huid and certification services (misc details) gets removed from now onwards it will remain there even if job gets returned to production .",
 //         "Account Head  : We have added  Suspense Account in it.",
 //         "Import  :",
@@ -1729,12 +2637,12 @@ you can print material wise bag print in it.`,
 //         "Metal Loss Summary  : Update formula for diffrence and labellings in it.",
 //         "Multi Labour  : Now you can add multi labour in billing for diffrent findings.",
 //         "Stock Summary  : Added Pure weight Column in  it.",
-//         "Memo Report  :  We have added Jobs Customer information too.",
+//         "Memo Report  : We have added Jobs Customer information too.",
 //       ],
 //     },
 //     {
 //       title: "Special Updates",
-//       items: ["NOTE  :Topics are Reflect to your account only its relevant to your Account.", "Icatalogue : You can now add company type wise price master."],
+//       items: ["NOTE  : Topics are Reflect to your account only its relevant to your Account.", "Icatalogue : You can now add company type wise price master."],
 //     },
 //   ],
 //   R60: [
@@ -1744,7 +2652,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Customer Registration :Customers who create  using Customer Registration their mobile numbers will be automatically verified."],
+//       items: ["Customer Registration : Customers who create  using Customer Registration their mobile numbers will be automatically verified."],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1752,17 +2660,17 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Special Updates",
-//       items: ["NOTE  :Topics are Reflect to your account only its relevant to your Account.", "Icatalogue : You can now add company type wise price master."],
+//       items: ["NOTE  : Topics are Reflect to your account only its relevant to your Account.", "Icatalogue : You can now add company type wise price master."],
 //     },
 //   ],
 //   R59: [
 //     {
 //       title: "Manufacturing Flow Updates",
-//       items: ["Bulk Flow in Manufacturing : Now you can use single job flow for multiple\n                                    items and split in sales.", "Worker Without Finding summary : Added recalculate button for data refreshed.", "Order Status Report : You can see  the job  running status according to SKU in order status report.", "WIP Reconcile Report : Such jobs will no longer be counted in WIP when their weight is 0."],
+//       items: ["Bulk Flow in Manufacturing : Now you can use single job flow for multiple\n                                    items and split in sales.", "Worker Without Finding summary : Added recalculate button for data refreshed.", "Order Status Report : You can see  the job  running status according to SKU in order status report.", "WIP Reconcile Report : Such jobs will no longer be counted in WIP when their weight is 0."],
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Received Repair : Finding weight will now be taken into received repair jobs."],
+//       items: ["Received Repair : Finding weight will now be taken into received repair jobs."],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1774,22 +2682,19 @@ you can print material wise bag print in it.`,
 //         "Auto Hallmark, Stamping and Certification Charges : Now you can add\n                                        hallmark, Stamping and certification auto from HUID and certification\n                                        itself.",
 //         "Quote : You can use the same 24k metal rate for customization that is currently being used in billing.",
 //         "Material History : From now onwards if lost data updated in transaction\n                                        page, its effect will be considered in material history too.",
-//         "Multi Currency in billing : Discounts will now be manually added, currency-wise, ( only for pc wise concept and on total amount )",
+//         "Multi Currency in billing : Discounts will now be manually added, currency-wise, ( only for pc wise concept and on total amount )",
 //         "Small Label Changes : As we are applying Auto charges for other and misc\n                                        through colorstone master we have updated label as ColorStone/MISC/ Services .",
 //       ],
 //     },
 //     {
 //       title: "Special Updates",
-//       items: ["Payroll Update \n                                         1.Now admin will play role in salary report too."],
+//       items: ["Payroll Update 1.Now admin will play role in salary report too."],
 //     },
 //   ],
 //   R58: [
 //     {
 //       title: "Manufacturing Flow Updates",
-//       items: [
-//         "Metal conversion :  We are updating the conversion formula for lower purity to higher purity\n              (e.g. 14K --> 18K) as per below\n              \n              Current Formula :\n              \n              1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity)\n              \n              Converted gms = (1000*58) / 75 = 773.333\n              \n\n              Upcoming Formula :\n              \n              1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity)\n              \n              Require 24k gold to be added = ((75-58)*1000) / (99.99-58.00) = 404.858\n              \n              Converted gms = 1000gms + 404.858 = 1404.858",
-//         "Wip Reconcile Report : Generated WIP Reconcile Report in which data will get saved and can view\n              pending jobs in it.",
-//       ],
+//       items: ["Metal conversion : We are updating the conversion formula for lower purity to higher purity\n              (e.g. 14K --> 18K) as per below Current Formula : 1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity) Converted gms = (1000*58) / 75 = 773.333 Upcoming Formula : 1000gm Gold 14K (58.00 Purity) convert to Gold 18K (75.00 Purity) Require 24k gold to be added = ((75-58)*1000) / (99.99-58.00) = 404.858\n              \n              Converted gms = 1000gms + 404.858 = 1404.858", "Wip Reconcile Report : Generated WIP Reconcile Report in which data will get saved and can view\n              pending jobs in it."],
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
@@ -1798,7 +2703,7 @@ you can print material wise bag print in it.`,
 //     {
 //       title: "Common Updates",
 //       items: [
-//         "Payroll App :  You can make employee salary according to following options\n              \n              GROSS SALARY\n              \n              GROSS + OT\n              \n              PER HR\n              \n              GROSS + INCENTIVE\n              \n              GROSS PER UNIT",
+//         "Payroll App : You can make employee salary according to following options GROSS SALARY GROSS + OT PER HR GROSS + INCENTIVE GROSS PER UNIT",
 //         "Quotation : Now metal loss will get apply in quotation same as currently running in billing.",
 //         "Stock Melt : From now onwards memo stick from vendor will not get added in this form.",
 //         "Search By Stock : Add manufacturer filter in it.",
@@ -1836,7 +2741,7 @@ you can print material wise bag print in it.`,
 //         "Album : You can view design in it in according to design master display order in descending\n              order.",
 //         "Design Collection : Added Metal color column in it .",
 //         "Design Master Import : Now you can add no of parts in excel.",
-//         "Daily Statement : Now you can view bill verification flag here too , Also added From date \n              to To date search filter in it.",
+//         "Daily Statement : Now you can view bill verification flag here too , Also added From date to To date search filter in it.",
 //         "Material Sale : You can maintain multiple series of material sale bill through books as currently\n              in jewellery sale.",
 //         "When we send the album, a OTP (OTP will receive via whatsapp) will be sent to the customer's\n              phone number for security.",
 //       ],
@@ -1857,22 +2762,22 @@ you can print material wise bag print in it.`,
 //         "WIP Excel Export : Now you can export excel with\n              images for WIP report.",
 //         "Product Making Guide : You will see default image ,\n              Department image rotation wise.",
 //         'Job In Casting : You will need to press "Save & Go To\n              List" button while Add or Update Casting batch as it will\n              allow to edit UserID wise from now.',
-//         "Sprue cutting and Sprue grinding :\n\n              Now displays Job counts of batch.",
+//         "Sprue cutting and Sprue grinding : Now displays Job counts of batch.",
 //       ],
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Retail Bill : Now you can update metal rate in it.\n              Also some label and UI updates in it.", "Retail order : Some fine tuning in it which includes\n              label and UI updates in it.", "Retail Bill :  From now onwards you will get alert\n              memo and billing wise. You can add such products list wise\n              too.", "Retail Bill : Now onwards in billing by default, all\n              values will come from retail order. you can even settle\n              received metal at the time of order in billing itself.", "Sales : You can add job wise remark in product info."],
+//       items: ["Retail Bill : Now you can update metal rate in it.\n              Also some label and UI updates in it.", "Retail order : Some fine tuning in it which includes\n              label and UI updates in it.", "Retail Bill : From now onwards you will get alert\n              memo and billing wise. You can add such products list wise\n              too.", "Retail Bill : Now onwards in billing by default, all\n              values will come from retail order. you can even settle\n              received metal at the time of order in billing itself.", "Sales : You can add job wise remark in product info."],
 //     },
 //     {
 //       title: "E-Commerce Updates",
-//       items: ["Website :  Now you can view speed in Cart and Wish list too"],
+//       items: ["Website : Now you can view speed in Cart and Wish list too"],
 //     },
 //     {
 //       title: "Common Updates",
 //       items: [
 //         "Album : Now you can add up to 500 designs in an\n              album.",
-//         "Repairing :  Now onwards there will be auto entry for\n              diamond and color stone in customer receive as currently\n              running in order system.",
+//         "Repairing : Now onwards there will be auto entry for\n              diamond and color stone in customer receive as currently\n              running in order system.",
 //         "Repairing : Given option of metal loss in Repairing\n              too.",
 //         "Old metal Purchase : From now onwards RM stock\n              material will including dust in it.",
 //         "Repair Bill : You can view detached weight in print\n              too .",
@@ -1886,11 +2791,11 @@ you can print material wise bag print in it.`,
 //         "Vendor ledger : You can see colorstone balance from\n              here which will redirect to vendor VRM page.",
 //         "Multi currency : All the calculation in quotation\n              will run same as currently running in billing . Applied same\n              in memo issue too.",
 //         "Purchase against memo : You can use colorstone in the\n              same flow too.",
-//         "Outsource Report :  Now you can search for job\n              history for all jobs in this report which will redirect to\n              quick search.",
+//         "Outsource Report : Now you can search for job\n              history for all jobs in this report which will redirect to\n              quick search.",
 //         "Jobs page : You can update job line id and po number\n              from jobs page.",
 //         "Copy button : For job number in stock book, job book\n              ,wip report and jewellery book page in it.",
-//         "Other charges :Bill Wise Other Charges report.",
-//         "PD : Now you can view full screen image in\n              Des. image process.",
+//         "Other charges : Bill Wise Other Charges report.",
+//         "PD : Now you can view full screen image in Des. image process .",
 //         "To have continuity for issuing job and material at a time,\n              you can issue material to vendor from outsource itself.",
 //       ],
 //     },
@@ -1910,7 +2815,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "E-Commerce Updates",
-//       items: ["Website :  Now you can view speed in Cart and Wish list too"],
+//       items: ["Website : Now you can view speed in Cart and Wish list too"],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1924,7 +2829,7 @@ you can print material wise bag print in it.`,
 //         "Search by Stock : Now you can search stock ignoring\n                shape too.",
 //         "Product Cost Analysis : Added diamond ctw in it .\n                Also updated formula for diamond rate to fetch it from RM\n                stock if purchase price not found . Also now MISC stone\n                formula updated in it too.",
 //         "Deliver Wise Loss : Added summary report in which you\n                can track loss department group wise and delivery batch wise\n                loss.",
-//         "IGI format excel : Updates in IGI excel as government\n                form.",
+//         "IGI format excel : Updates in IGI excel as government\n                form. Gold Stock - Added report which will show total RM, WIP, FG and Loss Company and customer wise",
 //         "Gold Stock - Added report which will show total RM, WIP, FG and Loss Company and customer wise",
 //       ],
 //     },
@@ -1940,7 +2845,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "E-Commerce Updates",
-//       items: ["Website :  Now you can view speed in Cart and Wish list too"],
+//       items: ["Website : Now you can view speed in Cart and Wish list too"],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1965,7 +2870,7 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Retail Bill : You can less weight from job in retail bill.", "Auto merge : From now onwards you can merge job from Stock Purchase itself. Special Notes :\n                This module is not reversible so be sure to do this operation as wanted.", 'Bulk Purchase : From now onwards you can add quantity in tagging even if not added in bulk through\n                adding special character as "-1" in quanity.'],
+//       items: ["Retail Bill : You can less weight from job in retail bill.", "Auto merge : From now onwards you can merge job from Stock Purchase itself. Special Notes : This module is not reversible so be sure to do this operation as wanted.", 'Bulk Purchase : From now onwards you can add quantity in tagging even if not added in bulk through\n                adding special character as "-1" in quanity.'],
 //     },
 //     {
 //       title: "Common Updates",
@@ -1996,7 +2901,7 @@ you can print material wise bag print in it.`,
 //         "Job book ( Bag print 4) : If no of parts added from design master. It will show in bag print 4.",
 //         "Club Job : Now you wil have option of group job no .",
 //         "Old metal melt : Now you can issue to karigar along with tunch editable in it.",
-//         "RM Reconcile :\n              \n                \n                  Once cutoff you will able to view old bag number there.\n                  \n                \n                \n                  You will able to view diffrence too in RM reconcile Report.\n                  \n                \n                \n                  You can view current transactional bags in it.",
+//         "RM Reconcile : Once cutoff you will able to view old bag number there. You will able to view diffrence too in RM reconcile Report. You can view current transactional bags in it. Outsource Report : Added shortcut hyperlink which will get redirect to order and stock details of such\n                customers tag. Factory outward process : From now onwards, you have to track FG(factory outward) data in new report. 1. Today fg detail New instead of Today fg detail. 2. Fg detail New instead of fg detail. Please note : You have to give page rights of relevant employes to access report and you can't\n                access outward page. Wholesale & Retail flow Updates Jewellery Book : Now merged items will be viewed single in this book. Sale : Now if unmerged from billing itself, the price policy will get recalculated in it. Retail bill : Now customer address will shown here and after bill generated you can change customer\n                  and all the events will be moved to updated customer. Common Updates Tools Issue : Now you can view Barcode number too in Tools issue form. Product estimate : Added option of excel export in it. Quotation : Now you can apply tax in quotation too. Stock purchase : Now you can send request for already created design to update it . Accordingly you\n                  can update it through design master request page. Daily Statement : Option of filter of verified and pending in it. Bill : Once bill verified then if it has been changed it will show again pending in grid. Daybook : Tagging details will be available in day book. Account : Now you can send freeze account sms and mail to customer. Set Metal Price : Now you can set 24k metal rate directly from [Master & Policy > Price Master > Set\n                  Metal Price]. Box Weight : Now we have option of box weight system along with usge of QR in it. Sale invoice Print 1 : From now onwards in this print , extra columns are added such as fine wt,\n                  labour amount,etc. Special Updates SMS : Now you can use whats app instead of SMS events . Instructions for it will be given in special\n                  page in advance for it. HSN : HSN is mandatory in quotation, sale order and all other events.",
 //         "Once cutoff you will able to view old bag number there.",
 //         "You will able to view diffrence too in RM reconcile Report.",
 //         "You can view current transactional bags in it.",
@@ -2022,6 +2927,30 @@ you can print material wise bag print in it.`,
 //         "SMS : Now you can use whats app instead of SMS events . Instructions for it will be given in special\n                  page in advance for it.",
 //         "HSN : HSN is mandatory in quotation, sale order and all other events.",
 //       ],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: ["Jewellery Book : Now merged items will be viewed single in this book.", "Sale : Now if unmerged from billing itself, the price policy will get recalculated in it.", "Retail bill : Now customer address will shown here and after bill generated you can change customer\n                  and all the events will be moved to updated customer."],
+//     },
+//     {
+//       title: "Common Updates",
+//       items: [
+//         "Tools Issue : Now you can view Barcode number too in Tools issue form.",
+//         "Product estimate : Added option of excel export in it.",
+//         "Quotation : Now you can apply tax in quotation too.",
+//         "Stock purchase : Now you can send request for already created design to update it . Accordingly you\n                  can update it through design master request page.",
+//         "Daily Statement : Option of filter of verified and pending in it.",
+//         "Bill : Once bill verified then if it has been changed it will show again pending in grid.",
+//         "Daybook : Tagging details will be available in day book.",
+//         "Account : Now you can send freeze account sms and mail to customer.",
+//         "Set Metal Price : Now you can set 24k metal rate directly from [Master & Policy > Price Master > Set\n                  Metal Price].",
+//         "Box Weight : Now we have option of box weight system along with usge of QR in it.",
+//         "Sale invoice Print 1 : From now onwards in this print , extra columns are added such as fine wt,\n                  labour amount,etc.",
+//       ],
+//     },
+//     {
+//       title: "Special Updates",
+//       items: ["SMS : Now you can use whats app instead of SMS events . Instructions for it will be given in special\n                  page in advance for it.", "HSN : HSN is mandatory in quotation, sale order and all other events."],
 //     },
 //   ],
 //   R51: [
@@ -2050,7 +2979,7 @@ you can print material wise bag print in it.`,
 //       title: "Manufacturing flow updates",
 //       items: [
 //         "Qc process: Now MISC weight will be shown after QC process.",
-//         "Sale Export : Here you can generate date wise excel of your sale report which is found in [Books\n                  Keeping > Report > Export Excel].",
+//         "Sale Export : Here you can generate date wise excel of your sale report which is found in [Books\n                  Keeping > Report > Export Excel] .",
 //         "Product Guide - Casting splits : In this update you can see if you have created B and C split with\n                main job and also if it has been in different batch during casting on this page.",
 //         "Product Guide - Image : In this update you can upload department wise product images which is shown by\n                default when selecting department.",
 //         "Search by stock : In this update you can see details by display order.",
@@ -2064,8 +2993,8 @@ you can print material wise bag print in it.`,
 //         "Export Excel : In this update invoice details will be available like order type, design type.",
 //         "MISC price pointer consideration : In this update MISC price will consider pointer and this option is\n                available in sale and memo entry.",
 //         "Today Fg detail old : In this update order date, category and priority column will be available same\n                as FG details report",
-//         "Jobs type filter in orders : Now regular and sampleline jobs fillter available in order",
-//         "Color alert in Sprue : An alert message will shown when you are trying to return metal with diferent\n                color from job.",
+//         "Jobs type filter in orders : Now regular and sampleline jobs fillter available in order",
+//         "Color alert in Sprue : An alert message will shown when you are trying to return metal with diferent\n                color from job.",
 //         "E-invoice in Sale Return : Now you can generate e-Invoice for sale return.",
 //         "Search by stock : Now you can see your diamond stock according to diamond size master display order\n                wise.",
 //       ],
@@ -2101,12 +3030,12 @@ you can print material wise bag print in it.`,
 //         "Tax profile : Now you can select tax profile during Metal settlement and Metal amount settlement.",
 //         "Material Purchase report : Now you can search by lot no in material purchase report.",
 //         "Material wise sale report : Now you can see details of design no., job no. and gross wt column a. You\n                can generate an excel by clicking on setting gear icon.",
-//         "Delivery charges : You can set delivery charges in [ Master &Policy > SalesCRM > Mode of deliery\n                  ].",
+//         "Delivery charges : You can set delivery charges in [ Master &Policy > SalesCRM > Mode of deliery\n                  ] .",
 //         "Live Gold Rate : In this update you can synchronise gold rate with live rates.",
 //         "TCS : In this update TCS will be available in GST Tax report, Sale register and Purchase register.",
 //         "Tax percentage in sales bill : You can see tax percentage in sales bill If you had applied tax in\n                percentage.",
 //         "Product cost analysis : Now you can see invoice material details by lot no.",
-//         "Wastage price import : Now you can import wastage price excel which is available in [Master &\n                  Policy > Import > Wastage Price].",
+//         "Wastage price import : Now you can import wastage price excel which is available in [Master &\n                  Policy > Import > Wastage Price] .",
 //         "Add parent design no in import : In design master import we have added parent design column in excel\n                sheet.",
 //         "Pagination update : Now pagination available as 20, 30, 50, 100, 200.",
 //       ],
@@ -2161,10 +3090,10 @@ you can print material wise bag print in it.`,
 //       items: [
 //         "Multi Currency : Now in reports you can fillter currency by selecting it from dropdown.",
 //         "Design Analysis : Now you can see product image in Design Analysis by clicking on it. You can see\n                seperate tab for it.",
-//         "Quotation :\n              \n                \n                  Now in quotataion you can apply fixed charges.\n                \n                \n                  In quotation excel file you can see total diamond weight in it.\n                \n                \n                  Now in quotation you can add/less or discount amount.\n                \n                  In quotataion you can add iunstruction and it will be shown in print.",
+//         "Quotation : Now in quotataion you can apply fixed charges. In quotation excel file you can see total diamond weight in it. Now in quotation you can add/less or discount amount. In quotataion you can add iunstruction and it will be shown in print.",
 //         "Now in quotataion you can apply fixed charges.",
 //         "In quotation excel file you can see total diamond weight in it.",
-//         "Now in quotation you can add/less or discount amount.",
+//         "Now in quotation you can add/less or discount amount. In quotataion you can add iunstruction and it will be shown in print.",
 //         "In quotataion you can add iunstruction and it will be shown in print.",
 //         "Merge jobs : Now you can merge jobs weight from stock book.",
 //         "Now onwards state will be auto filled during customer create.",
@@ -2199,6 +3128,35 @@ you can print material wise bag print in it.`,
 //       ],
 //     },
 //   ],
+//   R46B: [
+//     {
+//       title: "Manufacturing flow updates",
+//       items: ["We have implemented a new report where you can find issued material in it. This report is available in [Books Keeping > Report > Job Wise Statement] .", "A new dispatch button added it will work same as issue material.", "Brand and Default size field has been added in cad verification."],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: ["Now you can apply loss percentage during making stock purchase entry. You can pre define it from\n                wastage price.", "Now you can return material job wise during stock purchase.", "Now customer's city, state will be displayed on memo, sale,sale return and qoute print.", "Now you can calculate metal price from online designs page.", "In outsource report net weight will be displayed as pure weight.", "Now you can calculate all from combination calculate button."],
+//     },
+//     {
+//       title: "Common Updates",
+//       items: [
+//         "User can export stock in excel but must have excel rights.",
+//         "In sale bill you can see loss percentages if applied with actual metal weight.",
+//         "Now in wastage price you can set making, wastage and loss percentage on fixed,on net weight and gross\n                weight.",
+//         "On customer receive and return page you can see sales representataive names.",
+//         "Now in memo print quantity will be displayed.",
+//         "In retail order customer receive material will be displayed in report with updated weight. Metal amount\n                will be updated and displayed.",
+//         "Now you can add dimension in design master and it will also displayed on website too.",
+//         "Now total amount wil be displayd in journal and contra.",
+//         "Now you can delete archive user from admin login.",
+//         "In Stock view you can filter product type.",
+//         "Now in sale return report you can select sales representative from drop down.",
+//         "You can refresh your ledger data any time by hitting data refresh button.",
+//         "Now you can convert company stock to customer stock from stock book.",
+//         "In closing balance you can view summary details.",
+//       ],
+//     },
+//   ],
 //   R46: [
 //     {
 //       title: "Manufacturing flow updates",
@@ -2221,7 +3179,7 @@ you can print material wise bag print in it.`,
 //       items: [
 //         "Now you can update due days in material purchase also after creating an invoice.",
 //         "Now in product cost analysis customer name will be shown and amount profit will show default data.",
-//         "Now in stock purchase you can purchase loose metal with is pcs and weight. Also you can see its report\n                which is available in [Inventory > Stock MGMT > Loose Purchase].",
+//         "Now in stock purchase you can purchase loose metal with is pcs and weight. Also you can see its report\n                which is available in [Inventory > Stock MGMT > Loose Purchase] .",
 //         "Before sending mail now you will get an confirmation message to send a mail.",
 //         "Now you can issue and return material by pcs.",
 //         "You can print pay slip without header in it.",
@@ -2236,7 +3194,7 @@ you can print material wise bag print in it.`,
 //         "Now you can add TCS in tax profile and you can add upto three decimals in it.",
 //         "Now you can create diamond sieve size wise group which will be shown in quotation print.",
 //         "Now you can purchase old gold from purchase bill option.",
-//         "We have implemenrted a new report for Sales GST which is available in [Account > Report > GST\n                  Report].",
+//         "We have implemenrted a new report for Sales GST which is available in [Account > Report > GST\n                  Report] .",
 //         "Now in issue material and return material company name also be displayed.",
 //         "In regular tag 7 MRP calculation will work as Current MRP * 3 / 7.",
 //         "Now you can upload rollover image same as uploading other images.",
@@ -2297,7 +3255,7 @@ you can print material wise bag print in it.`,
 //         "Now you can view stock transfer logs up to 4 months.",
 //         "In FG Stock alert you can add weight range in it.",
 //         "Now you can add customer receive directly from sale bill.",
-//         "We have implemented new report material wise stock report where you will get details of all material\n                including pcs, weight quality, size, shape. This report is avialble in [Books Keeping > Material\n                  report > Material wise stock report].",
+//         "We have implemented new report material wise stock report where you will get details of all material\n                including pcs, weight quality, size, shape. This report is avialble in [Books Keeping > Material\n                  report > Material wise stock report] .",
 //         "Now you can search remarks in jobs, WIP Report, and Jewellery Book.",
 //         "Now you can purchase old metal same as doing material purchase.",
 //         "In saving scheme you can settle amount or can give discount amount.",
@@ -2365,27 +3323,80 @@ you can print material wise bag print in it.`,
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
-//       items: ["Old Gold Entry: Now you can also make old gold entry from Payment tab in sale invoice. Also, amount of\n                old gold is also displayed here along with Cash & Bank payments.", "Old Gold Refining: Now use new page to issue & receive of melted metal. Go to Inventory >> Stock\n                  Melt >> Melt Refining. Also added Old Gold Report to view profit earned in the process\n                [Inventory >> Stock Melt >> Old Gold Report].", "Festival Master: Now you can also mention Festival in customer's profile. To add Festival master, go\n                to Master & Policy >> User Master >> Festival."],
+//       items: ["Old Gold Entry: Now you can also make old gold entry from Payment tab in sale invoice. Also, amount of\n                old gold is also displayed here along with Cash & Bank payments.", "Old Gold Refining: Now use new page to issue & receive of melted metal. Go to Inventory >> Stock\n                  Melt >> Melt Refining . Also added Old Gold Report to view profit earned in the process [Inventory >> Stock Melt >> Old Gold Report].", "Festival Master: Now you can also mention Festival in customer's profile. To add Festival master, go\n                to Master & Policy >> User Master >> Festival."],
 //     },
 //     {
 //       title: "Common Updates",
 //       items: ["My Account: Now all values such as Sale, Orders, Party Balance, etc. will display in currency of\n                respective customer. Also, your default print in Back-end will open when will customer open print.", "Now you can also view job count in E-Audit (Purchase Register & Stock Register).", "Now you can de-active any customer's account with help of Active/De-active option available with each\n                customer. Such customer's name will not be binded while making any entry/invoice such as Jewellery Sale,\n                Customer receive, etc. Also, you can add remark while de-activating.", "Currency Exchange rate: Now you can set exchange rate in 4 decimal points."],
 //     },
 //   ],
+//   R41B36: [
+//     {
+//       title: "Manufacturing flow updates",
+//       items: [
+//         "Adv WIP Report: Now you can filter job as per Regular, Sample Line & Repair.",
+//         "Customer Receive Report: Now you can also view Diamond Rate entred while making customer receive\n                entry.",
+//         "Engage Material New: Now you can also view material's code by clicking on 'Material Code' check-box.",
+//         "Now you can also mention Gold Loss while Metal Conversion.",
+//         "Tools Report: Now you can also export data in excel file.",
+//         "Now you can send sms to customer while QC process, informing that their ordered jewellery is ready for\n                dispatch.",
+//         "If finding is available in job then its loss will be allowed from transaction. In that, first metal\n                will be taken as loss and then after loss will be deducted from finding.",
+//         "Job transfer: Now you can also view weight of job in history page.",
+//         "Employee Terminal: Now you can view employee wise issue wt in Terminal view for current date & current\n                month as well.",
+//         "Quotation: Added metal color in Excel and PDF as well.",
+//         "FG Detail report: Added column of Design#.",
+//       ],
+//     },
+//     {
+//       title: "Wholesale & Retail flow Updates",
+//       items: ["Quick Tagging: Now you can also use 'Re-order' in Quick Tagging and can also add Sale MRP.", "CRM - Now you can also view details of 'Family/staff info', add KYC details, create Sale Invoice and\n                other tasks from this single page. [Sales CRM >> Sales >> CRM]", "Enhancements in Job detail feature.", "Added masters of City, State and Area. These masters will bill bind in Customer Registration form. [Master & Policy >> User Master >> City, State, Area & City Area Binding]", "Added option to set discount on Metal Loss in Product Estimate & Jewellery Sale."],
+//     },
+//     {
+//       title: "Common Updates",
+//       items: [
+//         "Repair Print Jewellery Sale: Added new print in which your customer can view following details: 1)\n                Received Jewellery : Details of jewellery recieved for repair. 2) Repaired jewellery : Details of\n                jewellery after repairing is completed. 3) Added material : Details of extra material added. 4) Detached\n                materail : Details of detached material.",
+//         "IGI Excel: Now you can export excel for IGI. Just enter Sale/Memo invoice number & click on Download\n                excel. [Books Keeping >> Export >> IGI & Bill Export]",
+//         "Remark in Cash & Bank Transation: Added new feature to add remark for 'Customer' and this will only\n                display in print.",
+//         "Now you can update 'Lot#' in material purchase entry if material is not used from particular bag.",
+//         "Added Tax values & Add-less value in Material Purchase print.",
+//         "Now you can also select supplier/manufacturer of FG Stock while entering opening stock data in Stock\n                Purchase. This will also work for FG Stock import. In Excel file, just enter manufacturer's code in\n                Supplier column.",
+//         "Size Master: Now you can add size master for each category. Size enterd in this master will bind in\n                Quotation, Stock Purchase, etc.",
+//         "Now you can also add Remarks in Repair issue.",
+//         "Ledger: From now, in ledger of Customer & Manufacturer, gold & diamond received/issued for repairing\n                will also display.",
+//         "Customer Limit Report: Added new report to view Credit limit of each customer. It also indicates\n                whether customer's due is exceeding limit or not. [Account >> Reports >> Customer Limit]",
+//         "Now you can update MISC Ceiling in Jewellery Sale & Estimate.",
+//         "Color Stone Price Master: Now you can set 'On Pcs' by editing particular entry. Earlier you needed to\n                import excel.",
+//         "Bank Transaction: Now you can add Multiple entry in one voucher same as currently working in Cash\n                transaction.",
+//         "Material Sale: Displayed Remarks in Print.",
+//         "Web-Store - Now you can also integrate Pixel Id, a tool for advertisement on social media, for\n                Facebook, Instagram & Google.",
+//         "Account Masters: Now you can also add Opening Balances In Multiple Currency. (Only applicable if you\n                are using Multi-Currency flow)",
+//         "Jewellery Sale: Added Discount feature in customize all.",
+//         "Added Company name in grid of Memo issue, Memo return & Sale return.",
+//         "Now you can also define, for which category 'Size' column should display while Stock Purchase entry. To\n                do so, go to Master & Policy >> Product Making >> Mapping >> Collection Mapping and click on 'Allow\n                Size' check-box for each category for which size is required.",
+//         "Now you can list designs in Wishlist of customer's account. Select designs from Design Collection and\n                then click on 'Move to Wishlist' in Check Out.",
+//         "Edit from Quick Search: Now you can also edit any entry form Quick Search. To do so, just enable 'Allow\n                To Edit' check-box and then click on Invoice number of any event.",
+//         "Certificate# in Quick Search: If you have added Certificate# in job, it will also be displayed in Quick\n                search.",
+//         "Now you can also edit customer's profile form CRM.",
+//         "Certification Charges: Now you can also set certificate charges in master and those will be applied\n                automatically in sale invoice. Firstly, set certificate charges in Master & Policy >> Manufacturing >>\n                Lab. Here you have option to set charged on Pcs as well as Ctw and also weight range. Now, Scan job in\n                Books Keeping >> Sales Book >> Certificate Charge and save certificate charges set in master for this\n                particular job. Once you've saved this, these charges will be applied automatically in sale invoice.",
+//         "Product Estimate report: Added new report to view all designs which are added in Product Estimate.\n                [Books Keeping >> Report >> Product Estimate]",
+//         "User Permission: Now you can also assign employee profile edit rights to any employee. To do so, enable\n                or disable 'Edit Profile - Employee' option in Access Permission tab.",
+//       ],
+//     },
+//   ],
 //   R41: [
 //     {
 //       title: "Manufacturing flow updates",
 //       items: [
-//         "Required Material Report: Added new report as RM Stock from which you can view order wise requirement\n                of raw material.   [Sales CRM >> Sales >> RM Stock]",
+//         "Required Material Report: Added new report as RM Stock from which you can view order wise requirement\n                of raw material. [Sales CRM >> Sales >> RM Stock]",
 //         "ETA Request: Now user cannot place ETA request without rights of any location, i.e. user must have\n                rights of location to plae ETA request.",
 //         "Now you can filter jobs according to Priority in Stock Book.",
-//         "Stock Book: Now option to return job to manufacturing will be visible to employee based on permission.\n                 [User >> Staff >> Employee >> User Permission >> Return Production Job]",
+//         "Stock Book: Now option to return job to manufacturing will be visible to employee based on permission. [User >> Staff >> Employee >> User Permission >> Return Production Job]",
 //         "Adhoc Package Mail: From now, in Regards section, Email id and Name of customer's reference user will\n                be displayed instead of user who have logged when mail is sent.",
-//         "Now you can add Repair Jobs from customer and assign same to Production.  [Sales CRM >> Repair\n                  >> Receive To Repair]",
+//         "Now you can add Repair Jobs from customer and assign same to Production. [Sales CRM >> Repair\n                  >> Receive To Repair]",
 //         "From now, handling charges will get applicable if diamond is of customer.",
 //         "Quotation: Added E-Signature feature in Quotation Email and SMS.",
 //         "Transaction: Now user can Return Material from any locker despite of material being issued from some\n                other locker.",
-//         "Now you can allow departments whose jobs should be allowed to issue to Casting batch. Just enable\n                'Before Casting' feature in MFG department master for particular departmet to do so. Earlier, only\n                Pending Request & Wax Setting Receive jobs were only allowed to add in Casting. Also, you can hide\n                weight column from transaction for any department by using 'Allow Wt' feature.  [Master & Policy\n                  >> Manufacturing >> MFG Department]",
+//         "Now you can allow departments whose jobs should be allowed to issue to Casting batch. Just enable\n                'Before Casting' feature in MFG department master for particular departmet to do so. Earlier, only\n                Pending Request & Wax Setting Receive jobs were only allowed to add in Casting. Also, you can hide\n                weight column from transaction for any department by using 'Allow Wt' feature. [Master & Policy\n                  >> Manufacturing >> MFG Department]",
 //       ],
 //     },
 //     {
@@ -2396,33 +3407,33 @@ you can print material wise bag print in it.`,
 //       title: "Common Updates",
 //       items: [
 //         "Material Sale Print: Now actual quality & weight of Metal & Mount will be displayed in print. Earlier\n                24K was showing regardless of whatever purity (18K, 14K, etc.) is added in entry.",
-//         "Enhancement in Average rate calculation in Stock report.  [Account >> Reports >> Stock Report]",
+//         "Enhancement in Average rate calculation in Stock report. [Account >> Reports >> Stock Report]",
 //         "The effect of detached material will not be applied automatically in ledger of particular\n                manufacturer. You can post it's effect by clicking on 'Post To Ledger' feature given for each issue\n                material voucher.",
 //         "Design Master: Added feature to Auto Generate Design#.",
 //         "Added new column as Purchase Mode (Labour Purchase & FG Purchase) in Stock Purchase Return and\n                Jewellery Sale Return.",
-//         "Now you can also view Profit Percentage in Product Cost Analysis report.  [Books Keeping >>\n                  Report >> Product Cost Analysis]",
+//         "Now you can also view Profit Percentage in Product Cost Analysis report. [Books Keeping >>\n                  Report >> Product Cost Analysis]",
 //         "Now you can view Ledger details by applying pre-defined filters for 30,60 & 90 days. Also, from now,\n                option to apply date manually will be disabled.",
 //         "Mount Purchase: Now you can also apply rate 'On Pcs'.",
-//         "Now you can also maintain stock of MISC material and can use this in jewellery same as currently\n                working for Diamond and Color Stone. All entries such as Material Purchase, Issue Material (to Vendor),\n                Engage Material, Material Sale, etc. are now available for MISC material too. [Master & Policy >>\n                  Material Master >> MISC] [Inventory >> RM Stock >> MISC] \n                What is MISC?    MISC are stones which are used in jewellery but weight of such\n                stones are measured in Grams. Also, you can set weight limit (in gms as well as in %) for MISC which\n                need to be displayed in Sale Invoice. For e.g., 2 gms MISC stone is studded in jewellery and you have\n                set 80% limit, then only 1.6 gms MISC will displayed in Sale Invoice and 0.4 gms will be added in Metal\n                Wt. To set such limit for each MISC, go to Master & Policy >> Price Master >> Labour Set. Now edit any\n                Labour Set and click on Save & Continue to set Ceiling Value for each MISC.",
-//         "Material Wise Sale Report: Added new report to view details of Material used in sold jewellery.\n                 [Books Keeping >> Material Report >> Material Wise Sale Report]",
+//         "Now you can also maintain stock of MISC material and can use this in jewellery same as currently\n                working for Diamond and Color Stone. All entries such as Material Purchase, Issue Material (to Vendor),\n                Engage Material, Material Sale, etc. are now available for MISC material too. [Master & Policy >>\n                  Material Master >> MISC] [Inventory >> RM Stock >> MISC] What is MISC? MISC are stones which are used in jewellery but weight of such\n                stones are measured in Grams. Also, you can set weight limit (in gms as well as in %) for MISC which\n                need to be displayed in Sale Invoice. For e.g., 2 gms MISC stone is studded in jewellery and you have\n                set 80% limit, then only 1.6 gms MISC will displayed in Sale Invoice and 0.4 gms will be added in Metal\n                Wt. To set such limit for each MISC, go to Master & Policy >> Price Master >> Labour Set. Now edit any\n                Labour Set and click on Save & Continue to set Ceiling Value for each MISC.",
+//         "Material Wise Sale Report: Added new report to view details of Material used in sold jewellery. [Books Keeping >> Material Report >> Material Wise Sale Report]",
 //         "Added new column as Country in Lead Customer grid.",
 //         "Product Cost Analysis: Added filter for Company Type in Advance search.",
-//         "Folio view: Now you can view merged ledger of multiple accounts. Just create one Folio by adding such\n                accounts and search with Folio's name in ledger.  [Master & Policy >> Account >> Folio]",
-//         "General Sale: Using this feature you can create invoice for any product or service apart from\n                Jewellery, Precious Stones & Metal.  [Account >> Account >> General Sale & General Sale Return]",
+//         "Folio view: Now you can view merged ledger of multiple accounts. Just create one Folio by adding such\n                accounts and search with Folio's name in ledger. [Master & Policy >> Account >> Folio]",
+//         "General Sale: Using this feature you can create invoice for any product or service apart from\n                Jewellery, Precious Stones & Metal. [Account >> Account >> General Sale & General Sale Return]",
 //         "Settlement: Now you can make settlement entry for All Accounts. Earlier it was available only for\n                Customer, Supplier & Manufacturer.",
 //         "FG stock Melt: Now if customer's material is used in job, then Diamond/Color Stone will be added in\n                material bag of specific customer. Earlier it was added in company stock.",
-//         "Advance Price Policy: Now you can set price policy for selected criteria in Wastage Price. \n                  [Master & Policy >> Price Master >> Wastage Price]  Please contact our support executive for\n                more details",
+//         "Advance Price Policy: Now you can set price policy for selected criteria in Wastage Price. [Master & Policy >> Price Master >> Wastage Price] Please contact our support executive for\n                more details",
 //         "Now you can add all jobs in Product Estimate. Earlier 'In Stock' jobs were only allowed to be added in\n                estimate.",
 //         "Added 'Only Size Grade' feature in Stock Access permission for employee. This feature helps you to\n                assign diamond & color stone grading option for only size. Clarity & Color grading options will be\n                disabled for such user.",
 //         "Material Purchase: Now you can update Labour rate for Mount/Findings.",
 //         "From now, Metal rate will not apply by default in Labour Sale.",
 //         "Due Date report: Now you can also check dues of Manufacturer and Supplier in this report including\n                'over due' and 'bill date wise due'.",
-//         "Stock Bifurcation Report: Now you can search jewellery stock according to gross weight range\n                bifercation in Stock Book & Jewellery Book.  [Master & Policy >> Sales CRM >> Stock Weight\n                  Bifurcation]",
+//         "Stock Bifurcation Report: Now you can search jewellery stock according to gross weight range\n                bifercation in Stock Book & Jewellery Book. [Master & Policy >> Sales CRM >> Stock Weight\n                  Bifurcation]",
 //         "Metal Price: Now you can set metal rate for both Purchase and Sale seperatly.",
 //         "Account stock report: Added pre-defined date filters such as Last Day, Current Month, Last Month, Last\n                3 Month, Last Financial Year & Current Financial Year.",
 //         "Ecat Ad Hoc Package: Now you can also select Start Date and Start Time while changing customer\n                package.",
 //         "Now you can Unmerge jobs also while making jewellery sale invoice. Just select job/s and click on\n                Unmerge button.",
-//         "MRP filter in Jewellery Book: Now you can filter products as per MRP range, set in Price Range master.\n                 [Master & Policy >> Sales >> Price Range]",
+//         "MRP filter in Jewellery Book: Now you can filter products as per MRP range, set in Price Range master. [Master & Policy >> Sales >> Price Range]",
 //         "Labour set (Fix Making): Now you can select which weight should be considered to apply Fix Making\n                charges (Metal wt or Gross wt or Metal+Diam).",
 //       ],
 //     },
@@ -2430,7 +3441,7 @@ you can print material wise bag print in it.`,
 //   R40: [
 //     {
 //       title: "Manufacturing flow updates",
-//       items: ["Expected Loss restriction - Removed this validation for jobs whose metal type is Silver.", "Quotation & Sales Order: Now you can remove Metal rate from all designs by using 'Metal Rate Zero'\n                feature.", "Added 'Location' filter in Advance Search in Sample Stock page.  [Inventory >> Stock MGMT >>\n                  Sample Stock]", "Enhancement in Setting report."],
+//       items: ["Expected Loss restriction - Removed this validation for jobs whose metal type is Silver.", "Quotation & Sales Order: Now you can remove Metal rate from all designs by using 'Metal Rate Zero'\n                feature.", "Added 'Location' filter in Advance Search in Sample Stock page. [Inventory >> Stock MGMT >>\n                  Sample Stock]", "Enhancement in Setting report."],
 //     },
 //     {
 //       title: "Wholesale & Retail flow Updates",
@@ -2439,7 +3450,7 @@ you can print material wise bag print in it.`,
 //     {
 //       title: "Common Updates",
 //       items: [
-//         "Repair Voucher: Now you can apply separate Tax rates for repair invoices. Click on 'Repair Voucher' in\n                customer info section while making new sale invoice. To define tax rate and HSN of Repair, go to\n                'Master & Policy >> Account >> Item Master' and search for Repair. Also removed 'Due\n                  Date' column in all print formats for repair invoices only.",
+//         "Repair Voucher: Now you can apply separate Tax rates for repair invoices. Click on 'Repair Voucher' in\n                customer info section while making new sale invoice. To define tax rate and HSN of Repair, go to 'Master & Policy >> Account >> Item Master' and search for Repair. Also removed 'Due\n                  Date' column in all print formats for repair invoices only.",
 //         "Cash & Bank Voucher Print: Displayed 'Address' with Company Name in Paid To/Received From column.",
 //         "Bank Reconciliation: Now you can filter 'Cleared & Uncleared' transactions and also can remove 'Bank\n                Date' from any entry even when it is set.",
 //         "Sales Order Type: Added new feature to select order type whie creating order. [Master & Policy\n                  >> Sales CRM >> Order Type]",
@@ -2451,12 +3462,12 @@ you can print material wise bag print in it.`,
 //     {
 //       title: "Manufacturing flow updates",
 //       items: [
-//         "Now you can define department wise 'Unlock Material Option' in master. Earlier, Unlock material was\n                only limited with setting department.  (Master & Policy >> Manufacturing >> MFG\n                  Department)",
+//         "Now you can define department wise 'Unlock Material Option' in master. Earlier, Unlock material was\n                only limited with setting department. (Master & Policy >> Manufacturing >> MFG\n                  Department)",
 //         "Dust Collector Report: Added new column as 'Net wt'.",
 //         "Setting Report: Added 3 new columns as Material, Quality & Color.",
 //         "Order Info Report: Added new report to view order wise remark entered in each job. (Sales CRM\n                  >> Reports >> Order Info)",
 //         "Finding Master update: Added new column as 'Finding Accessory Code'.",
-//         "Added Engage Material Tag to print tags with details of engaged material on QR Code enabled tags.\n                Note: This feature is only available in 'Engage Material New' page.",
+//         "Added Engage Material Tag to print tags with details of engaged material on QR Code enabled tags. Note: This feature is only available in 'Engage Material New' page.",
 //         "Added diamond to gold ratio in CAD Info. D/G Ratio = Total Diamond Ctw/Total Net wt. (PD >> PD\n                  Order >> PD Order List)",
 //         "Jobs In Casting: Now you can filter jobs as per Priority while adding jobs in casting batch.",
 //         "Stamping Details: Now you can add/update stamping details while creating sales order.",
@@ -2464,7 +3475,7 @@ you can print material wise bag print in it.`,
 //         "'Like' feature for uploaded sketch images in sketches list.",
 //         "Quotation: Added Metal color in PDF.",
 //         "Product Cost Analysis: Calculation update for 'Pure wt' of jobs (only manufacturing jobs).",
-//         "Department wise loss: Now you can set department wise gross weight limit to ignore expected loss\n                restriction. For e.g. In Filing department, you have set 2% in expected loss and 3 gm in 'Ignore wt\n                Upto'. Now, while returning job from Filing, software will not apply expected loss restriction for jobs\n                whose gross weight is 3 gms or less.  (Master & Policy >> Manufacturing >> MFG\n                  Department)",
+//         "Department wise loss: Now you can set department wise gross weight limit to ignore expected loss\n                restriction. For e.g. In Filing department, you have set 2% in expected loss and 3 gm in 'Ignore wt\n                Upto'. Now, while returning job from Filing, software will not apply expected loss restriction for jobs\n                whose gross weight is 3 gms or less. (Master & Policy >> Manufacturing >> MFG\n                  Department)",
 //         "Transaction: Now you can view Last 3 losses registered in any design. Just click on 'Last 3 Loss'\n                hyper-link to view data.",
 //         "Transaction: Now system will give alert if any design# is assigned multiple times in same department.\n                System will compare designs according to 'Design#', 'Metal Type', 'Metal Quality' and 'Metal Color'.",
 //         "Quotation & Sales Order: Now you can also view availability of Finding in Stock Availability feature.",
@@ -2474,12 +3485,12 @@ you can print material wise bag print in it.`,
 //       title: "Wholesale & Retail flow Updates",
 //       items: [
 //         "Stock Purchase: Added column to add 'MFG DESIGN NO'.",
-//         "Advance KYC: Now you can add details such as name, address, contact, birth date, etc of customer's\n                family members too.  (User >> Customer >> Customer >> User Info >> Staff/Family Info)",
+//         "Advance KYC: Now you can add details such as name, address, contact, birth date, etc of customer's\n                family members too. (User >> Customer >> Customer >> User Info >> Staff/Family Info)",
 //         "FG Stock Alert Report: Now you can view required quantity for FG Stock according to defined minimum\n                quantity and available quantity in Stock & Memo. (Master & Policy >> Sales CRM >> FG Stock\n                  Alert)",
 //         "Now 'Making charges' on Gold Rate% will also be applied in Memo and Memo return.",
-//         "Product Estimate feature to give estimated price to customer with print.(Sales CRM >> Sales\n                  Book >> Product Estimate)",
+//         "Product Estimate feature to give estimated price to customer with print. (Sales CRM >> Sales\n                  Book >> Product Estimate)",
 //         "Repair Return: Added option to add 'Mount' same as Diamond & Solitaire.",
-//         "Now you can quickly add data of Job based Stock Purchase with help of import feature.  (Master\n                  & Policy >> Import >> Outsource Job Import)",
+//         "Now you can quickly add data of Job based Stock Purchase with help of import feature. (Master\n                  & Policy >> Import >> Outsource Job Import)",
 //         "Issue Material: Now you can quickly issue material to vendor according to assigned PO. Just enter PO#\n                in issue material window to get list.",
 //       ],
 //     },
@@ -2487,10 +3498,10 @@ you can print material wise bag print in it.`,
 //       title: "Common Updates",
 //       items: [
 //         "Added 'IMPS' & 'UPI' in payment mode options in Bank transaction.",
-//         "Label name change of Repair: We've changed label name of Repair feature. New labels are as follows:\n                Jobs In Repair = Product Alteration, Stock in Repair = Alteration Stock and\n                Repaired Jobs = Product Alteration Receive.",
+//         "Label name change of Repair: We've changed label name of Repair feature. New labels are as follows: Jobs In Repair = Product Alteration , Stock in Repair = Alteration Stock and Repaired Jobs = Product Alteration Receive.",
 //         "Alteration type: Now you need to select 'Alteration Type' while assigning job for alteration. To\n                create alteration types masters, go to Master & Policy >> Sales CRM >> Alteration Type.",
 //         "Design Collection: Added column for 'Product Type' & 'Brand'.",
-//         "Now you can upload image of particular Color Stone & Finding in master.  (Master & Policy >>\n                  Material Master >> Color Stone/Finding)",
+//         "Now you can upload image of particular Color Stone & Finding in master. (Master & Policy >>\n                  Material Master >> Color Stone/Finding)",
 //         "Sales Report: Now 'Setting' and 'Handling' charges will be displayed separately in Summary data.",
 //         "Displayed Company name with Customer code at many pages such as Jewellery sale, Jobs, Customer\n                Receive, etc.",
 //         "Now you can customize diamond's color too from stock book.",
@@ -2499,8 +3510,8 @@ you can print material wise bag print in it.`,
 //         "Parent Design: Now you can add 'Parent Design number' in each design. With the help of Advance search,\n                you can also search all designs of any specific Parent design.",
 //         "Wastage Price Master: Now you can set Making rate instead of wastage. Just enable 'Set as making'\n                check-box if you want to set entered value as making.",
 //         "Displayed 'Brand Name' with Job number in all pages where job is added for Inward or Outward of\n                jewellery.",
-//         "Mode Of Delivery: Now you can select Delivery Mode (shipping company) while creating sales order. The\n                delivery charges will be added in invoice as per the charges mentioned for each delivery mode in master.\n                 (Master & Policy >> Sales CRM >> Mode Of Delivery)",
-//         "Feature to upload Journal Entries from excel.  (Master & Policy >> Import >> Journal)",
+//         "Mode Of Delivery: Now you can select Delivery Mode (shipping company) while creating sales order. The\n                delivery charges will be added in invoice as per the charges mentioned for each delivery mode in master. (Master & Policy >> Sales CRM >> Mode Of Delivery)",
+//         "Feature to upload Journal Entries from excel. (Master & Policy >> Import >> Journal)",
 //         "Daily Statement and Transaction report: Hyper-link on account name to open ledger.",
 //         "E-signature feature is now also available for Cash & Bank SMS and Sales Order Email.",
 //         "Design Master: Changes in material info section and now details of Findings can also be added in\n                material details.",

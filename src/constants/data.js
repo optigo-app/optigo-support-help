@@ -132,7 +132,7 @@ export const mainTabs = [
     color: "purple",
     TabId: 1,
     slug:'Ticket',
-    SystemId: 18294,
+    SystemId: [18294, 18262],
   },
   {
     id: "delivery",

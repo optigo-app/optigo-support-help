@@ -70,7 +70,11 @@ const Navbar = ({ setOpen }) => {
   const rightsSet = new Set((userRights || []).map((r) => r?.id));
   const visibleTabs = isThirdParty
     ? []
-    : mainTabs?.filter((card) => rightsSet.has(card?.SystemId));
+    : mainTabs?.filter((card) =>
+        Array.isArray(card?.SystemId)
+          ? card.SystemId.some((id) => rightsSet.has(id))
+          : rightsSet.has(card?.SystemId)
+      );
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

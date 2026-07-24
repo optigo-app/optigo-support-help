@@ -29,7 +29,7 @@ export const featureCards = [
     id: "ticketing-system",
     title: "Tickets",
     slug: "Ticket",
-    SystemId: 18294,
+    SystemId: [18294, 18262],
     components: <TicketUiClient />
   },
   {
@@ -67,9 +67,23 @@ const FeatureSection = () => {
       .filter(Boolean)
   );
 
-  const visibleCards = featureCards.filter((card) =>
-    rightsSet.has(card?.SystemId) && (!isThirdParty || ![18290, 18294, 18291, 18292].includes(card.SystemId))
-  );
+  const visibleCards = featureCards.filter((card) => {
+    const hasRight = Array.isArray(card?.SystemId)
+      ? card.SystemId.some((id) => rightsSet.has(id))
+      : rightsSet.has(card?.SystemId);
+
+    const cardSystemIds = Array.isArray(card?.SystemId)
+      ? card.SystemId
+      : [card?.SystemId];
+
+    const isExcludedThirdParty =
+      isThirdParty &&
+      cardSystemIds.some((id) =>
+        [18290, 18294, 18262, 18291, 18292].includes(id)
+      );
+
+    return hasRight && !isExcludedThirdParty;
+  });
 
   const handleClick = (id) => {
     localStorage.setItem("currentCategory_id", id);

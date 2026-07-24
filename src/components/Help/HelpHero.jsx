@@ -270,7 +270,7 @@ const HelpHero = ({ setSearchQuery, searchQuery }) => {
               </Box>
 
               {/* Quick Navigation Tags */}
-              <Stack
+              {/* <Stack
                 direction="row"
                 spacing={1.5}
                 justifyContent={{ xs: "center", md: "flex-start" }}
@@ -322,7 +322,7 @@ const HelpHero = ({ setSearchQuery, searchQuery }) => {
                     {tag.label}
                   </Box>
                 ))}
-              </Stack>
+              </Stack> */}
             </Box>
           </Grid>
 

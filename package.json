@@ -1,6 +1,6 @@
 {
   "name": "call_logger",
-  "version": "0.0.82",
+  "version": "0.0.97",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
