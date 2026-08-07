@@ -1,5 +1,5 @@
 import { useContext, createContext, useState, useEffect } from "react";
-import { GetCredentialsFromCookie } from "../utils/AuthUtils";
+import { GetCredentialsFromCookie, removeSkeyCookie } from "../utils/AuthUtils";
 import { BaseAPI } from "../../apis/BaseAPI";
 import CenteredCircularLoader from "../components/CallLogger/Loading";
 import { Box, Typography, Button, Container, Paper } from "@mui/material";
@@ -50,15 +50,23 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [isThirdParty, setIsThirdParty] = useState(() => {
-    if (Cookies.get("skey")) {
-      return false;
-    }
+    // Priority 1: explicit URL param (fresh ERP entry)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("thirdparty") === "true") {
       sessionStorage.setItem("is_third_party", "true");
       return true;
     }
-    return sessionStorage.getItem("is_third_party") === "true";
+    // Priority 2: persisted flag from previous load in this tab
+    if (sessionStorage.getItem("is_third_party") === "true") {
+      return true;
+    }
+    // Priority 3: skey present but no normal login cookie → infer third-party.
+    // (Previously this returned false when skey existed — which was backwards.)
+    if (Cookies.get("skey") && !Cookies.get("isUserLoggedIn")) {
+      sessionStorage.setItem("is_third_party", "true");
+      return true;
+    }
+    return false;
   });
 
   const clearState = (keepThirdParty = false) => {
@@ -103,6 +111,9 @@ export function AuthProvider({ children }) {
           Cookies.set("help_support", jwtToken);
         }
         Cookies.set("isUserLoggedIn", "true", { sameSite: "Lax" });
+        // Store localStorage anchor so normal-login sessions can be distinguished
+        // from externally-set ERP skeys on the next page load.
+        localStorage.setItem("app_active_skey", jwtToken);
         setIsAuthenticated(true);
         setUserRights(token?.userRights);
         setUser(token?.userInfo);
@@ -208,13 +219,29 @@ export function AuthProvider({ children }) {
   };
 
   const Logout = () => {
+    // 1. Remove cookies — domain-aware removal prevents silent failure
     Cookies.remove("help_support");
     Cookies.remove("isUserLoggedIn");
-    Cookies.remove("skey");
-    sessionStorage?.removeItem("userRights");
-    sessionStorage?.removeItem("isDummyLogger");
+    removeSkeyCookie();
+
+    // 2. Clear localStorage anchor (set during normal login)
+    localStorage.removeItem("app_active_skey");
+
+    // 3. Clear all session flags
+    sessionStorage.removeItem("userRights");
+    sessionStorage.removeItem("isDummyLogger");
+    sessionStorage.removeItem("is_third_party");
+
+    // 4. Reset React state synchronously BEFORE navigating,
+    //    so the next page load doesn't inherit stale state.
+    setUser(null);
+    setToken(null);
+    setIsAuthenticated(false);
+    setIsThirdParty(false);
+    setAuthChecked(false);
+
+    // 5. Hard redirect to login
     window.location.href = "/login";
-    clearState();
   };
 
   const initializeService = (service, credentials) => {

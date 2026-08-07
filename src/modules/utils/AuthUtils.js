@@ -23,8 +23,15 @@ export function GetCredentialsFromCookie() {
 
         const skey = Cookies.get("skey");
         const helpSupport = Cookies.get("help_support");
+        const isUserLoggedIn = Cookies.get("isUserLoggedIn") === "true";
 
-        if (skey) {
+        // Prefer help_support when user explicitly logged in via normal login.
+        // This prevents a stale skey (set by ERP) from shadowing a fresh session.
+        if (isUserLoggedIn && helpSupport) {
+            token = helpSupport;
+            isSkey = false;
+        } else if (skey) {
+            // Third-party / ERP skey path
             token = skey;
             isSkey = true;
         } else if (helpSupport) {
@@ -48,6 +55,27 @@ export function GetCredentialsFromCookie() {
     } catch (error) {
         console.error("Failed to parse JWT from cookie:", error);
         return null;
+    }
+}
+
+/**
+ * Domain-aware skey removal.
+ * js-cookie's remove() requires matching path/domain options used at set-time.
+ * Trying all combinations ensures removal even when skey was set on a parent domain.
+ */
+export function removeSkeyCookie() {
+    const cookieOptions = { path: "/", sameSite: "Lax" };
+    Cookies.remove("skey", cookieOptions);
+    Cookies.remove("skey", { path: "/" });
+    const domain = window.location.hostname;
+    if (domain && domain !== "localhost" && domain !== "127.0.0.1") {
+        Cookies.remove("skey", { path: "/", domain });
+        // Also try parent domain (e.g. .optigoapps.com)
+        const parts = domain.split(".");
+        if (parts.length > 2) {
+            const parentDomain = "." + parts.slice(-2).join(".");
+            Cookies.remove("skey", { path: "/", domain: parentDomain });
+        }
     }
 }
 
