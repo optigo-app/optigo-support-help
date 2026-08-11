@@ -1,7 +1,7 @@
 {
   "homepage": "/support",
   "name": "call_logger",
-  "version": "0.0.98",
+  "version": "0.0.101",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
