@@ -20,7 +20,7 @@ const CategoryPage = () => {
   return (
     <Wrapper>
       <Main />
-      {!isThirdParty && <Chat defaultOpen={false} />}
+      {/* {!isThirdParty && <Chat defaultOpen={false} />} */}
     </Wrapper>
   );
 };

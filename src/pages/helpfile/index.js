@@ -16,7 +16,7 @@ const HelpPage = () => {
       <Wrapper>
         <HelpMain faqPathInfo={faqPathInfo} />
       </Wrapper>
-      {!isThirdParty && <Chat defaultOpen={false} />}
+      {/* {!isThirdParty && <Chat defaultOpen={false} />} */}
     </Box>
   );
 };

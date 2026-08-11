@@ -25,7 +25,7 @@ root.render(
   <>
     <HelmetProvider>
       <BrowserRouter
-      basename="/support"
+      // basename="/support"
       // basename={process.env.NODE_ENV === "development" ? "" : "/support"}
       >
         <NuqsAdapter>
