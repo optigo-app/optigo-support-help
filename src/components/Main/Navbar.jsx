@@ -71,7 +71,9 @@ const Navbar = ({ setOpen }) => {
   const visibleTabs = isThirdParty
     ? []
     : mainTabs?.filter((card) =>
-        Array.isArray(card?.SystemId)
+        card?.SystemId == null
+          ? true
+          : Array.isArray(card?.SystemId)
           ? card.SystemId.some((id) => rightsSet.has(id))
           : rightsSet.has(card?.SystemId)
       );

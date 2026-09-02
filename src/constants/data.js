@@ -153,12 +153,12 @@ export const mainTabs = [
     SystemId: 18292,
   },
   {
-    id: "more3",
-    label: "More",
-    icon: <MoreHorizontalIcon sx={{ fontSize: 16 }} />,
-    color: "#9ca3af",
+    id: "supportdesk",
+    label: "SupportDesk",
+    icon: <SupportAgent sx={{ fontSize: 16 }} />,
+    color: "#6900C6",
     TabId: 4,
-    slug:'More',
+    slug: 'SupportDesk',
     SystemId: null,
   },
 ];

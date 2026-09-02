@@ -11,7 +11,7 @@ export const getTabContent = (activeTab) => {
       <Box
         sx={{
           position: "relative",
-          height: "100vh",
+          height: activeTab === 4 ? "calc(100vh - 55px)" : "100vh",
           overflow: "hidden",
         }}
       >

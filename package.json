@@ -1,6 +1,6 @@
 {
   "name": "call_logger",
-  "version": "0.0.102",
+  "version": "0.0.103",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -54,6 +54,7 @@
     "i": "^0.3.7",
     "idb": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
+    "immutable": "^4.3.9",
     "install": "^0.13.0",
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
@@ -106,6 +107,7 @@
     "recoil": "^0.7.7",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
+    "rxjs": "^7.8.2",
     "semver": "^7.3.5",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.8.1",

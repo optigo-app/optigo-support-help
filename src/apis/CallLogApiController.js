@@ -3,19 +3,32 @@ import { BaseAPI, ApiError } from "./BaseAPI";
 class CallLogApi extends BaseAPI {
   static serviceName = "CallLog";
 
-  static async requestToApi({ mode, params, yearCode, functionName ,socketEvent }) {
+  static async requestToApi({
+    mode,
+    params,
+    yearCode,
+    functionName,
+    socketEvent,
+  }) {
     return super.requestToApi({
       mode,
       params,
       yearCode,
       functionName,
       serviceName: this.serviceName,
-      socketEvent
+      socketEvent,
     });
   }
 
   // Fetch Call Logs
-  static async getCallLogs({ statusId, projectId, filter, startDate, endDate, searchTerm }) {
+  static async getCallLogs({
+    statusId,
+    projectId,
+    filter,
+    startDate,
+    endDate,
+    searchTerm,
+  }) {
     try {
       const params = {
         StatusId: statusId,
@@ -70,7 +83,18 @@ class CallLogApi extends BaseAPI {
   }
 
   // Add a Call
-  static async addCall({ entryDate, customerName, projectID, appID, description, deptId, empId, source, createdBy ,CorpId }) {
+  static async addCall({
+    entryDate,
+    customerName,
+    projectID,
+    appID,
+    description,
+    deptId,
+    empId,
+    source,
+    createdBy,
+    CorpId,
+  }) {
     try {
       const params = {
         EntryDate: entryDate,
@@ -90,7 +114,7 @@ class CallLogApi extends BaseAPI {
         mode: "ADDCALL",
         params,
         functionName: "ADDCALL",
-        socketEvent : 'AddCall'
+        socketEvent: "AddCall",
       });
 
       return response;
@@ -100,7 +124,20 @@ class CallLogApi extends BaseAPI {
     }
   }
 
-  static async editCallApi(CallLogid, createdBy, customerName, PriorityId, ParentId, description, employeeId, DeptId, status, Estatus, calldetails, EntryDate) {
+  static async editCallApi(
+    CallLogid,
+    createdBy,
+    customerName,
+    PriorityId,
+    ParentId,
+    description,
+    employeeId,
+    DeptId,
+    status,
+    Estatus,
+    calldetails,
+    EntryDate,
+  ) {
     try {
       const params = {
         CallLogid: CallLogid,
@@ -200,7 +237,7 @@ class CallLogApi extends BaseAPI {
         mode: "ACCEPTCALL",
         params,
         functionName: "ACCEPTCALL",
-         socketEvent :'AcceptCall'
+        socketEvent: "AcceptCall",
       });
       return response;
     } catch (error) {
@@ -212,7 +249,13 @@ class CallLogApi extends BaseAPI {
   // Add Call Comments
   static async addCallComments(callLogId, comments, filePath, createdBy) {
     try {
-      const params = { CallLogid: callLogId, Comments: comments, FilePath: filePath, CreatedBy: createdBy };
+      const params = {
+        CallLogid: callLogId,
+        Comments: comments,
+        FilePath: filePath,
+        CreatedBy: createdBy,
+        IsClient: 1,
+      };
       const response = await this.requestToApi({
         mode: "COMMENTS",
         params,
@@ -226,9 +269,19 @@ class CallLogApi extends BaseAPI {
   }
 
   // Add Feedback
-  static async addFeedback({ callLogId, feedback, ratingByCustomer , createdBy }) {
+  static async addFeedback({
+    callLogId,
+    feedback,
+    ratingByCustomer,
+    createdBy,
+  }) {
     try {
-      const params = { CallLogid: callLogId, RatingByCustomer: feedback , CreatedBy: createdBy ,...(ratingByCustomer &&  { Feedback: ratingByCustomer}) };
+      const params = {
+        CallLogid: callLogId,
+        RatingByCustomer: feedback,
+        CreatedBy: createdBy,
+        ...(ratingByCustomer && { Feedback: ratingByCustomer }),
+      };
       const response = await this.requestToApi({
         mode: "FEEDBACK",
         params,
@@ -244,7 +297,11 @@ class CallLogApi extends BaseAPI {
   // Change Internal Status
   static async changeInternalStatus({ callLogId, statusId, createdBy }) {
     try {
-      const params = { CallLogid: callLogId, StatusId: statusId, CreatedBy: createdBy };
+      const params = {
+        CallLogid: callLogId,
+        StatusId: statusId,
+        CreatedBy: createdBy,
+      };
       const response = await this.requestToApi({
         mode: "IS",
         params,
@@ -258,7 +315,12 @@ class CallLogApi extends BaseAPI {
   }
 
   // Change External Status and Priority
-  static async changeExternalStatusAndPriority({ callLogId, statusId, priorityId, createdBy }) {
+  static async changeExternalStatusAndPriority({
+    callLogId,
+    statusId,
+    priorityId,
+    createdBy,
+  }) {
     try {
       const params = { CallLogid: callLogId, CreatedBy: createdBy };
       if (statusId) {
@@ -284,12 +346,18 @@ class CallLogApi extends BaseAPI {
   // Forward a Call
   static async forwardCall({ callLogId, deptId, empId, createdBy, statusId }) {
     try {
-      const params = { CallLogid: callLogId, DeptId: deptId, EmpId: empId, CreatedBy: createdBy, StatusId: statusId };
+      const params = {
+        CallLogid: callLogId,
+        DeptId: deptId,
+        EmpId: empId,
+        CreatedBy: createdBy,
+        StatusId: statusId,
+      };
       const response = await this.requestToApi({
         mode: "FORWARDED",
         params,
         functionName: "FORWARDED",
-                socketEvent : 'ForwardedCall'
+        socketEvent: "ForwardedCall",
       });
       return response;
     } catch (error) {
@@ -298,15 +366,25 @@ class CallLogApi extends BaseAPI {
     }
   }
 
-  static async CreateCustomerRating({ callLogId, RatingValue, RatingDescription, RatingBy }) {
+  static async CreateCustomerRating({
+    callLogId,
+    RatingValue,
+    RatingDescription,
+    RatingBy,
+  }) {
     try {
-      const params = { CallLogid: callLogId, RatingValue: RatingValue, RatingBy: RatingBy, ...(RatingDescription?.trim() ? { RatingDescription } : {}) };
+      const params = {
+        CallLogid: callLogId,
+        RatingValue: RatingValue,
+        RatingBy: RatingBy,
+        ...(RatingDescription?.trim() ? { RatingDescription } : {}),
+      };
       const response = await this.requestToApi({
         mode: "ADDRATING",
         params,
         functionName: "ADD RATING",
       });
-          // "p":"{\"CallLogid\":95,\"Feedback\":\"Work is good.\",\"RatingByCustomer\":5,\"CreatedBy\":2,}",
+      // "p":"{\"CallLogid\":95,\"Feedback\":\"Work is good.\",\"RatingByCustomer\":5,\"CreatedBy\":2,}",
       return response;
     } catch (error) {
       console.error("Error forwarding call:", error);

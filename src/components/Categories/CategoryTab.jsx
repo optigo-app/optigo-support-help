@@ -7,17 +7,18 @@ import ScrollTopButton from "./ScrollTopButton";
 export default function CategoryTab() {
   const { tabId } = useParams();
   const TabQuery = Number(tabId);
+  const isFullLayout = TabQuery === 1 || TabQuery === 4;
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
         bgcolor: "#fff",
-        px: TabQuery === 1 ? 0 : 5,
-        py: TabQuery === 1 ? 5 : 0,
-        pb: TabQuery === 1 ? 0 : 2,
+        px: isFullLayout ? 0 : 5,
+        py: isFullLayout ? 0 : (TabQuery === 1 ? 5 : 0),
+        pb: isFullLayout ? 0 : 2,
         width: "100%",
-        overflow: "scroll",
+        overflow: TabQuery === 4 ? "hidden" : "auto",
       }}
     >
       {/* <MetaWrapper page={TabQuery} /> */}
@@ -28,7 +29,7 @@ export default function CategoryTab() {
         elevation={0}
       ></Paper>
       <Box sx={{ transition: "all 0.3s ease-in-out" }}>{getTabContent(TabQuery)}</Box>
-      <ScrollTopButton />
+      {TabQuery !== 4 && <ScrollTopButton />}
     </Box>
   );
 }

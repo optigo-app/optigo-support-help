@@ -88,14 +88,19 @@ export function CallLogProvider(props) {
           filter: savedTarget || "",
           searchTerm: savedSearch || "",
         });
-        setCallLog(data?.rd)
+        const list =
+          data?.rd ||
+          data?.Data?.rd ||
+          data?.data?.rd ||
+          (Array.isArray(data) ? data : []);
+        setCallLog(list);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     if (!user) return;
-    GetAllCallLogs()
-  }, [refreshList])
+    GetAllCallLogs();
+  }, [refreshList]);
 
 
   const addCall = useCallback(async (call, isConcurrent) => {

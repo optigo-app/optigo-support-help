@@ -11,6 +11,9 @@ import CallLogDashBoard from "../../modules/components/CallLogger";
 import DeliveryDashboard from "../../modules/components/Delivery&Training/components/Delivery/Main";
 import TrainingDashboard from "../../modules/components/Delivery&Training/components/Training/Main";
 import TicketUiClient from "../../modules/components/TicketUi/latest/components/index";
+import SupportWorkspace from "../SupportDesk";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+
 export const featureCards = [
   {
     icon: <PermPhoneMsgRoundedIcon style={{ fontSize: 40, color: "#2196F3" }} />,
@@ -52,6 +55,16 @@ export const featureCards = [
     SystemId: 18292,
     components: <TrainingDashboard />
   },
+  {
+    icon: <SupportAgentIcon sx={{ fontSize: 40, color: "#6900C6" }} />,
+    title: "SupportDesk",
+    description: "Enterprise communication and support tickets workspace.",
+    TabId: 4,
+    id: "support-desk",
+    slug: 'SupportDesk',
+    SystemId: null,
+    components: <SupportWorkspace />
+  },
 ];
 
 const FeatureSection = () => {
@@ -68,13 +81,16 @@ const FeatureSection = () => {
   );
 
   const visibleCards = featureCards.filter((card) => {
-    const hasRight = Array.isArray(card?.SystemId)
-      ? card.SystemId.some((id) => rightsSet.has(id))
-      : rightsSet.has(card?.SystemId);
+    const hasRight =
+      card?.SystemId == null
+        ? true
+        : Array.isArray(card?.SystemId)
+        ? card.SystemId.some((id) => rightsSet.has(id))
+        : rightsSet.has(card?.SystemId);
 
     const cardSystemIds = Array.isArray(card?.SystemId)
       ? card.SystemId
-      : [card?.SystemId];
+      : card?.SystemId ? [card?.SystemId] : [];
 
     const isExcludedThirdParty =
       isThirdParty &&
