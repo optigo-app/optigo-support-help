@@ -81,8 +81,8 @@
       "english": null
     },
     "youtube": {
-      "english": "https://youtu.be/F_ASyAPk7q8",
-      "hindi": "https://youtu.be/6ys5Kunfc4E"
+      "english": "https://youtu.be/dRF-_j9kpEE",
+      "hindi": "https://youtu.be/F_ASyAPk7q8"
     },
     "createdBy": null
   },
@@ -110,8 +110,8 @@
       "english": null
     },
     "youtube": {
-      "english": "https://youtu.be/ZpehFMtawII",
-      "hindi": "https://youtu.be/_3znTLMVmw8"
+      "english": "https://youtu.be/_3znTLMVmw8",
+      "hindi": "https://youtu.be/ZpehFMtawII"
     },
     "createdBy": null
   },
@@ -146,7 +146,123 @@
   },
   {
     "srNo": 6,
-    "module": "Department & Designation",
+    "module": "Adavnce Price Policy",
+    "moduleHindi": "अग्रिम (एडवांस) मूल्य (प्राइस) नीति (पॉलिसी)",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/U_5p8JFyr4Y",
+      "hindi": "https://youtu.be/4ysoRgizq8Y"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 7,
+    "module": "Diamond Price Policy",
+    "moduleHindi": "हीरा (डायमंड) मूल्य (प्राइस) नीति (पॉलिसी)",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/2qDcwjSufKc",
+      "hindi": "https://youtu.be/g0RfhA7RTp8"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 8,
+    "module": "Labour Price Policy",
+    "moduleHindi": "मजदूरी (लेबर) मूल्य (प्राइस) नीति (पॉलिसी)",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/A7BA-29F2PA",
+      "hindi": "https://youtu.be/4QMdoQg7XxM"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 9,
+    "module": "ColorStone Price Policy",
+    "moduleHindi": "रंगीन पत्थर मूल्य (प्राइस) नीति (पॉलिसी)",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/1cz18YSXjo4",
+      "hindi": "https://youtu.be/dVo309jaK5M"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 10,
+    "module": "Department And Designation",
     "moduleHindi": "विभाग और पद",
     "section": "Masters & Policy",
     "sectionHindi": "मास्टर्स और पॉलिसी",
@@ -174,8 +290,8 @@
     "createdBy": null
   },
   {
-    "srNo": 7,
-    "module": "Brand, Product Type, Setting Type",
+    "srNo": 11,
+    "module": "Brand , Product Type , Setting Type",
     "moduleHindi": "ब्रांड, उत्पाद प्रकार, सेटिंग प्रकार",
     "section": "Masters & Policy",
     "sectionHindi": "मास्टर्स और पॉलिसी",
@@ -203,8 +319,501 @@
     "createdBy": null
   },
   {
-    "srNo": 8,
-    "module": " Mapping",
+    "srNo": 12,
+    "module": "Metal Master",
+    "moduleHindi": "धातु (मेटल) मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/dgjFoXmuJwE",
+      "hindi": "https://youtu.be/K-1fbgX5qLc"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 13,
+    "module": "Diamond Master",
+    "moduleHindi": "हीरा (डायमंड) मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/CEys7Xr6REA",
+      "hindi": "https://youtu.be/Z8R8mdbPjms"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 14,
+    "module": "ColorStone Master",
+    "moduleHindi": "रंगीन पत्थर मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/OMvZHWpm5nE",
+      "hindi": "https://youtu.be/5wkiSB-ZO6I"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 15,
+    "module": "Finding Master",
+    "moduleHindi": "फाइंडिंग मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/3IRifsHlTyY",
+      "hindi": "https://youtu.be/5eeBLEohvLE"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 16,
+    "module": "MISC Master",
+    "moduleHindi": "विविध मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/4Nn_Ac4w8p8",
+      "hindi": "https://youtu.be/LerIDPtaw0s"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 17,
+    "module": "Mapping Master",
+    "moduleHindi": "मैपिंग मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 18,
+    "module": "Item Master",
+    "moduleHindi": "आइटम मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 19,
+    "module": "Setting Secondary Price Policy",
+    "moduleHindi": "सेटिंग माध्यमिक मूल्य (प्राइस) नीति (पॉलिसी)",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 20,
+    "module": "Item master and gst update",
+    "moduleHindi": "आइटम मास्टर and जीएसटी अपडेट",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 21,
+    "module": "Tax master",
+    "moduleHindi": "टैक्स मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 22,
+    "module": "Alteration Type",
+    "moduleHindi": "परिवर्तन (अल्टरेशन) Type",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/Cz-RjCiVceM",
+      "hindi": "https://youtu.be/O2ShnqmNEC4"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 23,
+    "module": "Priority Master",
+    "moduleHindi": "Priority मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/yvn0BADtcrE",
+      "hindi": "https://youtu.be/RtnvdgUONF4"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 24,
+    "module": "Make Type Master",
+    "moduleHindi": "Make Type मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/fk00F_rgiMw",
+      "hindi": "https://youtu.be/3eH_TYZIDcQ"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 25,
+    "module": "QC Master",
+    "moduleHindi": "QC मास्टर",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/kww8K7V4STA",
+      "hindi": "https://youtu.be/ybGjkOBKcJE"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 26,
+    "module": "Dust Resources",
+    "moduleHindi": "धूल (डस्ट) Resources",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/4eVJLA-X4F8",
+      "hindi": "https://youtu.be/C6x70m3fVMc"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 27,
+    "module": "MFG Department",
+    "moduleHindi": "MFG विभाग",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/u0r3q3s0Fm4",
+      "hindi": "https://youtu.be/Tx0S1F9iXb0"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 28,
+    "module": "Metal Purity",
+    "moduleHindi": "धातु (मेटल) Purity",
+    "section": "Masters & Policy",
+    "sectionHindi": "मास्टर्स और पॉलिसी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/ppDiUR-oBco",
+      "hindi": "https://youtu.be/9ky4WnS3Jbo"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 29,
+    "module": "Mapping",
     "moduleHindi": "मैपिंग",
     "section": "Inventory",
     "sectionHindi": "इन्वेंटरी",
@@ -232,500 +841,7 @@
     "createdBy": null
   },
   {
-    "srNo": 9,
-    "module": "Metal",
-    "moduleHindi": "धातु (मेटल)",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/dgjFoXmuJwE",
-      "hindi": "https://youtu.be/K-1fbgX5qLc"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 10,
-    "module": "Diamond",
-    "moduleHindi": "हीरा (डायमंड)",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/CEys7Xr6REA",
-      "hindi": "https://youtu.be/Z8R8mdbPjms"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 11,
-    "module": "Colorstone",
-    "moduleHindi": "रंगीन पत्थर (कलरस्टोन)",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/OMvZHWpm5nE",
-      "hindi": "https://youtu.be/5wkiSB-ZO6I"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 12,
-    "module": "Finding",
-    "moduleHindi": "फाइंडिंग",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/3IRifsHlTyY",
-      "hindi": "https://youtu.be/5eeBLEohvLE"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 13,
-    "module": "MISC",
-    "moduleHindi": "विविध (MISC)",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/4Nn_Ac4w8p8",
-      "hindi": "https://youtu.be/LerIDPtaw0s"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 14,
-    "module": " Priority Master",
-    "moduleHindi": "प्राथमिकता मास्टर",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/yvn0BADtcrE",
-      "hindi": "https://youtu.be/RtnvdgUONF4"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 15,
-    "module": "Make Type Master",
-    "moduleHindi": "मेक टाइप मास्टर",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/fk00F_rgiMw",
-      "hindi": "https://youtu.be/3eH_TYZIDcQ"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 16,
-    "module": "Dust Resources",
-    "moduleHindi": "डस्ट रिसोर्सेज",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/4eVJLA-X4F8",
-      "hindi": "https://youtu.be/C6x70m3fVMc"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 17,
-    "module": "QC Master",
-    "moduleHindi": "क्यूसी मास्टर",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/kww8K7V4STA",
-      "hindi": "https://youtu.be/ybGjkOBKcJE"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 18,
-    "module": "MFG Department",
-    "moduleHindi": "एमएफजी (मैन्युफैक्चरिंग) विभाग",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/u0r3q3s0Fm4",
-      "hindi": "https://youtu.be/Tx0S1F9iXb0"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 19,
-    "module": "Metal Purity",
-    "moduleHindi": "धातु शुद्धता (मेटल प्योरिटी)",
-    "section": "Masters & Policy",
-    "sectionHindi": "मास्टर्स और पॉलिसी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/ppDiUR-oBco",
-      "hindi": "https://youtu.be/9ky4WnS3Jbo"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 20,
-    "module": "Design Master",
-    "moduleHindi": "डिज़ाइन मास्टर",
-    "section": "PD",
-    "sectionHindi": "पीडी",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/ixvC8yJV38Y",
-      "hindi": "https://youtu.be/pfoI7QA1100"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 21,
-    "module": "Album",
-    "moduleHindi": "एल्बम",
-    "section": "Sales CRM",
-    "sectionHindi": "सेल्स सीआरएम",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/oobhAV8pNhQ",
-      "hindi": "https://youtu.be/ZYrnwywQxYI"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 22,
-    "module": "Quote",
-    "moduleHindi": "कोट (कोटेशन)",
-    "section": "Sales CRM",
-    "sectionHindi": "सेल्स सीआरएम",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/aesZX19qE_w",
-      "hindi": "https://youtu.be/98GAvR7fFE0"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 23,
-    "module": "Order / Sales Job Book (B2B)",
-    "moduleHindi": "ऑर्डर / सेल्स जॉब बुक (B2B)",
-    "section": "Sales CRM",
-    "sectionHindi": "सेल्स सीआरएम",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/BjHqoZS7_o0",
-      "hindi": "https://youtu.be/gC4BxS7Z-Jk"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 24,
-    "module": "Material Purchase",
-    "moduleHindi": "सामग्री खरीद",
-    "section": "Books Keeping",
-    "sectionHindi": "बहीखाता",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/QXEAQ2X5610",
-      "hindi": "https://youtu.be/NXYiPWav10k"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 25,
-    "module": "Customer Receive",
-    "moduleHindi": "ग्राहक प्राप्ति",
-    "section": "Books Keeping",
-    "sectionHindi": "बहीखाता",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/gV8ffuW3KTA",
-      "hindi": "https://youtu.be/45_wWih0qJU"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 26,
+    "srNo": 30,
     "module": "RM Stock",
     "moduleHindi": "आरएम स्टॉक (कच्चा माल)",
     "section": "Inventory",
@@ -754,297 +870,7 @@
     "createdBy": null
   },
   {
-    "srNo": 27,
-    "module": "ETA Request Accept",
-    "moduleHindi": "ईटीए अनुरोध स्वीकृति",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/T8S6yu51DrQ",
-      "hindi": "https://youtu.be/YDUUzjiJcQw"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 28,
-    "module": "MFG Job Book",
-    "moduleHindi": "एमएफजी जॉब बुक",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": null,
-      "hindi": null
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 29,
-    "module": "WAX Engage Material",
-    "moduleHindi": "वैक्स एंगेज मटेरियल",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/WaAIWDlFUGE",
-      "hindi": "https://youtu.be/9ftrCMUNXcE"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 30,
-    "module": "Casting Process & Casted Job",
-    "moduleHindi": "कास्टिंग प्रक्रिया और कास्टेड जॉब",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/VsYhP6fHaEY",
-      "hindi": "https://youtu.be/gSL77uNeZAY"
-    },
-    "createdBy": null
-  },
-  {
     "srNo": 31,
-    "module": "Sprue Cutting",
-    "moduleHindi": "स्प्रू कटिंग",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/Ms-ECihq9DM",
-      "hindi": "https://youtu.be/75-AvGJj-uY"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 32,
-    "module": "Sprue Grinding",
-    "moduleHindi": "स्प्रू ग्राइंडिंग",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/fNpL4glm2Gk",
-      "hindi": "https://youtu.be/U7-dCFTNXEE"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 33,
-    "module": "MFG Transaction",
-    "moduleHindi": "एमएफजी लेनदेन",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": null,
-      "hindi": null
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 34,
-    "module": "Factory Outward",
-    "moduleHindi": "फैक्ट्री आउटवर्ड",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/AboISD5z_JA",
-      "hindi": "https://youtu.be/9PhhOcx8Cpc"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 35,
-    "module": "Metal Loss Summary",
-    "moduleHindi": "मेटल लॉस समरी",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/H_qYN46stO8",
-      "hindi": "https://youtu.be/Sc_4AHa725w"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 36,
-    "module": "WIP Report",
-    "moduleHindi": "डब्ल्यूआईपी (कार्य प्रगति) रिपोर्ट",
-    "section": "Manufacturing",
-    "sectionHindi": "मैन्युफैक्चरिंग",
-    "screenshot": null,
-    "script": {
-      "hindi": null,
-      "english": null
-    },
-    "audio": {
-      "hindi": null,
-      "english": null
-    },
-    "recording": {
-      "hindi": null,
-      "english": null
-    },
-    "finalVideo": {
-      "hindi": null,
-      "english": null
-    },
-    "youtube": {
-      "english": "https://youtu.be/rsqOGDDfPlU",
-      "hindi": "https://youtu.be/n7eamkcwfSE"
-    },
-    "createdBy": null
-  },
-  {
-    "srNo": 37,
     "module": "Stock Book",
     "moduleHindi": "स्टॉक बुक",
     "section": "Inventory",
@@ -1073,11 +899,185 @@
     "createdBy": null
   },
   {
-    "srNo": 38,
+    "srNo": 32,
     "module": "Tag Print",
     "moduleHindi": "टैग प्रिंट",
     "section": "Inventory",
     "sectionHindi": "इन्वेंटरी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/s3HSjKRwE-A",
+      "hindi": "https://youtu.be/ZzfcpU4JuRc"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 33,
+    "module": "Design Master",
+    "moduleHindi": "डिज़ाइन मास्टर",
+    "section": "PD",
+    "sectionHindi": "पीडी",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/ixvC8yJV38Y",
+      "hindi": "https://youtu.be/pfoI7QA1100"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 34,
+    "module": "Album",
+    "moduleHindi": "एल्बम (एल्बम)",
+    "section": "Sales CRM",
+    "sectionHindi": "सेल्स सीआरएम",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/oobhAV8pNhQ",
+      "hindi": "https://youtu.be/ZYrnwywQxYI"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 35,
+    "module": "Quote",
+    "moduleHindi": "कोट (कोटेशन)",
+    "section": "Sales CRM",
+    "sectionHindi": "सेल्स सीआरएम",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/aesZX19qE_w",
+      "hindi": "https://youtu.be/98GAvR7fFE0"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 36,
+    "module": "Order / Sales Job Book",
+    "moduleHindi": "ऑर्डर बिक्री (सेल्स) जॉब बुक",
+    "section": "Sales CRM",
+    "sectionHindi": "सेल्स सीआरएम",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/BjHqoZS7_o0",
+      "hindi": "https://youtu.be/gC4BxS7Z-Jk"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 37,
+    "module": "Receive Repair",
+    "moduleHindi": "मरम्मत प्राप्त करें",
+    "section": "Sales CRM",
+    "sectionHindi": "सेल्स सीआरएम",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/pQJXQI_C5Mc",
+      "hindi": "https://youtu.be/OU16nFvMbYA"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 38,
+    "module": "Lineid",
+    "moduleHindi": "Lineid",
+    "section": "Sales CRM",
+    "sectionHindi": "सेल्स सीआरएम",
     "screenshot": null,
     "script": {
       "hindi": null,
@@ -1103,8 +1103,124 @@
   },
   {
     "srNo": 39,
+    "module": "Retail Order",
+    "moduleHindi": "Retail ऑर्डर",
+    "section": "Sales CRM",
+    "sectionHindi": "सेल्स सीआरएम",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/CIDLsIhF4r0",
+      "hindi": "https://youtu.be/18FRE9yU9bM"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 40,
+    "module": "Material Purchase",
+    "moduleHindi": "सामग्री खरीद",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/QXEAQ2X5610",
+      "hindi": "https://youtu.be/NXYiPWav10k"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 41,
+    "module": "Customer Receive",
+    "moduleHindi": "कस्टमर से प्राप्त",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/gV8ffuW3KTA",
+      "hindi": "https://youtu.be/45_wWih0qJU"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 42,
+    "module": "Stock Purchase",
+    "moduleHindi": "स्टॉक खरीद",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/q-LLCfIG-zk",
+      "hindi": "https://youtu.be/rOfGZhrLkSs"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 43,
     "module": "Memo Issue",
-    "moduleHindi": "मेमो इश्यू",
+    "moduleHindi": "मेमो जारी करना",
     "section": "Books Keeping",
     "sectionHindi": "बहीखाता",
     "screenshot": null,
@@ -1131,9 +1247,9 @@
     "createdBy": null
   },
   {
-    "srNo": 40,
+    "srNo": 44,
     "module": "Memo Return",
-    "moduleHindi": "मेमो रिटर्न",
+    "moduleHindi": "मेमो वापसी",
     "section": "Books Keeping",
     "sectionHindi": "बहीखाता",
     "screenshot": null,
@@ -1160,7 +1276,7 @@
     "createdBy": null
   },
   {
-    "srNo": 41,
+    "srNo": 45,
     "module": "Jewellery Sale",
     "moduleHindi": "आभूषण बिक्री",
     "section": "Books Keeping",
@@ -1189,7 +1305,7 @@
     "createdBy": null
   },
   {
-    "srNo": 42,
+    "srNo": 46,
     "module": "Sale Return",
     "moduleHindi": "बिक्री वापसी",
     "section": "Books Keeping",
@@ -1218,7 +1334,471 @@
     "createdBy": null
   },
   {
-    "srNo": 43,
+    "srNo": 47,
+    "module": "Material Sale",
+    "moduleHindi": "सामग्री बिक्री",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/NwV6FpOYOmY",
+      "hindi": "https://youtu.be/WYXH1znTWMc"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 48,
+    "module": "Material Sale Return",
+    "moduleHindi": "सामग्री बिक्री वापसी",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/h9kQBBVUI7Q",
+      "hindi": "https://youtu.be/KNNerbj84yc"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 49,
+    "module": "Product Estimate",
+    "moduleHindi": "उत्पाद अनुमान (एस्टीमेट)",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/lNfmcsHgj1c",
+      "hindi": "https://youtu.be/1D2xtkwHe6c"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 50,
+    "module": "Set mrp",
+    "moduleHindi": "Set एमआरपी",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 51,
+    "module": "Retail Sale",
+    "moduleHindi": "Retail बिक्री",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/5Fqb2xvRcKY",
+      "hindi": "https://youtu.be/qDzgRjdrTis"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 52,
+    "module": "ETA Request Accept",
+    "moduleHindi": "ईटीए अनुरोध स्वीकृति",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/T8S6yu51DrQ",
+      "hindi": "https://youtu.be/YDUUzjiJcQw"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 53,
+    "module": "MFG Job Book",
+    "moduleHindi": "एमएफजी जॉब बुक",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 54,
+    "module": "Casting Process & Casted Job",
+    "moduleHindi": "कास्टिंग प्रक्रिया और कास्टेड जॉब",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/VsYhP6fHaEY",
+      "hindi": "https://youtu.be/gSL77uNeZAY"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 55,
+    "module": "Engage Material",
+    "moduleHindi": "एंगेज मटेरियल",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/cu1gim41a0E",
+      "hindi": "https://youtu.be/KK4I6o_6IV0"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 56,
+    "module": "WAX Engage Material",
+    "moduleHindi": "वैक्स एंगेज मटेरियल",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/WaAIWDlFUGE",
+      "hindi": "https://youtu.be/9ftrCMUNXcE"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 57,
+    "module": "Sprue Cutting",
+    "moduleHindi": "स्प्रू कटिंग",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/Ms-ECihq9DM",
+      "hindi": "https://youtu.be/75-AvGJj-uY"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 58,
+    "module": "Sprue Grinding",
+    "moduleHindi": "स्प्रू ग्राइंडिंग",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/fNpL4glm2Gk",
+      "hindi": "https://youtu.be/U7-dCFTNXEE"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 59,
+    "module": "MFG Transaction",
+    "moduleHindi": "एमएफजी लेनदेन",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": null,
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 60,
+    "module": "Factory Outward",
+    "moduleHindi": "फैक्ट्री आउटवर्ड",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/AboISD5z_JA",
+      "hindi": "https://youtu.be/9PhhOcx8Cpc"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 61,
+    "module": "Metal Loss Summary",
+    "moduleHindi": "मेटल लॉस समरी",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/H_qYN46stO8",
+      "hindi": "https://youtu.be/Sc_4AHa725w"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 62,
+    "module": "WIP Report",
+    "moduleHindi": "डब्ल्यूआईपी (कार्य प्रगति) रिपोर्ट",
+    "section": "Manufacturing",
+    "sectionHindi": "मैन्युफैक्चरिंग",
+    "screenshot": null,
+    "script": {
+      "hindi": null,
+      "english": null
+    },
+    "audio": {
+      "hindi": null,
+      "english": null
+    },
+    "recording": {
+      "hindi": null,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": null,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/rsqOGDDfPlU",
+      "hindi": "https://youtu.be/n7eamkcwfSE"
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 63,
     "module": "Cash",
     "moduleHindi": "कैश",
     "section": "Account",
@@ -1247,7 +1827,7 @@
     "createdBy": null
   },
   {
-    "srNo": 44,
+    "srNo": 64,
     "module": "Bank",
     "moduleHindi": "बैंक",
     "section": "Account",

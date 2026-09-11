@@ -1,12 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import { Drawer, Box, Typography, Divider, TextField, Grid, Button, Autocomplete } from "@mui/material";
+import {
+  Drawer,
+  Box,
+  Typography,
+  Divider,
+  TextField,
+  Grid,
+  Button,
+  Autocomplete,
+  Stack,
+  Paper,
+  CircularProgress,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
+import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import { CircleHelp, CopyPlus } from "lucide-react";
 import { SideBarTheme } from "../../libs/DateTheme";
 import { formatTimeX } from "../../libs/formatTime";
 import { useCallLog } from "../../context/UseCallLog";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../../context/UseAuth";
+import { filesUploadApi } from "../../../apis/UploadFille";
+import { compressImagesToWebP } from "../../../utils/ImageCompressor";
+import { toast } from "react-toastify";
 
 const INITIAL_FORM_STATE = {
   id: uuidv4(),
@@ -25,8 +45,12 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
   const [errors, setErrors] = useState({});
   const [additionalSettingsOpen, setAdditionalSettingsOpen] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { addCall, APPNAME_LIST, companyOptions, forwardOption } = useCallLog();
   const companyInputRef = useRef(null);
+  const fileInputRef = useRef(null);
   const isConcurrent = callStatusValue?.duration > 0 || !!data;
 
   useEffect(() => {
@@ -44,6 +68,7 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
           company: companyValue?.value,
           callBy: user?.fullName
         });
+        setFiles([]);
 
         // Update time every minute
         const timerId = setInterval(() => {
@@ -88,6 +113,7 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
           forward: isConcurrent ? "" : forwardValue,
           description: data?.description || "",
         });
+        setFiles([]);
       }
     }
   }, [open, data, forwardOption]);
@@ -167,6 +193,87 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
     setErrors((prev) => ({ ...prev, forward: "" }));
   };
 
+  // File upload handler
+  const handleFileUpload = async (e) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    if (selectedFiles.length === 0) return;
+
+    const maxSizeInBytes = 15 * 1024 * 1024; // 15 MB
+    const validFilesToProcess = [];
+    const invalidFiles = [];
+
+    selectedFiles.forEach((file) => {
+      if (file.size <= maxSizeInBytes) {
+        validFilesToProcess.push(file);
+      } else {
+        invalidFiles.push(file);
+      }
+    });
+
+    if (invalidFiles.length > 0) {
+      const errorMsg = invalidFiles.map((f) => f.name).join(", ");
+      toast.warn(`File(s) exceed 15MB limit: ${errorMsg}`);
+    }
+
+    if (validFilesToProcess.length === 0) {
+      e.target.value = null;
+      return;
+    }
+
+    try {
+      setIsCompressing(true);
+      const imageFiles = validFilesToProcess.filter((f) => f.type.startsWith("image/"));
+      const otherFiles = validFilesToProcess.filter((f) => !f.type.startsWith("image/"));
+
+      let compressedImages = [];
+      if (imageFiles.length > 0) {
+        compressedImages = await compressImagesToWebP(imageFiles);
+      }
+
+      const formattedImages = compressedImages.map((img) => {
+        const fileObj = new File([img.blob], img.compressedName, {
+          type: "image/webp",
+          lastModified: Date.now(),
+        });
+
+        return {
+          file: fileObj,
+          id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          preview: img.previewUrl,
+          name: img.compressedName,
+          size: fileObj.size,
+        };
+      });
+
+      const formattedOthers = otherFiles.map((file) => ({
+        file: file,
+        id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        preview: null,
+        name: file.name,
+        size: file.size,
+      }));
+
+      setFiles((prev) => [...prev, ...formattedImages, ...formattedOthers]);
+    } catch (error) {
+      console.error("Error processing files:", error);
+      toast.error("Failed to process attachment image.");
+    } finally {
+      setIsCompressing(false);
+      e.target.value = null;
+    }
+  };
+
+  const removeFile = (id) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id));
+  };
+
+  const formatFileSize = (bytes) => {
+    if (!bytes) return "0 B";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  };
+
   // Form validation
   const validateForm = () => {
     const newErrors = {};
@@ -178,35 +285,62 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateForm()) return;
-    const newCallId = data?.id || uuidv4();
-    const callData = {
-      id: newCallId,
-      appname: formData.appname || "",
-      receivedBy: formData.receivedBy,
-      callBy: formData.callBy,
-      forward: formData.forward,
-      description: formData.description,
-      date: formData.date,
-      company: formData.company,
-      time: formData.time,
-    };
+
+    setIsSubmitting(true);
+    let uploadedFileUrl = "";
 
     try {
-      addCall(callData, isConcurrent);
+      if (files.length > 0) {
+        try {
+          const rawFiles = files.map((f) => f.file);
+          const uploadRes = await filesUploadApi({
+            ukey: user?.ukey || CompanyInfo?.ukey,
+            folderName: "CallLog",
+            uniqueNo: "1",
+            attachments: rawFiles,
+          });
+          if (uploadRes?.files && uploadRes.files.length > 0) {
+            uploadedFileUrl = uploadRes.files.map((f) => f.url).join(",");
+          }
+        } catch (uploadErr) {
+          console.error("Attachment upload error:", uploadErr);
+          toast.warn("Attachments failed to upload, continuing without attachments.");
+        }
+      }
+
+      const newCallId = data?.id || uuidv4();
+      const callData = {
+        id: newCallId,
+        appname: formData.appname || "",
+        receivedBy: formData.receivedBy,
+        callBy: formData.callBy,
+        forward: formData.forward,
+        description: formData.description,
+        date: formData.date,
+        company: formData.company,
+        time: formData.time,
+        filePath: uploadedFileUrl || "",
+        comments: uploadedFileUrl ? formData.description.trim() : "",
+      };
+
+      await addCall(callData, isConcurrent);
       if (!data || !open) {
         onRecordToggle();
       }
       handleReset();
     } catch (error) {
       console.error("Error adding call log:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleReset = () => {
     setFormData({ ...INITIAL_FORM_STATE, id: uuidv4() });
     setErrors({});
+    setFiles([]);
     setAdditionalSettingsOpen(false);
     // onclearFilters();
     onClose();
@@ -262,9 +396,9 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
 
   return (
     <ThemeProvider theme={SideBarTheme}>
-      <Drawer anchor="left" open={open} onClose={onClose}>
+      <Drawer anchor="left" open={open} onClose={handleReset}>
         <Box sx={{ width: 500, p: 2, display: "flex", flexDirection: "column", height: "100vh" }}>
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, overflowY: "auto", pr: 0.5 }}>
             {/* Header */}
             <Typography variant="h6">
               <CopyPlus size={22} />  {"Add CallBack Request"}
@@ -297,7 +431,17 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
                 />
               </Grid>
               <Grid item xs={6}>
-                <TextField fullWidth label="Time" type="time" value={formData.time || ""} onChange={handleTextFieldChange("time")} margin="normal" disabled={!data} InputLabelProps={{ shrink: true }} inputProps={{ step: 600 }} />
+                <TextField
+                  fullWidth
+                  label="Time"
+                  type="time"
+                  value={formData.time || ""}
+                  onChange={handleTextFieldChange("time")}
+                  margin="normal"
+                  disabled={!data}
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ step: 600 }}
+                />
               </Grid>
             </Grid>
             {/* Received By */}
@@ -339,12 +483,26 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
             /> */}
 
             {/* Company Selection */}
-            <Autocomplete key={'company-input'} ref={companyInputRef} fullWidth options={companyOptions || []}
-              value={selectedCompany} onChange={handleCompanyChange}
+            <Autocomplete
+              key={'company-input'}
+              ref={companyInputRef}
+              fullWidth
+              options={companyOptions || []}
+              value={selectedCompany}
+              onChange={handleCompanyChange}
               getOptionLabel={(option) => option?.label || ""}
               disabled
               isOptionEqualToValue={(option, value) => option?.value === value?.value}
-              renderInput={(params) => <TextField {...params} label="Company Name" margin="normal" error={!!errors.company} helperText={errors.company} />} />
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Company Name"
+                  margin="normal"
+                  error={!!errors.company}
+                  helperText={errors.company}
+                />
+              )}
+            />
 
             {/* Customer Name */}
             <TextField
@@ -359,7 +517,20 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
             />
 
             {/* Description */}
-            <TextField required fullWidth label="Description" value={formData?.description || ""} onChange={handleTextFieldChange("description")} margin="normal" error={!!errors.description} helperText={errors.description} multiline rows={4} />
+            <TextField
+              required
+              fullWidth
+              label="Description"
+              value={formData?.description || ""}
+              onChange={handleTextFieldChange("description")}
+              margin="normal"
+              error={!!errors.description}
+              helperText={errors.description}
+              multiline
+              rows={4}
+            />
+
+            {/* AppName Selection */}
             <Autocomplete
               fullWidth
               options={
@@ -413,18 +584,144 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
                 </Box>
               )}
             /> */}
+
+            {/* Attachments Section */}
+            <Box sx={{ mt: 1 }}>
+              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "text.secondary" }}>
+                  Attachments (Optional)
+                </Typography>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  hidden
+                  multiple
+                  onChange={handleFileUpload}
+                  accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt"
+                />
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  disabled={isSubmitting || isCompressing}
+                  startIcon={
+                    isCompressing ? (
+                      <CircularProgress size={14} />
+                    ) : (
+                      <AttachFileRoundedIcon sx={{ fontSize: 16 }} />
+                    )
+                  }
+                  sx={{
+                    borderRadius: "20px",
+                    textTransform: "none",
+                    fontSize: "0.75rem",
+                    py: 0.3,
+                    px: 1.5,
+                  }}
+                >
+                  {isCompressing ? "Compressing..." : "Attach Files"}
+                </Button>
+              </Box>
+
+              {files.length > 0 && (
+                <Stack spacing={1} sx={{ mt: 1, maxHeight: 160, overflowY: "auto", pr: 0.5 }}>
+                  {files.map((fileObj) => (
+                    <Paper
+                      key={fileObj.id}
+                      variant="outlined"
+                      sx={{
+                        borderRadius: 2,
+                        bgcolor: "#F8FAFC",
+                        borderColor: "#E2E8F0",
+                        p: 0.8,
+                        px: 1.2,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.2,
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 34,
+                          height: 34,
+                          borderRadius: 1.5,
+                          overflow: "hidden",
+                          flexShrink: 0,
+                          bgcolor: "#E2E8F0",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {fileObj.preview ? (
+                          <img
+                            src={fileObj.preview}
+                            alt="preview"
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          />
+                        ) : (
+                          <InsertDriveFileRoundedIcon sx={{ color: "#64748B", fontSize: 20 }} />
+                        )}
+                      </Box>
+
+                      <Box sx={{ flex: 1, minWidth: 0 }}>
+                        <Tooltip title={fileObj.name} placement="top">
+                          <Typography
+                            variant="body2"
+                            noWrap
+                            sx={{ fontSize: "0.8rem", fontWeight: 600, color: "#1E293B" }}
+                          >
+                            {fileObj.name}
+                          </Typography>
+                        </Tooltip>
+                        <Typography variant="caption" sx={{ fontSize: "0.72rem", color: "#64748B" }}>
+                          {formatFileSize(fileObj.size)}
+                        </Typography>
+                      </Box>
+
+                      <IconButton
+                        size="small"
+                        onClick={() => removeFile(fileObj.id)}
+                        disabled={isSubmitting}
+                        sx={{ p: 0.4, color: "#94A3B8", "&:hover": { color: "#EF4444" } }}
+                      >
+                        <CloseRoundedIcon sx={{ fontSize: 16 }} />
+                      </IconButton>
+                    </Paper>
+                  ))}
+                </Stack>
+              )}
+            </Box>
+
+            <Divider sx={{ my: 2 }} />
           </Box>
 
           {/* Footer Buttons */}
-          <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, p: 0 }}>
-            <Button variant="contained" sx={{ flex: 1 }} color="primary" size="large" onClick={handleSubmit}>
-              {isConcurrent
-                ? "+ Add Call"
-                : data
-                  ? "Update"
-                  : "Add"}
+          <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, p: 0, pt: 1 }}>
+            <Button
+              variant="contained"
+              sx={{ flex: 1 }}
+              color="primary"
+              size="large"
+              disabled={isSubmitting || isCompressing}
+              onClick={handleSubmit}
+            >
+              {isSubmitting
+                ? "Adding..."
+                : isConcurrent
+                  ? "+ Add Call"
+                  : data
+                    ? "Update"
+                    : "Add"}
             </Button>
-            <Button variant="contained" sx={{ flex: 1 }} onClick={onClose} size="large" color="error">
+            <Button
+              variant="contained"
+              sx={{ flex: 1 }}
+              onClick={handleReset}
+              disabled={isSubmitting}
+              size="large"
+              color="error"
+            >
               Cancel
             </Button>
           </Box>

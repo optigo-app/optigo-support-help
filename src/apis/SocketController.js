@@ -9,7 +9,7 @@ class SocketService {
     if (typeof window === "undefined") {
       return process.env.NODE_ENV === "production"
         ? "https://apilx.optigoapps.com"
-        : "http://192.168.1.71:3001";
+      : "http://newnextjs.web";
     }
     const host = window.location.hostname;
 
@@ -19,8 +19,8 @@ class SocketService {
       host.includes("nzen") ||
       host.includes("calllog.web")
     ) {
-      return "http://192.168.1.71:3001";
-      // return "http://newnextjs.web";
+      // return "http://192.168.1.71:3001";
+      return "http://newnextjs.web";
     }
 
     // Production

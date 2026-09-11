@@ -668,7 +668,7 @@
   },
   {
     "srNo": 24,
-    "module": "Finding Matser",
+    "module": "Finding Master",
     "moduleHindi": "फाइंडिंग मास्टर",
     "section": "Masters & Policy",
     "sectionHindi": "मास्टर्स और पॉलिसी",
@@ -753,7 +753,36 @@
     },
     "createdBy": "Jenish"
   },
-  {
+   {
+    "srNo": 136,
+    "module": "Album",
+    "moduleHindi": "एल्बम (एल्बम)",
+    "section": "Sales CRM",
+    "sectionHindi": "एल्बम (एल्बम)",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/oobhAV8pNhQ",
+      "hindi": "https://youtu.be/ZYrnwywQxYI"
+    },
+    "createdBy": "Prashant"
+  },
+    {
     "srNo": 27,
     "module": "Quote",
     "moduleHindi": "कोट (कोटेशन)",
@@ -782,6 +811,7 @@
     },
     "createdBy": "Jenish"
   },
+ 
   {
     "srNo": 28,
     "module": "Order / Sales Job Book",
@@ -956,6 +986,64 @@
     },
     "createdBy": "Jenish"
   },
+    {
+    "srNo": 138,
+    "module": "Material Purchase",
+    "moduleHindi": "सामग्री खरीद",
+    "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/QXEAQ2X5610",
+      "hindi": "https://youtu.be/NXYiPWav10k"
+    },
+    "createdBy": "Jenish"
+  },
+   {
+    "srNo": 137,
+    "module": "Customer Receive",
+    "moduleHindi": "कस्टमर से प्राप्त",
+     "section": "Books Keeping",
+    "sectionHindi": "बहीखाता",
+    "screenshot": true,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/gV8ffuW3KTA",
+      "hindi": "https://youtu.be/45_wWih0qJU"
+    },
+    "createdBy": "Jenish"
+  },
   {
     "srNo": 34,
     "module": "Stock Purchase",
@@ -1037,9 +1125,9 @@
       "hindi": true,
       "english": true
     },
-    "youtube": {
-      "english": null,
-      "hindi": null
+      "youtube": {
+      "english": "https://youtu.be/s3HSjKRwE-A",
+      "hindi": "https://youtu.be/ZzfcpU4JuRc"
     },
     "createdBy": "Jenish"
   },

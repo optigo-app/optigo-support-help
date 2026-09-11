@@ -19,6 +19,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Chip,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -42,6 +43,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Captions from "yet-another-react-lightbox/plugins/captions";
+import VideoFeedbackModal from "./VideoFeedbackModal";
+import VideoFeedbackSection from "./VideoFeedbackSection";
 
 const theme = createTheme({
   typography: {
@@ -220,7 +223,8 @@ export default function HelpArticle() {
     () => localStorage.getItem("training_lang") || "en",
   );
   const [langAnchor, setLangAnchor] = React.useState(null);
-  const [showLangPrompt, setShowLangPrompt] = React.useState(true);
+  const [showLangPrompt, setShowLangPrompt] = React.useState(false);
+  const loadedVideoIdRef = React.useRef(null);
   const [chapters, setChapters] = React.useState([]);
   // Ref so the polling interval always reads latest chapters without re-creating
   const chaptersRef = React.useRef([]);
@@ -229,6 +233,10 @@ export default function HelpArticle() {
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
   const [lightboxIndex, setLightboxIndex] = React.useState(0);
   const [lightboxImages, setLightboxImages] = React.useState([]);
+
+  const [feedbackModalOpen, setFeedbackModalOpen] = React.useState(false);
+  const hasPlayedRef = React.useRef(false);
+  const feedbackPromptedRef = React.useRef(false);
 
   const handleFaqChange = (panel) => (event, isExpanded) => {
     setFaqExpanded(isExpanded ? panel : false);
@@ -274,19 +282,15 @@ export default function HelpArticle() {
 
   const pageTitle = React.useMemo(() => {
     if (!currentItem) return title;
-    return lang === "hi" && currentItem.titleHindi
-      ? currentItem.titleHindi
-      : currentItem.title;
-  }, [currentItem, title, lang]);
+    return currentItem.title;
+  }, [currentItem, title]);
 
   const pageDesc = React.useMemo(() => {
     if (!currentItem)
       return "Learn the essential skills to master this topic dynamically.";
-    return lang === "hi" && currentItem.descHindi
-      ? currentItem.descHindi
-      : currentItem.desc ||
-          "Learn the essential skills to master this topic dynamically.";
-  }, [currentItem, lang]);
+    return currentItem.desc ||
+      "Learn the essential skills to master this topic dynamically.";
+  }, [currentItem]);
 
   // Build language list from item — only include languages with a real video ID
   const availableLangs = React.useMemo(() => {
@@ -324,21 +328,23 @@ export default function HelpArticle() {
     );
   }, [availableLangs, lang]);
 
-  // Auto-skip or set initial language from localStorage preference
+  const initialVideoIdRef = React.useRef(activeVideoId);
+  React.useEffect(() => {
+    initialVideoIdRef.current = activeVideoId;
+  }, [slug]);
+
+  // Sync initial language from localStorage preference if available
   React.useEffect(() => {
     const storedLang = localStorage.getItem("training_lang");
     if (storedLang) {
       const hasPref = availableLangs.some((l) => l.code === storedLang);
-      if (hasPref) {
+      if (hasPref && storedLang !== lang) {
         setLang(storedLang);
-        setShowLangPrompt(false);
       }
-    }
-    if (availableLangs.length === 1) {
+    } else if (availableLangs.length === 1 && availableLangs[0].code !== lang) {
       setLang(availableLangs[0].code);
-      setShowLangPrompt(false);
     }
-  }, [availableLangs]);
+  }, [availableLangs, lang]);
 
   // Recommended: prefer same section/category, exclude current, must have a video
   const recommended = React.useMemo(() => {
@@ -444,9 +450,24 @@ export default function HelpArticle() {
 
   // ── Mount: init YouTube IFrame player ───────────────────────────────────
   React.useEffect(() => {
-    if (showLangPrompt || !activeVideoId) return;
+    if (!activeVideoId) return;
 
     let cancelled = false;
+
+    // If player is already initialized and slug changed, load new video directly
+    if (ytPlayer.current && typeof ytPlayer.current.loadVideoById === "function") {
+      if (loadedVideoIdRef.current !== activeVideoId) {
+        try {
+          ytPlayer.current.loadVideoById({
+            videoId: activeVideoId,
+            startSeconds: 0,
+          });
+          loadedVideoIdRef.current = activeVideoId;
+          setPlayedSec(0);
+        } catch (_) {}
+      }
+      return;
+    }
 
     loadYTScript().then(() => {
       if (cancelled || !iframeRef.current) return;
@@ -457,6 +478,8 @@ export default function HelpArticle() {
         } catch (_) {}
         ytPlayer.current = null;
       }
+
+      loadedVideoIdRef.current = activeVideoId;
 
       ytPlayer.current = new window.YT.Player(iframeRef.current, {
         events: {
@@ -479,6 +502,7 @@ export default function HelpArticle() {
             switch (e.data) {
               case S.PLAYING:
                 setIsPlaying(true);
+                hasPlayedRef.current = true;
                 startPolling();
                 break;
               case S.BUFFERING:
@@ -489,7 +513,21 @@ export default function HelpArticle() {
               case S.ENDED:
                 setIsPlaying(false);
                 stopPolling();
-                if (e.data === S.ENDED) setPlayedSec(totalSec);
+                if (e.data === S.ENDED) {
+                  setPlayedSec(totalSec);
+                  const storageKey = `help_feedback_${slug || currentItem?.title}`;
+                  const hasGiven = localStorage.getItem(storageKey);
+                  if (
+                    process.env.NODE_ENV === "development" &&
+                    !hasGiven &&
+                    !feedbackPromptedRef.current
+                  ) {
+                    feedbackPromptedRef.current = true;
+                    setTimeout(() => {
+                      setFeedbackModalOpen(true);
+                    }, 500);
+                  }
+                }
                 break;
               default:
                 break;
@@ -510,8 +548,7 @@ export default function HelpArticle() {
       }
     };
   }, [
-    showLangPrompt,
-    activeVideoId,
+    slug,
     generateChapters,
     startPolling,
     stopPolling,
@@ -585,28 +622,51 @@ export default function HelpArticle() {
 
   const sliderValue = totalSec > 0 ? (playedSec / totalSec) * 100 : 0;
 
-  // ── Language switch: load video at same playback position ────────────────
+  // ── Language switch: seamlessly load target video and keep playing ──────
   const handleLangSwitch = (langCode) => {
-    const p = ytPlayer.current;
-    if (!p || langCode === lang) {
+    if (langCode === lang) {
       setLangAnchor(null);
       return;
     }
     const target = availableLangs.find((l) => l.code === langCode);
     if (!target) return;
-    const currentSec = playedSec;
-    try {
-      if (typeof p.loadVideoById === "function") {
+
+    const p = ytPlayer.current;
+    let currentSec = playedSec;
+    let shouldPlay = isPlaying;
+
+    if (p) {
+      try {
+        if (typeof p.getCurrentTime === "function") {
+          const t = p.getCurrentTime();
+          if (typeof t === "number" && t > 0) currentSec = t;
+        }
+        if (typeof p.getPlayerState === "function") {
+          const state = p.getPlayerState();
+          // 1 is PLAYING, 3 is BUFFERING
+          if (state === 1 || state === 3) shouldPlay = true;
+        }
+      } catch (_) {}
+    }
+
+    setLang(langCode);
+    localStorage.setItem("training_lang", langCode);
+    setLangAnchor(null);
+    loadedVideoIdRef.current = target.videoId;
+
+    if (p && typeof p.loadVideoById === "function") {
+      try {
         p.loadVideoById({
           videoId: target.videoId,
           startSeconds: currentSec,
         });
+        if (shouldPlay && typeof p.playVideo === "function") {
+          p.playVideo();
+        }
+      } catch (err) {
+        console.error("Error switching video language:", err);
       }
-      setLang(langCode);
-      localStorage.setItem("training_lang", langCode);
-      setIsPlaying(true);
-      setLangAnchor(null);
-    } catch (_) {}
+    }
   };
 
   // ────────────────────────────────────────────────────────────────────────
@@ -628,7 +688,7 @@ export default function HelpArticle() {
             margin: "0 auto",
           }}
         >
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
             <Button
               startIcon={<ArrowBackIcon fontSize="small" />}
               onClick={() => navigate(-1)}
@@ -642,6 +702,41 @@ export default function HelpArticle() {
             >
               Back
             </Button>
+
+            {availableLangs.length > 1 && (
+              <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                <Chip
+                  label="English"
+                  onClick={() => handleLangSwitch("en")}
+                  variant={lang === "en" ? "filled" : "outlined"}
+                  sx={{
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    bgcolor: lang === "en" ? "#8B5CF6" : "transparent",
+                    color: lang === "en" ? "#fff" : "#6B7280",
+                    borderColor: "#E5E7EB",
+                    "&:hover": {
+                      bgcolor: lang === "en" ? "#7C3AED" : "#F3F4F6",
+                    },
+                  }}
+                />
+                <Chip
+                  label="हिंदी"
+                  onClick={() => handleLangSwitch("hi")}
+                  variant={lang === "hi" ? "filled" : "outlined"}
+                  sx={{
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    bgcolor: lang === "hi" ? "#8B5CF6" : "transparent",
+                    color: lang === "hi" ? "#fff" : "#6B7280",
+                    borderColor: "#E5E7EB",
+                    "&:hover": {
+                      bgcolor: lang === "hi" ? "#7C3AED" : "#F3F4F6",
+                    },
+                  }}
+                />
+              </Box>
+            )}
           </Box>
 
           <Box
@@ -691,8 +786,9 @@ export default function HelpArticle() {
                 {/* YT mounts into this iframe */}
                 {!showLangPrompt && (
                   <iframe
+                    key={slug}
                     ref={iframeRef}
-                    src={`https://www.youtube.com/embed/${activeVideoId}?enablejsapi=1&controls=0&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0&playsinline=1${window.location.origin ? `&origin=${encodeURIComponent(window.location.origin)}` : ""}`}
+                    src={`https://www.youtube.com/embed/${initialVideoIdRef.current}?enablejsapi=1&controls=0&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0&playsinline=1${window.location.origin ? `&origin=${encodeURIComponent(window.location.origin)}` : ""}`}
                     title={pageTitle}
                     width="100%"
                     height="100%"
@@ -1088,6 +1184,19 @@ export default function HelpArticle() {
                 )}
               </Box>
 
+              {/* ── Was this video helpful? Section (Visible in development only) ── */}
+              {process.env.NODE_ENV === "development" && (
+                <>
+                  <VideoFeedbackSection
+                    videoName={pageTitle}
+                    sectionName={currentItem?.section || currentItem?.category || "General"}
+                    videoLang={lang === "hi" ? 2 : 1}
+                    slug={slug}
+                  />
+                  <Box sx={{ mb: 4 }} />
+                </>
+              )}
+
               <Divider sx={{ mb: 5 }} />
 
               {/* ── Related FAQs ── */}
@@ -1196,7 +1305,7 @@ export default function HelpArticle() {
                 }}
               >
                 <Typography variant="h5">
-                  {lang === "hi" ? "अनुशंसित वीडियो" : "Recommended Videos"}
+                  Recommended Videos
                 </Typography>
                 <Button
                   size="small"
@@ -1207,15 +1316,15 @@ export default function HelpArticle() {
                     "&:hover": { bgcolor: "#F5F3FF" },
                   }}
                 >
-                  {lang === "hi" ? "सभी देखें →" : "View all →"}
+                  View all →
                 </Button>
               </Box>
               <Grid container spacing={2.5} sx={{ mb: 6 }}>
                 {recommended?.map((video, idx) => {
                   const vId =
-                    video.youtubeIdEnglish ||
-                    video.youtubeIdHindi ||
-                    video.youtubeId;
+                    (lang === "hi" && video.youtubeIdHindi)
+                      ? video.youtubeIdHindi
+                      : (video.youtubeIdEnglish || video.youtubeId);
                   return (
                     <Grid item xs={12} sm={6} key={idx}>
                       <Card
@@ -1238,11 +1347,7 @@ export default function HelpArticle() {
                           <Box
                             component="img"
                             src={`https://img.youtube.com/vi/${vId}/mqdefault.jpg`}
-                            alt={
-                              lang === "hi" && video.titleHindi
-                                ? video.titleHindi
-                                : video.title
-                            }
+                            alt={video.title}
                             sx={{
                               width: "100%",
                               height: 150,
@@ -1287,9 +1392,7 @@ export default function HelpArticle() {
                               textTransform: "uppercase",
                             }}
                           >
-                            {lang === "hi" && video.sectionHindi
-                              ? video.sectionHindi
-                              : video.section}
+                            {video.section}
                           </Box>
                         </Box>
                         <CardContent sx={{ p: 2, flexGrow: 1 }}>
@@ -1306,9 +1409,7 @@ export default function HelpArticle() {
                               overflow: "hidden",
                             }}
                           >
-                            {lang === "hi" && video.titleHindi
-                              ? video.titleHindi
-                              : video.title}
+                            {video.title}
                           </Typography>
                           <Box
                             sx={{
@@ -1402,7 +1503,7 @@ export default function HelpArticle() {
                       letterSpacing: 0.5,
                     }}
                   >
-                    {lang === "hi" ? "अध्याय" : "Chapters"}
+                    Chapters
                   </Typography>
                 </Box>
                 <List disablePadding>
@@ -1534,6 +1635,19 @@ export default function HelpArticle() {
             </Box>
           </Box>
         </Container>
+        {process.env.NODE_ENV === "development" && (
+          <VideoFeedbackModal
+            open={feedbackModalOpen}
+            onClose={() => setFeedbackModalOpen(false)}
+            videoName={pageTitle}
+            sectionName={currentItem?.section || currentItem?.category || "General"}
+            videoLang={lang === "hi" ? 2 : 1}
+            onSuccess={() => {
+              const storageKey = `help_feedback_${slug || currentItem?.title}`;
+              localStorage.setItem(storageKey, "true");
+            }}
+          />
+        )}
       </Box>
       <Lightbox
         open={lightboxOpen}

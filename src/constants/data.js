@@ -152,15 +152,15 @@ export const mainTabs = [
     slug:'Training Dashboard',
     SystemId: 18292,
   },
-  {
-    id: "supportdesk",
-    label: "SupportDesk",
-    icon: <SupportAgent sx={{ fontSize: 16 }} />,
-    color: "#6900C6",
-    TabId: 4,
-    slug: 'SupportDesk',
-    SystemId: null,
-  },
+  // {
+  //   id: "supportdesk",
+  //   label: "SupportDesk",
+  //   icon: <SupportAgent sx={{ fontSize: 16 }} />,
+  //   color: "#6900C6",
+  //   TabId: 4,
+  //   slug: 'SupportDesk',
+  //   SystemId: null,
+  // },
 ];
 
 export const subTabs = {

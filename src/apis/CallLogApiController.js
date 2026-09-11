@@ -37,7 +37,6 @@ class CallLogApi extends BaseAPI {
         StartDate: startDate,
         EndDate: endDate,
         SearchTerm: searchTerm,
-        IsClient: 1,
       };
       const response = await this.requestToApi({
         mode: "CALLLOGLIST_CUST",
@@ -94,6 +93,9 @@ class CallLogApi extends BaseAPI {
     source,
     createdBy,
     CorpId,
+    isClient,
+    filePath,
+    comments
   }) {
     try {
       const params = {
@@ -104,11 +106,13 @@ class CallLogApi extends BaseAPI {
         Descr: description,
         Source: source,
         CreatedBy: createdBy,
-        IsClient: 1,
+        IsClient: isClient,
         CorpId: CorpId,
       };
       if (deptId) params.DeptId = deptId;
       if (empId) params.EmpId = empId;
+      if (filePath) params.FilePath = filePath;
+      if (comments) params.Comments = comments;
 
       const response = await this.requestToApi({
         mode: "ADDCALL",
@@ -247,14 +251,14 @@ class CallLogApi extends BaseAPI {
   }
 
   // Add Call Comments
-  static async addCallComments(callLogId, comments, filePath, createdBy) {
+  static async addCallComments(callLogId, comments, filePath, createdBy, isClient = 0) {
     try {
       const params = {
         CallLogid: callLogId,
         Comments: comments,
         FilePath: filePath,
         CreatedBy: createdBy,
-        IsClient: 1,
+        IsClient: isClient,
       };
       const response = await this.requestToApi({
         mode: "COMMENTS",

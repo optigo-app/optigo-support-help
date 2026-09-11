@@ -106,28 +106,33 @@ export function CallLogProvider(props) {
   const addCall = useCallback(async (call, isConcurrent) => {
     try {
       const data = await CallLogApi.addCall({
-        appID: call?.appname,
+        appID: call?.appname ,
         createdBy: call?.receivedBy,
         customerName: call?.callBy,
         deptId: call?.forward && call?.forward?.split(",")[0],
         empId: call?.forward && call?.forward?.split(",")[1],
         description: call?.description,
         entryDate: call?.date,
-        projectID: call?.company,
-        CorpId: user?.id,
-        source: "helpdesk"
-      })
-      const newCall = data?.rd1?.[0];
+        projectID: call?.company ,
+        CorpId: call?.CorpId ,
+        source: call?.source || "helpdesk",
+        isClient: call?.isClient ?? 1,
+        filePath: call?.filePath || "",
+        comments: call?.comments || "",
+      });
+      const newCall = data?.rd1?.[0] || data?.rd?.[0];
       setrefreshList((prev) => !prev);
 
-      if (!isConcurrent) {
+      if (!isConcurrent && newCall) {
         setCurrentCall(newCall);
       }
+      return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      throw error;
     }
   },
-    [callLog, setCallLog]
+    [callLog, setCallLog, user?.id]
   );
 
   const editCall = useCallback(async (callId, updatedFields) => {
@@ -320,13 +325,14 @@ export function CallLogProvider(props) {
   );
 
   const addComment = useCallback(
-    async (callId, comment, img, createdBy) => {
+    async (callId, comment, img, createdBy, isClient = 0) => {
       try {
         const data = await CallLogApi.addCallComments(
           callId,
           comment,
           img,
-          createdBy
+          createdBy,
+          isClient
         )
         console.log(data, "data")
         setrefreshList((prev) => !prev);

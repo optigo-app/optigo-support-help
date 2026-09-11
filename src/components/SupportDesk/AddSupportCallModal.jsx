@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -14,12 +14,21 @@ import {
   Typography,
   IconButton,
   Autocomplete,
+  Stack,
+  Paper,
+  CircularProgress,
+  Tooltip,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import { toast } from 'react-toastify';
 import { useCallLog } from '../../modules/context/UseCallLog';
 import { useAuth } from '../../modules/context/UseAuth';
+import { filesUploadApi } from '../../apis/UploadFille';
+import { compressImagesToWebP } from '../../utils/ImageCompressor';
 
 export default function AddSupportCallModal({ open, onClose }) {
   const { user } = useAuth();
@@ -30,7 +39,91 @@ export default function AddSupportCallModal({ open, onClose }) {
   const [appname, setAppname] = useState(APPNAME_LIST?.[0]?.AppId || '');
   const [receivedBy, setReceivedBy] = useState('');
   const [description, setDescription] = useState('');
+  const [files, setFiles] = useState([]);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fileInputRef = useRef(null);
+
+  const handleFileUpload = async (e) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    if (selectedFiles.length === 0) return;
+
+    const maxSizeInBytes = 15 * 1024 * 1024; // 15 MB
+    const validFilesToProcess = [];
+    const invalidFiles = [];
+
+    selectedFiles.forEach((file) => {
+      if (file.size <= maxSizeInBytes) {
+        validFilesToProcess.push(file);
+      } else {
+        invalidFiles.push(file);
+      }
+    });
+
+    if (invalidFiles.length > 0) {
+      const errorMsg = invalidFiles.map((f) => f.name).join(', ');
+      toast.warn(`File(s) exceed 15MB limit: ${errorMsg}`);
+    }
+
+    if (validFilesToProcess.length === 0) {
+      e.target.value = null;
+      return;
+    }
+
+    try {
+      setIsCompressing(true);
+      const imageFiles = validFilesToProcess.filter((f) => f.type.startsWith('image/'));
+      const otherFiles = validFilesToProcess.filter((f) => !f.type.startsWith('image/'));
+
+      let compressedImages = [];
+      if (imageFiles.length > 0) {
+        compressedImages = await compressImagesToWebP(imageFiles);
+      }
+
+      const formattedImages = compressedImages.map((img) => {
+        const fileObj = new File([img.blob], img.compressedName, {
+          type: 'image/webp',
+          lastModified: Date.now(),
+        });
+
+        return {
+          file: fileObj,
+          id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          preview: img.previewUrl,
+          name: img.compressedName,
+          size: fileObj.size,
+        };
+      });
+
+      const formattedOthers = otherFiles.map((file) => ({
+        file: file,
+        id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        preview: null,
+        name: file.name,
+        size: file.size,
+      }));
+
+      setFiles((prev) => [...prev, ...formattedImages, ...formattedOthers]);
+    } catch (error) {
+      console.error('Error processing files:', error);
+      toast.error('Failed to process attachment image.');
+    } finally {
+      setIsCompressing(false);
+      e.target.value = null;
+    }
+  };
+
+  const removeFile = (id) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id));
+  };
+
+  const formatFileSize = (bytes) => {
+    if (!bytes) return '0 B';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +133,30 @@ export default function AddSupportCallModal({ open, onClose }) {
     }
 
     setIsSubmitting(true);
+    let uploadedFileUrl = '';
+
     try {
+      // 1. Upload attachments if any attached
+      if (files.length > 0) {
+        try {
+          const rawFiles = files.map((f) => f.file);
+          const uploadRes = await filesUploadApi({
+            ukey: user?.ukey,
+            folderName: 'CallLog',
+            uniqueNo: '1',
+            attachments: rawFiles,
+          });
+
+          if (uploadRes?.files && uploadRes.files.length > 0) {
+            uploadedFileUrl = uploadRes.files.map((f) => f.url).join(',');
+          }
+        } catch (uploadErr) {
+          console.error('Attachment upload error:', uploadErr);
+          toast.warn('Attachments failed to upload, logging call without attachments.');
+        }
+      }
+
+      // 2. Submit call log
       const now = new Date();
       const payload = {
         date: now.toISOString().split('T')[0],
@@ -51,6 +167,8 @@ export default function AddSupportCallModal({ open, onClose }) {
         receivedBy: receivedBy?.value || receivedBy || '',
         forward: '',
         description: description.trim(),
+        filePath: uploadedFileUrl || '',
+        comments: uploadedFileUrl ? description.trim() : '',
       };
 
       if (addCall) {
@@ -59,6 +177,7 @@ export default function AddSupportCallModal({ open, onClose }) {
       }
 
       setDescription('');
+      setFiles([]);
       onClose();
     } catch (err) {
       console.error('Error creating support call:', err);
@@ -68,10 +187,17 @@ export default function AddSupportCallModal({ open, onClose }) {
     }
   };
 
+  const handleModalClose = () => {
+    if (!isSubmitting) {
+      setFiles([]);
+      onClose();
+    }
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleModalClose}
       maxWidth="sm"
       fullWidth
       PaperProps={{
@@ -115,7 +241,7 @@ export default function AddSupportCallModal({ open, onClose }) {
             </Box>
           </Box>
 
-          <IconButton size="small" onClick={onClose} sx={{ color: '#94A3B8', '&:hover': { bgcolor: '#F1F5F9' } }}>
+          <IconButton size="small" onClick={handleModalClose} sx={{ color: '#94A3B8', '&:hover': { bgcolor: '#F1F5F9' } }}>
             <CloseIcon sx={{ fontSize: 18 }} />
           </IconButton>
         </DialogTitle>
@@ -189,6 +315,120 @@ export default function AddSupportCallModal({ open, onClose }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
+          {/* Attachments Section */}
+          <Box sx={{ mt: 0.5 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+              <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569' }}>
+                Attachments (Optional)
+              </Typography>
+              <input
+                type="file"
+                ref={fileInputRef}
+                hidden
+                multiple
+                onChange={handleFileUpload}
+                accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt"
+              />
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                disabled={isSubmitting || isCompressing}
+                startIcon={
+                  isCompressing ? (
+                    <CircularProgress size={14} />
+                  ) : (
+                    <AttachFileRoundedIcon sx={{ fontSize: 16 }} />
+                  )
+                }
+                sx={{
+                  borderRadius: '20px',
+                  textTransform: 'none',
+                  fontSize: '0.75rem',
+                  py: 0.3,
+                  px: 1.5,
+                  borderColor: '#CBD5E1',
+                  color: '#4F46E5',
+                  '&:hover': {
+                    borderColor: '#4F46E5',
+                    bgcolor: 'rgba(79, 70, 229, 0.04)',
+                  },
+                }}
+              >
+                {isCompressing ? 'Compressing...' : 'Attach Files'}
+              </Button>
+            </Box>
+
+            {files.length > 0 && (
+              <Stack spacing={1} sx={{ mt: 1, maxHeight: 160, overflowY: 'auto', pr: 0.5 }}>
+                {files.map((fileObj) => (
+                  <Paper
+                    key={fileObj.id}
+                    variant="outlined"
+                    sx={{
+                      borderRadius: 2,
+                      bgcolor: '#F8FAFC',
+                      borderColor: '#E2E8F0',
+                      p: 0.8,
+                      px: 1.2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: 1.5,
+                        overflow: 'hidden',
+                        flexShrink: 0,
+                        bgcolor: '#E2E8F0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {fileObj.preview ? (
+                        <img
+                          src={fileObj.preview}
+                          alt="preview"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <InsertDriveFileRoundedIcon sx={{ color: '#64748B', fontSize: 20 }} />
+                      )}
+                    </Box>
+
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                      <Tooltip title={fileObj.name} placement="top">
+                        <Typography
+                          variant="body2"
+                          noWrap
+                          sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#1E293B' }}
+                        >
+                          {fileObj.name}
+                        </Typography>
+                      </Tooltip>
+                      <Typography variant="caption" sx={{ fontSize: '0.72rem', color: '#64748B' }}>
+                        {formatFileSize(fileObj.size)}
+                      </Typography>
+                    </Box>
+
+                    <IconButton
+                      size="small"
+                      onClick={() => removeFile(fileObj.id)}
+                      disabled={isSubmitting}
+                      sx={{ p: 0.4, color: '#94A3B8', '&:hover': { color: '#EF4444' } }}
+                    >
+                      <CloseRoundedIcon sx={{ fontSize: 16 }} />
+                    </IconButton>
+                  </Paper>
+                ))}
+              </Stack>
+            )}
+          </Box>
         </DialogContent>
 
         <DialogActions
@@ -203,7 +443,8 @@ export default function AddSupportCallModal({ open, onClose }) {
           }}
         >
           <Button
-            onClick={onClose}
+            onClick={handleModalClose}
+            disabled={isSubmitting}
             sx={{
               color: '#64748B',
               fontWeight: 650,
@@ -219,7 +460,7 @@ export default function AddSupportCallModal({ open, onClose }) {
           <Button
             type="submit"
             variant="contained"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isCompressing}
             sx={{
               bgcolor: '#4F46E5',
               color: '#FFFFFF',

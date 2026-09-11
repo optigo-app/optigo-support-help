@@ -3,16 +3,12 @@ import {
   Box,
   Typography,
   Tooltip,
-  Dialog,
-  DialogContent,
-  IconButton,
-  Button
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import CloseIcon from '@mui/icons-material/Close';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import DescriptionIcon from '@mui/icons-material/Description';
 import { toast } from 'react-toastify';
+import { FilePreviewModal } from '@eternalheart/react-file-preview';
+import '@eternalheart/react-file-preview/style.css';
 
 export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
   const [openLightbox, setOpenLightbox] = useState(false);
@@ -21,18 +17,33 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
   const mediaUrl = imgUrl || attachment?.imgUrl || attachment?.url;
 
   const ext = rawName.split('.').pop()?.toUpperCase() || 'FILE';
-  const isImage =
-    ['PNG', 'JPG', 'JPEG', 'GIF', 'WEBP'].includes(ext) || Boolean(mediaUrl && !ext.match(/(FIG|PDF|ZIP|MP4|MOV)/i));
-  const isVideo = ['MP4', 'MOV', 'WEBM'].includes(ext);
+  const IMAGE_EXTENSIONS = ['PNG', 'JPG', 'JPEG', 'GIF', 'WEBP', 'SVG', 'BMP', 'ICO'];
+  const isImage = IMAGE_EXTENSIONS.includes(ext);
+  const isVideo = ['MP4', 'MOV', 'WEBM', 'AVI', 'MKV'].includes(ext);
 
   const getGradient = (type) => {
     switch (type) {
-      case 'FIG':
-        return 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)';
+      case 'DOC':
+      case 'DOCX':
+        return 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)';
+      case 'XLS':
+      case 'XLSX':
+      case 'CSV':
+        return 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+      case 'PPT':
+      case 'PPTX':
+        return 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)';
       case 'PDF':
         return 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)';
+      case 'TXT':
+        return 'linear-gradient(135deg, #64748B 0%, #475569 100%)';
+      case 'FIG':
+        return 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)';
       case 'ZIP':
       case 'RAR':
+      case '7Z':
+      case 'TAR':
+      case 'GZ':
         return 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)';
       default:
         return 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)';
@@ -41,16 +52,38 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
 
   const handleDownload = (e) => {
     e?.stopPropagation();
-    toast.success(`Downloading ${rawName}...`);
+    if (mediaUrl) {
+      const link = document.createElement('a');
+      link.href = mediaUrl;
+      link.download = rawName;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success(`Downloading ${rawName}...`);
+    } else {
+      toast.info(`Downloading ${rawName}...`);
+    }
   };
+
+  const handleOpenPreview = () => {
+    if (mediaUrl) {
+      setOpenLightbox(true);
+    } else {
+      toast.info(`Preview not available for ${rawName}`);
+    }
+  };
+
+  const previewFile = mediaUrl ? { name: rawName, url: mediaUrl } : null;
 
   // 1. IMAGE PREVIEW
   if (isImage && mediaUrl) {
     return (
       <>
-        <Tooltip title={`View ${rawName}`} placement="top">
+        <Tooltip title={`Preview ${rawName}`} placement="top">
           <Box
-            onClick={() => setOpenLightbox(true)}
+            onClick={handleOpenPreview}
             sx={{
               position: 'relative',
               width: 130,
@@ -77,33 +110,15 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
           </Box>
         </Tooltip>
 
-        <Dialog open={openLightbox} onClose={() => setOpenLightbox(false)} maxWidth="md">
-          <Box
-            sx={{
-              p: 1.5,
-              bgcolor: '#0F172A',
-              color: '#FFFFFF',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-              {rawName}
-            </Typography>
-            <IconButton size="small" onClick={() => setOpenLightbox(false)} sx={{ color: '#FFFFFF' }}>
-              <CloseIcon sx={{ fontSize: 16 }} />
-            </IconButton>
-          </Box>
-          <DialogContent sx={{ p: 2, bgcolor: '#020617', textAlign: 'center' }}>
-            <Box
-              component="img"
-              src={mediaUrl}
-              alt={rawName}
-              sx={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: '8px' }}
-            />
-          </DialogContent>
-        </Dialog>
+        {openLightbox && previewFile && (
+          <FilePreviewModal
+            files={[previewFile]}
+            currentIndex={0}
+            isOpen={openLightbox}
+            onClose={() => setOpenLightbox(false)}
+            locale="en-US"
+          />
+        )}
       </>
     );
   }
@@ -111,68 +126,81 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
   // 2. VIDEO PREVIEW
   if (isVideo) {
     return (
-      <Tooltip title={`Play Video • ${rawName}`} placement="top">
-        <Box
-          onClick={() => toast.info(`Streaming ${rawName}...`)}
-          sx={{
-            position: 'relative',
-            width: 150,
-            height: 90,
-            borderRadius: '10px',
-            overflow: 'hidden',
-            bgcolor: '#0F172A',
-            color: '#FFFFFF',
-            cursor: 'pointer',
-            my: 0.8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-            transition: 'all 0.2s ease',
-            '&:hover': {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
-            },
-          }}
-        >
+      <>
+        <Tooltip title={`Play & Preview • ${rawName}`} placement="top">
           <Box
+            onClick={handleOpenPreview}
             sx={{
-              width: 34,
-              height: 34,
-              borderRadius: '50%',
-              bgcolor: '#10B981',
+              position: 'relative',
+              width: 150,
+              height: 90,
+              borderRadius: '10px',
+              overflow: 'hidden',
+              bgcolor: '#0F172A',
               color: '#FFFFFF',
+              cursor: 'pointer',
+              my: 0.8,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
+              },
             }}
           >
-            <PlayArrowIcon sx={{ fontSize: 18, ml: '2px' }} />
-          </Box>
+            <Box
+              sx={{
+                width: 34,
+                height: 34,
+                borderRadius: '50%',
+                bgcolor: '#10B981',
+                color: '#FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <PlayArrowIcon sx={{ fontSize: 18, ml: '2px' }} />
+            </Box>
 
-          <Typography
-            sx={{
-              position: 'absolute',
-              bottom: 6,
-              left: 8,
-              fontSize: '0.68rem',
-              fontWeight: 700,
-              color: 'rgba(255, 255, 255, 0.85)',
-            }}
-          >
-            MP4 • 01:24
-          </Typography>
-        </Box>
-      </Tooltip>
+            <Typography
+              sx={{
+                position: 'absolute',
+                bottom: 6,
+                left: 8,
+                fontSize: '0.68rem',
+                fontWeight: 700,
+                color: 'rgba(255, 255, 255, 0.85)',
+              }}
+            >
+              {ext} • Video
+            </Typography>
+          </Box>
+        </Tooltip>
+
+        {openLightbox && previewFile && (
+          <FilePreviewModal
+            files={[previewFile]}
+            currentIndex={0}
+            isOpen={openLightbox}
+            onClose={() => setOpenLightbox(false)}
+            locale="en-US"
+          />
+        )}
+      </>
     );
   }
 
-  // 3. FILE / DOCUMENT / STACKED PREVIEW
+  // 3. FILE / DOCUMENT / STACKED PREVIEW (DOCX, PDF, PPTX, XLSX, etc.)
+  
   return (
     <>
-      <Tooltip title={`Download & Preview ${rawName}`} placement="top">
+      <Tooltip title={`Preview & Download ${rawName}`} placement="top">
         <Box
-          onClick={() => setOpenLightbox(true)}
+          onClick={handleOpenPreview}
           sx={{
             display: 'inline-flex',
             flexDirection: 'column',
@@ -184,7 +212,7 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
               '& .back-card': { transform: 'rotate(-10deg) translateX(-6px)' },
               '& .front-card': {
                 transform: 'rotate(1deg) translateY(-2px)',
-                boxShadow: '0 10px 22px rgba(225, 29, 72, 0.35)',
+                boxShadow: '0 10px 22px rgba(37, 99, 235, 0.35)',
               },
               '& .download-btn': { transform: 'scale(1.15)', bgcolor: '#FFFFFF' },
             },
@@ -223,7 +251,7 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
                 height: 70,
                 borderRadius: '9px',
                 background: getGradient(ext),
-                boxShadow: '0 8px 18px rgba(225, 29, 72, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4)',
+                boxShadow: '0 8px 18px rgba(37, 99, 235, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -245,11 +273,12 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
 
               <Typography
                 sx={{
-                  fontSize: '0.92rem',
+                  fontSize: ext.length > 3 ? '0.70rem' : '0.92rem',
                   fontWeight: 900,
                   color: '#FFFFFF',
-                  letterSpacing: '0.03em',
+                  letterSpacing: '0.02em',
                   textShadow: '0 1px 4px rgba(0,0,0,0.25)',
+                  textTransform: 'uppercase',
                 }}
               >
                 {ext}
@@ -294,55 +323,15 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
         </Box>
       </Tooltip>
 
-      <Dialog open={openLightbox} onClose={() => setOpenLightbox(false)} maxWidth="xs">
-        <Box
-          sx={{
-            p: 2,
-            bgcolor: '#0F172A',
-            color: '#FFFFFF',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <DescriptionIcon sx={{ fontSize: 18, color: '#38BDF8' }} />
-            <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
-              {rawName}
-            </Typography>
-          </Box>
-          <IconButton size="small" onClick={() => setOpenLightbox(false)} sx={{ color: '#FFFFFF' }}>
-            <CloseIcon sx={{ fontSize: 16 }} />
-          </IconButton>
-        </Box>
-        <DialogContent sx={{ p: 2.5, bgcolor: '#FFFFFF' }}>
-          <Typography variant="body2" sx={{ fontSize: '0.82rem', color: '#334155', fontWeight: 600, mb: 1 }}>
-            File Details:
-          </Typography>
-          <Typography variant="caption" sx={{ color: '#64748B', display: 'block' }}>
-            Format: {ext} Document
-          </Typography>
-          <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 2 }}>
-            Size: 1.4 MB • Attachment #{attachment?.id || '58'}
-          </Typography>
-          <Button
-            size="small"
-            variant="contained"
-            onClick={handleDownload}
-            sx={{
-              bgcolor: '#2563EB',
-              color: '#FFFFFF',
-              width: '100%',
-              borderRadius: '6px',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              py: 0.8,
-            }}
-          >
-            Download File
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {openLightbox && previewFile && (
+        <FilePreviewModal
+          files={[previewFile]}
+          currentIndex={0}
+          isOpen={openLightbox}
+          onClose={() => setOpenLightbox(false)}
+          locale="en-US"
+        />
+      )}
     </>
   );
 }

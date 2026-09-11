@@ -37,6 +37,7 @@ const getStatusColorConfig = (statusName) => {
 const SupportHeader = React.memo(function SupportHeader({
   activeThread,
   isLoading = false,
+  isAccepted = true,
   onOpenFeedbackModal,
   onOpenFeedbackDetails,
 }) {
@@ -285,7 +286,7 @@ const SupportHeader = React.memo(function SupportHeader({
             AppName: {activeThread.appname || activeThread.DeptName || 'Support'}
           </MenuItem>
           <MenuItem onClick={() => setProfileAnchor(null)} sx={{ fontSize: 13, fontWeight: 550 }}>
-            Attend: {activeThread.receivedBy || 'Unassigned'}
+            Attend: {isAccepted ? (raw.receivedBy || raw.AssignedEmpName || activeThread.receivedBy) : 'Unassigned (Waiting in Queue)'}
           </MenuItem>
         </Menu>
       </Box>
