@@ -114,7 +114,38 @@ const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCa
   };
 
   const columns = [
-    { field: "index", headerName: "Sr", width: 70 },
+    {
+      field: "index",
+      headerName: "Sr",
+      width: 80,
+      renderCell: (params) => {
+        const hasNew = Boolean(params.row?.hasNewComment);
+        return (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
+            <Typography variant="body2" sx={{ fontSize: "0.8rem" }}>
+              {params.value}
+            </Typography>
+            {hasNew && (
+              <Box
+                sx={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  bgcolor: "#4A66FF",
+                  boxShadow: "0 0 0 2px #fff, 0 0 0 4px #4A66FF",
+                  animation: "pulseDot 1.5s infinite ease-in-out",
+                  "@keyframes pulseDot": {
+                    "0%": { transform: "scale(0.9)", opacity: 0.8 },
+                    "50%": { transform: "scale(1.2)", opacity: 1 },
+                    "100%": { transform: "scale(0.9)", opacity: 0.8 },
+                  },
+                }}
+              />
+            )}
+          </Box>
+        );
+      },
+    },
     { field: "date", headerName: "Date", width: 130 },
     { field: "company", headerName: "Company", width: 150 },
     { field: "callBy", headerName: "Call By", width: 150 },
@@ -446,6 +477,7 @@ const CallTable = ({ callStatusValue, RecordMode, callLogs, onRowClick, onEditCa
         callAnalysis: row.callAnalysis && Object.keys(row.callAnalysis)?.length > 0 ? "Analysis" : "Pending",
         feedback: row?.feedback,
         ticket: row?.ticket ? "Done" : "Upgrade to Ticket",
+        hasNewComment: Boolean(row?.hasNewComment),
         ...Object.fromEntries(["company", "callBy", "appname", "description", "receivedBy", "time", "status", "Estatus", "topicRaisedBy", "priority", "callStart", "callDetails", "CallDuration", "callClosed"].map((key) => [key, row[key] ?? ""])),
       };
     });

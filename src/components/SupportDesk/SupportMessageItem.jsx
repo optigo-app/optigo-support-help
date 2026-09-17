@@ -369,15 +369,18 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
     );
   }
 
-  // 3. Comments & Notes -> Client on RIGHT (callerName) vs Agent on LEFT
+  // 3. Comments & Notes -> Client on RIGHT vs Agent on LEFT
   if (message.isComment || message.isOutgoing) {
     const isClient = Boolean(message.isClientComment || message.isOutgoing);
-    const authorName = isClient
-      ? (callerName || "optigo carely")
-      : (message.sender || agentName || "Support Agent");
-    const initials = getInitials(authorName, isClient ? "OC" : "SA");
+    const authorName = (
+      message.sender ||
+      message.authorName ||
+      (isClient ? callerName : agentName) ||
+      "Support User"
+    ).trim();
+    const initials = getInitials(authorName, "U");
 
-    // Client Comment -> RIGHT Side (Always shows the person / client name e.g. optigo carely)
+    // Client Comment -> RIGHT Side
     if (isClient) {
       return (
         <Box
@@ -388,6 +391,16 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
             gap: 1.2,
             px: 3,
             py: 0.8,
+            transformOrigin: "bottom right",
+            animation: message.isNew
+              ? "popInFromBottom 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+              : "none",
+            willChange: message.isNew ? "transform, opacity" : "auto",
+            "@keyframes popInFromBottom": {
+              "0%": { opacity: 0, transform: "translateY(24px) scale(0.94)" },
+              "60%": { opacity: 1, transform: "translateY(-3px) scale(1.01)" },
+              "100%": { opacity: 1, transform: "translateY(0) scale(1)" },
+            },
           }}
         >
           <Box
@@ -466,6 +479,16 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
           gap: 1.2,
           px: 3,
           py: 0.8,
+          transformOrigin: "bottom left",
+          animation: message.isNew
+            ? "popInFromBottom 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+            : "none",
+          willChange: message.isNew ? "transform, opacity" : "auto",
+          "@keyframes popInFromBottom": {
+            "0%": { opacity: 0, transform: "translateY(24px) scale(0.94)" },
+            "60%": { opacity: 1, transform: "translateY(-3px) scale(1.01)" },
+            "100%": { opacity: 1, transform: "translateY(0) scale(1)" },
+          },
         }}
       >
         <Avatar
@@ -496,6 +519,19 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
             <Typography sx={{ fontSize: 12, fontWeight: 800, color: "#0F172A" }}>
               {authorName}
             </Typography>
+            <Chip
+              label="Agent"
+              size="small"
+              sx={{
+                height: 16,
+                fontSize: 9.5,
+                fontWeight: 700,
+                bgcolor: "#E0F2FE",
+                color: "#0369A1",
+                borderRadius: "4px",
+                "& .MuiChip-label": { px: 0.6 },
+              }}
+            />
             <Typography sx={{ fontSize: 10.5, color: "#94A3B8" }}>
               {message.time}
             </Typography>

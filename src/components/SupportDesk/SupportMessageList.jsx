@@ -4,10 +4,16 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SupportMessageItem from './SupportMessageItem';
 
-const SupportMessageList = React.memo(function SupportMessageList({ messages = [], isLoading = false }) {
+const SupportMessageList = React.memo(function SupportMessageList({
+  messages = [],
+  isLoading = false,
+  activeThreadId = null,
+}) {
   const scrollRef = useRef(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showScrollBottom, setShowScrollBottom] = useState(false);
+  const activeThreadIdRef = useRef(activeThreadId);
+  const prevMsgLengthRef = useRef(messages.length);
 
   useEffect(() => {
     const scrollEl = scrollRef.current;
@@ -25,32 +31,39 @@ const SupportMessageList = React.memo(function SupportMessageList({ messages = [
     return () => scrollEl.removeEventListener('scroll', handleScroll);
   }, [messages]);
 
-  // Auto-scroll to bottom on update
-  const prevMsgLengthRef = useRef(messages.length);
+  // Smart scroll: instant on thread switch, smooth on new message appended
   useEffect(() => {
-    if (isLoading) return;
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
 
+    // 1. Thread changed -> jump immediately to bottom of thread without scrolling through history
+    if (activeThreadIdRef.current !== activeThreadId) {
+      activeThreadIdRef.current = activeThreadId;
+      prevMsgLengthRef.current = messages.length;
+      scrollEl.scrollTop = scrollEl.scrollHeight;
+      return;
+    }
+
+    // 2. New message added in the same thread -> smooth scroll down to show the popped message
     const isNewMsg = messages.length > prevMsgLengthRef.current;
     prevMsgLengthRef.current = messages.length;
 
-    const performScroll = () => {
-      if (!scrollEl) return;
-      scrollEl.scrollTo({
-        top: scrollEl.scrollHeight,
-        behavior: isNewMsg ? 'smooth' : 'auto',
-      });
-    };
-
-    const rAF = requestAnimationFrame(performScroll);
-    const timer = setTimeout(performScroll, 80);
-
-    return () => {
-      cancelAnimationFrame(rAF);
-      clearTimeout(timer);
-    };
-  }, [messages, isLoading]);
+    if (isNewMsg) {
+      const scrollSmooth = () => {
+        if (!scrollEl) return;
+        scrollEl.scrollTo({
+          top: scrollEl.scrollHeight,
+          behavior: 'smooth',
+        });
+      };
+      const rAF = requestAnimationFrame(scrollSmooth);
+      const timer = setTimeout(scrollSmooth, 60);
+      return () => {
+        cancelAnimationFrame(rAF);
+        clearTimeout(timer);
+      };
+    }
+  }, [messages, activeThreadId]);
 
   const scrollToTop = useCallback(() => {
     const scrollEl = scrollRef.current;
@@ -151,7 +164,7 @@ const SupportMessageList = React.memo(function SupportMessageList({ messages = [
           '&::-webkit-scrollbar-thumb': { bgcolor: '#CBD5E1', borderRadius: 3 },
         }}
       >
-        {isLoading ? (
+        {isLoading && messages.length === 0 ? (
           <Box sx={{ py: 2.5, px: 3, display: 'flex', flexDirection: 'column', gap: 2.5, width: '100%', boxSizing: 'border-box' }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
               <Skeleton variant="rounded" width={160} height={24} animation="wave" sx={{ borderRadius: '12px' }} />

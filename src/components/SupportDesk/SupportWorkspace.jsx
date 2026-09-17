@@ -15,6 +15,7 @@ import { useCallLog } from "../../modules/context/UseCallLog";
 import { useAuth } from "../../modules/context/UseAuth";
 import { useSocketEvent } from "../../modules/hooks/useSocketListener";
 import { callStreamService } from "../../services/callStreamService";
+import { commentUpdates$ } from "../../rxjs/commentEvents";
 import CallLogApi from "../../apis/CallLogApiController";
 import debounce from "lodash/debounce";
 
@@ -24,8 +25,10 @@ export default function SupportWorkspace() {
     callLog,
     setCallLog,
     addComment,
+    clearCallUnread,
     refreshList,
     setrefreshList,
+    masterData,
   } = useCallLog();
 
   const [threads, setThreads] = useState([]);
@@ -61,8 +64,8 @@ export default function SupportWorkspace() {
 
   // 1. Fetch Call Logs from API
   const fetchCallLogs = useCallback(
-    async (filters) => {
-      setIsLoading(true);
+    async (filters, showLoading = false) => {
+      if (showLoading) setIsLoading(true);
       try {
         const data = await CallLogApi.getCallLogs(filters);
         const list =
@@ -75,7 +78,7 @@ export default function SupportWorkspace() {
       } catch (error) {
         console.error("Failed to fetch call logs:", error);
       } finally {
-        setIsLoading(false);
+        if (showLoading) setIsLoading(false);
       }
     },
     [setCallLog]
@@ -84,7 +87,8 @@ export default function SupportWorkspace() {
   const debouncedFilterCallLog = useMemo(
     () =>
       debounce((filters) => {
-        fetchCallLogs(filters);
+        const isEmpty = callStreamService.rawCalls$.getValue().length === 0;
+        fetchCallLogs(filters, isEmpty);
       }, 350),
     [fetchCallLogs]
   );
@@ -106,14 +110,18 @@ export default function SupportWorkspace() {
     };
   }, [searchQuery, status, filterState, debouncedFilterCallLog]);
 
-  // Re-fetch when refreshList or external updates trigger
+  // Re-fetch quietly in background when refreshList or external updates trigger
   useEffect(() => {
-    fetchCallLogs(filtersRef.current);
+    fetchCallLogs(filtersRef.current, false);
   }, [refreshList, fetchCallLogs]);
 
-  // Sync callLog from UseCallLog if updated externally
+  // Sync callLog from UseCallLog on initial hydration if not yet loaded in callStreamService
   useEffect(() => {
-    if (Array.isArray(callLog) && callLog.length > 0) {
+    if (
+      Array.isArray(callLog) &&
+      callLog.length > 0 &&
+      callStreamService.rawCalls$.getValue().length === 0
+    ) {
       callStreamService.setRawCalls(callLog);
     }
   }, [callLog]);
@@ -135,6 +143,35 @@ export default function SupportWorkspace() {
       subLoading.unsubscribe();
     };
   }, []);
+
+  // Listen to live comment updates stream and patch the thread in real time
+  useEffect(() => {
+    const sub = commentUpdates$.subscribe((commentData) => {
+      const targetCallId = commentData?.CallLogId ?? commentData?.sr ?? commentData?.callLogId;
+      if (targetCallId) {
+        callStreamService.patchComment(targetCallId, {
+          ...commentData,
+          isNew: true,
+        });
+      }
+    });
+    return () => sub.unsubscribe();
+  }, []);
+
+  // Auto-clear unread if opened via URL query parameter ?callId=...
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlCallId = params.get("callId");
+    if (urlCallId && threads.length > 0) {
+      const match = threads.find(
+        (t) => String(t.sr) === String(urlCallId) || String(t.rawRecord?.id) === String(urlCallId)
+      );
+      if (match) {
+        callStreamService.selectThread(match.id);
+        if (clearCallUnread) clearCallUnread(urlCallId);
+      }
+    }
+  }, [threads, clearCallUnread]);
 
   // 3. Live Socket Event Listeners
   useSocketEvent("AddCall", () => {
@@ -313,9 +350,43 @@ export default function SupportWorkspace() {
               cItem.isClient === true ||
               cItem.IsClient === "1";
 
-            const authorName = isClient
-              ? callerPersonName
-              : (cItem.Name || agentPersonName);
+            const currentUserName =
+              `${user?.firstname || ""} ${user?.lastname || ""}`.trim() ||
+              user?.fullName ||
+              "";
+            const isCreatedByCurrentUser =
+              user?.id && String(cItem.CreatedBy) === String(user.id);
+
+            let authorName = (
+              cItem.Name ||
+              cItem.UserName ||
+              cItem.CreatedByName ||
+              ""
+            ).trim();
+            const isGeneric =
+              !authorName ||
+              authorName.toLowerCase() === "client" ||
+              authorName.toLowerCase() === "support user";
+
+            const empList = masterData?.employees || [];
+            const matchedEmp = cItem.CreatedBy
+              ? empList.find(
+                  (e) => String(e.id || e.EmpID || e.userid) === String(cItem.CreatedBy)
+                )
+              : null;
+            const empName = matchedEmp
+              ? `${matchedEmp.firstname || ""} ${matchedEmp.lastname || ""}`.trim() ||
+                matchedEmp.Name
+              : null;
+
+            if (isCreatedByCurrentUser && currentUserName) {
+              // Real user match: both client-side and agent-side comments sent from this account
+              authorName = currentUserName;
+            } else if (empName) {
+              authorName = empName;
+            } else if (isGeneric) {
+              authorName = isClient ? callerPersonName : agentPersonName;
+            }
 
             const hasAttachment = Boolean(cItem.img);
             const rawImg = cItem.img || "";
@@ -324,7 +395,9 @@ export default function SupportWorkspace() {
             const isImgExt = ["PNG", "JPG", "JPEG", "GIF", "WEBP", "SVG", "BMP", "ICO"].includes(fileExt);
 
             items.push({
-              id: `comment-${rec.sr}-${cItem.id || cIdx}-${cIdx}`,
+              id: cItem.id
+                ? `comment-${rec.sr}-${cItem.id}`
+                : `comment-${rec.sr}-${cItem.time || ''}-${cIdx}`,
               dateGroup: dateFormatted,
               sender: authorName,
               isClientComment: isClient,
@@ -348,6 +421,7 @@ export default function SupportWorkspace() {
                   }
                 : null,
               sortTime: cSortTime,
+              isNew: Boolean(cItem.isNew),
             });
           });
         } catch (err) {}
@@ -376,7 +450,12 @@ export default function SupportWorkspace() {
   // Reactive Handlers
   const handleSelectThread = useCallback((threadId) => {
     callStreamService.selectThread(threadId);
-  }, []);
+    const found = threads.find((t) => t.id === threadId);
+    const targetSr = found?.sr || found?.rawRecord?.sr || found?.rawRecord?.id;
+    if (targetSr && clearCallUnread) {
+      clearCallUnread(targetSr);
+    }
+  }, [threads, clearCallUnread]);
 
   const handleClearAllFilters = useCallback(() => {
     setSearchQuery("");
@@ -395,6 +474,21 @@ export default function SupportWorkspace() {
       const callId = activeThread.rawRecord?.id || activeThread.sr || activeThread.id;
 
       if (addComment) {
+        // Optimistically patch thread chat bubble immediately with smooth pop flag
+        const optimisticComment = {
+          id: `local-${Date.now()}`,
+          CallLogId: callId,
+          Comments: text,
+          FilePath: uploadedUrl || "",
+          CreatedDate: new Date().toISOString(),
+          Name: `${user?.firstname || ""} ${user?.lastname || ""}`.trim() || "Support User",
+          CreatedBy: user?.id,
+          IsClient: 0,
+          isNew: true,
+          isOwn: true,
+        };
+        callStreamService.patchComment(callId, optimisticComment);
+
         try {
           await addComment(callId, text, uploadedUrl || null, user?.id, 0); // IsClient=0 => Support Agent comment
         } catch (err) {
@@ -542,7 +636,11 @@ export default function SupportWorkspace() {
               onOpenFeedbackDetails={handleOpenFeedbackDetails}
             />
 
-            <SupportMessageList messages={messages} isLoading={isLoading} />
+            <SupportMessageList
+              messages={messages}
+              isLoading={isLoading}
+              activeThreadId={activeThread?.id}
+            />
 
             {isCallEnded ? (
               <Box

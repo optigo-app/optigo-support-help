@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Divider, Grid, Chip, Tabs, Tab, Paper, Rating, Avatar, Button, Stack, TextField, ListItemAvatar, Badge, IconButton, Tooltip } from "@mui/material";
 import { Calendar1, Clock8, Building2, Ticket } from "lucide-react";
 import { Send as SendIcon, AttachFile as AttachFileIcon } from "@mui/icons-material";
 import { format, parseISO } from "date-fns";
 import { useCallLog } from "../../context/UseCallLog";
+import { commentUpdates$ } from "../../../rxjs/commentEvents";
 import { FormatTime, generateActivities } from "../../libs/formatTime";
 import ListItem from "@mui/material/ListItem";
 import EditIcon from "@mui/icons-material/Edit";
@@ -42,13 +43,64 @@ export default function CallLogDetailView({ data: defaultCallLogData, toggle, on
   const [comment, setComment] = useState("");
   const [attachment, setAttachment] = useState([]);
   const [previewURL, setPreviewURL] = useState(null);
-  const { addComment } = useCallLog();
+  const { addComment, clearCallUnread } = useCallLog();
 
   const activities = generateActivities(defaultCallLogData);
   const commentdata = defaultCallLogData?.comment?.trim() ? JSON.parse(defaultCallLogData.comment) : [];
   const followUps = defaultCallLogData?.followUpsList || [];
   const { user } = useAuth();
   const [Comments, SetComments] = useState(commentdata);
+
+  // Clear unread indicator when viewing call
+  useEffect(() => {
+    if (defaultCallLogData?.sr && clearCallUnread) {
+      clearCallUnread(defaultCallLogData.sr);
+    }
+  }, [defaultCallLogData?.sr, clearCallUnread]);
+
+  // Keep Comments updated if call record prop changes
+  useEffect(() => {
+    if (defaultCallLogData?.comment) {
+      try {
+        const parsed = typeof defaultCallLogData.comment === "string" ? JSON.parse(defaultCallLogData.comment) : defaultCallLogData.comment;
+        SetComments(Array.isArray(parsed) ? parsed : []);
+      } catch (_) {}
+    }
+  }, [defaultCallLogData?.comment]);
+
+  // Real-time stream subscription for new incoming comments
+  useEffect(() => {
+    const sub = commentUpdates$.subscribe((commentData) => {
+      const callId = commentData?.CallLogId ?? commentData?.sr ?? commentData?.callLogId;
+      if (String(callId) === String(defaultCallLogData?.sr)) {
+        const rawText = (commentData.Comments ?? commentData.comment ?? commentData.text ?? "").trim();
+        const rawFile = (commentData.FilePath || commentData.img || "").trim();
+        SetComments((prev) => {
+          const exists = prev.some((c) => {
+            if (commentData.id && c.id && String(c.id) === String(commentData.id)) return true;
+            return (c.text || c.comment || "").trim() === rawText && (c.FilePath || c.img || "").trim() === rawFile;
+          });
+          if (exists) return prev;
+          return [
+            ...prev,
+            {
+              id: commentData.id || Date.now(),
+              text: rawText,
+              comment: rawText,
+              time: commentData.CreatedDate || commentData.time || new Date().toISOString(),
+              Name: commentData.Name || (commentData.IsClient ? "Client" : "Support User"),
+              CreatedBy: commentData.CreatedBy,
+              IsClient: commentData.IsClient ?? 0,
+              img: rawFile,
+              FilePath: rawFile,
+            },
+          ];
+        });
+      }
+    });
+    return () => sub.unsubscribe();
+  }, [defaultCallLogData?.sr]);
+
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };

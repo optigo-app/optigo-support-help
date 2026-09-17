@@ -111,7 +111,7 @@ const SupportHeader = React.memo(function SupportHeader({
         }}
       >
         {/* Left: Contact Person & Static External Status Chip */}
-        {isLoading ? (
+        {isLoading && !activeThread ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Skeleton variant="rounded" width={26} height={26} animation="wave" sx={{ borderRadius: '6px' }} />
             <Skeleton variant="text" width={130} height={22} animation="wave" />

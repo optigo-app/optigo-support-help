@@ -152,7 +152,7 @@ const SupportSidebar = React.memo(function SupportSidebar({
           '&::-webkit-scrollbar-thumb': { bgcolor: '#CBD5E1', borderRadius: '4px' },
         }}
       >
-        {isLoading ? (
+        {isLoading && totalCount === 0 ? (
           <Box sx={{ p: 2 }}>
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <Box key={i} sx={{ mb: 2 }}>
@@ -249,19 +249,26 @@ const SupportSidebar = React.memo(function SupportSidebar({
                     >
                       {/* Avatar */}
                       <Box sx={{ position: 'relative', flexShrink: 0, mt: 0.2 }}>
-                        <Avatar
-                          sx={{
-                            width: 35,
-                            height: 35,
-                            borderRadius: '50px',
-                            bgcolor: '#EDE9FE',
-                            color: '#6900C6',
-                            fontSize: 12,
-                            fontWeight: 700,
-                          }}
-                        >
-                          {(thread.name || thread.callBy || thread.company || 'E').charAt(0).toUpperCase()}
-                        </Avatar>
+                        {(() => {
+                          const hasNewComment = Boolean(thread.hasNewComment || thread.unread || rec.hasNewComment);
+                          return (
+                            <Avatar
+                              sx={{
+                                width: 35,
+                                height: 35,
+                                borderRadius: '50px',
+                                bgcolor: '#EDE9FE',
+                                color: '#6900C6',
+                                fontSize: 12,
+                                fontWeight: 700,
+                                boxShadow: hasNewComment ? "0 0 0 2px #fff, 0 0 0 4px #4A66FF" : "none",
+                                transition: "box-shadow 0.2s ease-in-out",
+                              }}
+                            >
+                              {(thread.name || thread.callBy || thread.company || 'E').charAt(0).toUpperCase()}
+                            </Avatar>
+                          );
+                        })()}
 
                         {thread.online && (
                           <Box
@@ -287,20 +294,41 @@ const SupportSidebar = React.memo(function SupportSidebar({
                             variant="subtitle2"
                             sx={{
                               fontSize: '0.82rem',
-                              fontWeight: thread.unread ? 800 : 700,
+                              fontWeight: (thread.hasNewComment || thread.unread) ? 800 : 700,
                               color: '#0F172A',
                               whiteSpace: 'nowrap',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              maxWidth: 285,
+                              maxWidth: 240,
                             }}
                           >
                             {thread.lastMessage || rec.topicRaisedBy || rec.description || thread.name}
                           </Typography>
 
-                          <Typography variant="caption" sx={{ fontSize: '0.68rem', color: '#94A3B8', flexShrink: 0 }}>
-                            {thread.timestamp || rec.time || '12:00'}
-                          </Typography>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6, flexShrink: 0 }}>
+                            {Boolean(thread.hasNewComment || thread.unread || rec.hasNewComment) && (
+                              <Chip
+                                label="• NEW"
+                                size="small"
+                                sx={{
+                                  height: 16,
+                                  fontSize: '0.6rem',
+                                  fontWeight: 800,
+                                  bgcolor: '#4A66FF',
+                                  color: '#FFFFFF',
+                                  animation: 'pulseBadge 1.5s infinite ease-in-out',
+                                  '@keyframes pulseBadge': {
+                                    '0%': { opacity: 1, transform: 'scale(1)' },
+                                    '50%': { opacity: 0.7, transform: 'scale(0.96)' },
+                                    '100%': { opacity: 1, transform: 'scale(1)' },
+                                  },
+                                }}
+                              />
+                            )}
+                            <Typography variant="caption" sx={{ fontSize: '0.68rem', color: '#94A3B8' }}>
+                              {thread.timestamp || rec.time || '12:00'}
+                            </Typography>
+                          </Box>
                         </Box>
 
                         {/* Person Name & Status Chip + Rating Star Display */}

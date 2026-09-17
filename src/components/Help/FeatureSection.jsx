@@ -11,8 +11,8 @@ import CallLogDashBoard from "../../modules/components/CallLogger";
 import DeliveryDashboard from "../../modules/components/Delivery&Training/components/Delivery/Main";
 import TrainingDashboard from "../../modules/components/Delivery&Training/components/Training/Main";
 import TicketUiClient from "../../modules/components/TicketUi/latest/components/index";
-import SupportWorkspace from "../SupportDesk";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import SupportWorkspace from "../SupportDesk/SupportWorkspace";
 
 export const featureCards = [
   {

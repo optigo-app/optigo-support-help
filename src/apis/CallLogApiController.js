@@ -258,12 +258,13 @@ class CallLogApi extends BaseAPI {
         Comments: comments,
         FilePath: filePath,
         CreatedBy: createdBy,
-        IsClient: isClient,
+        IsClient: 1,
       };
       const response = await this.requestToApi({
         mode: "COMMENTS",
         params,
         functionName: "COMMENTS",
+        socketEvent: "ADDCOMMENTS",
       });
       return response;
     } catch (error) {

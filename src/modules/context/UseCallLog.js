@@ -1,9 +1,52 @@
 import { createContext, useCallback, useContext, useState, useEffect, useMemo, useRef } from "react";
 import { format } from "date-fns";
 import CallLogApi from "../../apis/CallLogApiController";
-import { useAuth } from './UseAuth'
+import { useAuth } from './UseAuth';
 import { useSocketEvent } from "../hooks/useSocketListener";
+import { commentUpdates$ } from "../../rxjs/commentEvents";
 
+const isValidCommentPayload = (data) => {
+  if (!data || typeof data !== "object") return false;
+  const callId = data.CallLogId ?? data.sr ?? data.callLogId;
+  if (!callId || isNaN(Number(callId)) || Number(callId) <= 0) return false;
+  if (data.Comments === undefined && data.comment === undefined && data.text === undefined) return false;
+  return true;
+};
+
+const appendCommentToCall = (callRecord, commentPayload) => {
+  if (!callRecord) return callRecord;
+  const rawText = (commentPayload.Comments ?? commentPayload.comment ?? commentPayload.text ?? "").trim();
+  const rawFile = (commentPayload.FilePath || commentPayload.img || "").trim();
+  const commentItem = {
+    id: commentPayload.id || Date.now(),
+    text: rawText,
+    comment: rawText,
+    time: commentPayload.CreatedDate || commentPayload.time || new Date().toISOString(),
+    Name: commentPayload.Name || (commentPayload.IsClient ? "Client" : "Support User"),
+    CreatedBy: commentPayload.CreatedBy,
+    IsClient: commentPayload.IsClient ?? 0,
+    FilePath: rawFile,
+    img: rawFile,
+    isNew: Boolean(commentPayload.isNew),
+  };
+  let existing = [];
+  try {
+    existing = typeof callRecord.comment === "string" ? JSON.parse(callRecord.comment) : [...(callRecord.comment || [])];
+  } catch (_) { existing = []; }
+  // Deduplicate by ID OR matching text + attachment
+  const exists = existing.some((c) => {
+    if (commentItem.id && c.id && String(c.id) === String(commentItem.id)) return true;
+    const cText = (c.text || c.comment || "").trim();
+    const cFile = (c.FilePath || c.img || "").trim();
+    return cText === rawText && cFile === rawFile;
+  });
+  if (!exists) existing.push(commentItem);
+  return {
+    ...callRecord,
+    comment: JSON.stringify(existing),
+    comments: existing,
+  };
+};
 
 const CallLogContext = createContext(null);
 
@@ -326,6 +369,32 @@ export function CallLogProvider(props) {
 
   const addComment = useCallback(
     async (callId, comment, img, createdBy, isClient = 0) => {
+      const authorName = `${user?.firstname || ""} ${user?.lastname || ""}`.trim() || (isClient ? "Client" : "Support User");
+      const commentPayload = {
+        id: `local-${Date.now()}`,
+        CallLogId: callId,
+        Comments: comment,
+        FilePath: img || "",
+        CreatedDate: new Date().toISOString(),
+        CreatedBy: createdBy,
+        IsClient: isClient,
+        Name: authorName,
+        isNew: true,
+        isOwn: true,
+      };
+
+      // Optimistically append comment to in-memory callLog
+      setCallLog((prev) =>
+        prev.map((c) =>
+          String(c.sr || c.id) === String(callId)
+            ? appendCommentToCall(c, commentPayload)
+            : c
+        )
+      );
+
+      // Broadcast to comment stream so active workspace and listeners receive it smoothly
+      commentUpdates$.next(commentPayload);
+
       try {
         const data = await CallLogApi.addCallComments(
           callId,
@@ -333,14 +402,14 @@ export function CallLogProvider(props) {
           img,
           createdBy,
           isClient
-        )
-        console.log(data, "data")
-        setrefreshList((prev) => !prev);
+        );
+        return data;
       } catch (error) {
-
+        console.error("Error adding comment in CallLogProvider:", error);
+        throw error;
       }
     },
-    [updateCallLog, currentTime]
+    [user]
   );
 
   const addFeedback = useCallback(
@@ -391,10 +460,57 @@ export function CallLogProvider(props) {
 
 
 
+  const clearCallUnread = useCallback((callId) => {
+    if (!callId) return;
+    setCallLog((prev) =>
+      prev.map((c) =>
+        String(c.sr || c.id) === String(callId) ? { ...c, hasNewComment: false } : c
+      )
+    );
+  }, []);
+
   useSocketEvent("AddCall", (data) => {
     setrefreshList((prev) => !prev);
     // setCallLog((prev) => [data, ...prev]);
   });
+
+  // Push incoming socket event into RxJS stream
+  useSocketEvent("ADDCOMMENTS", (data) => {
+    if (!isValidCommentPayload(data)) return;
+    const currentUserName =
+      `${user?.firstname || ""} ${user?.lastname || ""}`.trim() ||
+      user?.fullName ||
+      "";
+    const isOwn = user?.id && String(data.CreatedBy) === String(user.id);
+    const enrichedName =
+      data.Name ||
+      (isOwn ? currentUserName : data.IsClient ? "Client" : "Support User");
+
+    commentUpdates$.next({
+      ...data,
+      Name: enrichedName,
+      isOwn: Boolean(isOwn),
+    });
+  });
+
+  // Reactively update in-memory call list and mark unread
+  useEffect(() => {
+    const sub = commentUpdates$.subscribe((commentData) => {
+      if (!isValidCommentPayload(commentData)) return;
+      const targetCallId = commentData.CallLogId ?? commentData.sr ?? commentData.callLogId;
+      setCallLog((prev) =>
+        prev.map((c) =>
+          String(c.sr || c.id) === String(targetCallId)
+            ? {
+                ...appendCommentToCall(c, commentData),
+                hasNewComment: commentData.isOwn ? false : true,
+              }
+            : c
+        )
+      );
+    });
+    return () => sub.unsubscribe();
+  }, []);
 
   // Accept Call Events
   useSocketEvent("AcceptCall", (data) => {
@@ -421,6 +537,9 @@ export function CallLogProvider(props) {
       addComment,
       callLog,
       setCallLog,
+      clearCallUnread,
+      refreshList,
+      setrefreshList,
       addCall,
       editCall,
       startCall,
@@ -449,7 +568,7 @@ export function CallLogProvider(props) {
       COMPANY_INFO_MASTER,
       addFeedback
     }),
-    [queue, callLog, CurrentCall, masterData]
+    [queue, callLog, CurrentCall, masterData, clearCallUnread, refreshList]
   );
   return <CallLogContext.Provider value={contextValue}>{props.children}</CallLogContext.Provider>;
 }

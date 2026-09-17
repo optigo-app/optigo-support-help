@@ -46,6 +46,8 @@ class CallStreamService {
       const duration = rec.CallDuration || '';
       const callClosed = rec.callClosed || rec.CallClosed || '';
 
+      const hasNewComment = Boolean(rec.hasNewComment);
+
       return {
         id,
         sr,
@@ -63,7 +65,8 @@ class CallStreamService {
         DeptName: app,
         rating,
         feedback,
-        unread: false,
+        unread: hasNewComment,
+        hasNewComment: hasNewComment,
         online: true,
         rawRecord: {
           ...rec,
@@ -89,6 +92,7 @@ class CallStreamService {
           date,
           FollowUpList: rec.FollowUpList || [],
           comment: rec.comment || rec.review_comments || '',
+          hasNewComment: hasNewComment,
         },
       };
     });
@@ -103,8 +107,103 @@ class CallStreamService {
     }
   }
 
+  patchComment(callLogId, commentPayload) {
+    const rawCalls = this.rawCalls$.getValue();
+    if (!rawCalls || rawCalls.length === 0) return;
+
+    const targetCallId = String(callLogId);
+    const activeId = this.activeThreadId$.getValue();
+
+    const rawText = (commentPayload.Comments ?? commentPayload.comment ?? commentPayload.text ?? "").trim();
+    const rawFile = (commentPayload.FilePath || commentPayload.img || "").trim();
+    const commentItem = {
+      id: commentPayload.id || Date.now(),
+      text: rawText,
+      comment: rawText,
+      time: commentPayload.CreatedDate || commentPayload.time || new Date().toISOString(),
+      Name: commentPayload.Name || (commentPayload.IsClient ? "Client" : "Support User"),
+      CreatedBy: commentPayload.CreatedBy,
+      IsClient: commentPayload.IsClient ?? 0,
+      FilePath: rawFile,
+      img: rawFile,
+      isNew: commentPayload.isNew !== undefined ? Boolean(commentPayload.isNew) : true,
+    };
+
+    let matched = false;
+    const updated = rawCalls.map((thread) => {
+      const threadSr = String(thread.sr || "");
+      const threadCallId = String(thread.rawRecord?.id || thread.rawRecord?.sr || "");
+
+      if (threadSr === targetCallId || threadCallId === targetCallId || thread.id === `call-${targetCallId}`) {
+        matched = true;
+        const rec = thread.rawRecord || {};
+        let existing = [];
+        try {
+          existing = typeof rec.comment === "string" ? JSON.parse(rec.comment) : [...(rec.comment || [])];
+        } catch (_) {
+          existing = [];
+        }
+
+        const existingIdx = existing.findIndex((c) => {
+          if (commentItem.id && c.id && String(c.id) === String(commentItem.id)) return true;
+          return (c.text || c.comment || "").trim() === rawText && (c.FilePath || c.img || "").trim() === rawFile;
+        });
+
+        if (existingIdx !== -1) {
+          existing[existingIdx] = {
+            ...existing[existingIdx],
+            ...commentItem,
+            id: commentPayload.id || existing[existingIdx].id,
+          };
+        } else {
+          existing.push(commentItem);
+        }
+
+        const isCurrentActive = activeId === thread.id;
+        const isOwn = Boolean(commentPayload.isOwn);
+        const shouldMarkUnread = !isCurrentActive && !isOwn;
+
+        return {
+          ...thread,
+          lastMessage: rawText || thread.lastMessage,
+          timestamp: commentItem.time ? new Date(commentItem.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : thread.timestamp,
+          hasNewComment: shouldMarkUnread,
+          unread: shouldMarkUnread,
+          rawRecord: {
+            ...rec,
+            comment: JSON.stringify(existing),
+            comments: existing,
+            hasNewComment: shouldMarkUnread,
+          },
+        };
+      }
+      return thread;
+    });
+
+    if (matched) {
+      this.rawCalls$.next(updated);
+    }
+  }
+
   selectThread(threadId) {
     this.activeThreadId$.next(threadId);
+
+    const rawCalls = this.rawCalls$.getValue();
+    const updated = rawCalls.map((t) => {
+      if (t.id === threadId) {
+        return {
+          ...t,
+          hasNewComment: false,
+          unread: false,
+          rawRecord: {
+            ...t.rawRecord,
+            hasNewComment: false,
+          },
+        };
+      }
+      return t;
+    });
+    this.rawCalls$.next(updated);
   }
 
   setIsLoading(loading) {

@@ -104,6 +104,7 @@ const CallLogManagementApp = ({ showNotification }) => {
     PauseCall,
     ResumeCall,
     isFilterActiveRef,
+    clearCallUnread,
   } = useCallLog();
   const timerRef = useRef(null);
   const [anchorEl, setAnchorEl] = useState({ data: null, anchor: null });
@@ -664,8 +665,11 @@ const CallLogManagementApp = ({ showNotification }) => {
       if (!sliders.recordMode) {
         toggleSlider("recordMode");
       }
+      if (rowData?.sr && clearCallUnread) {
+        clearCallUnread(rowData.sr);
+      }
     },
-    [callLogMap, toggleSlider, sliders.recordMode],
+    [callLogMap, toggleSlider, sliders.recordMode, clearCallUnread],
   );
 
   const handleEditAndStartCall = useCallback((id) => {
