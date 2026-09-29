@@ -1,8 +1,22 @@
 {
-  "homepage": "/support",
   "name": "call_logger",
-  "version": "0.0.113",
+  "version": "0.0.115",
   "private": true,
+  "scripts": {
+    "start": "react-app-rewired start",
+    "dev": "react-app-rewired start",
+    "dev:v1": "cross-env REACT_APP_VERSION=v1 react-app-rewired start",
+    "dev:v2": "cross-env REACT_APP_VERSION=v2 react-app-rewired start",
+    "build": "cross-env REACT_APP_VERSION=v2 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build",
+    "test": "node scripts/test.js",
+    "postbuild": "node scripts/generate-version.js",
+    "version": "node scripts/create-version.js",
+    "version:create": "node scripts/create-version.js",
+    "start:v1": "cross-env REACT_APP_VERSION=v1 react-app-rewired start",
+    "build:v1": "cross-env REACT_APP_VERSION=v1 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build",
+    "start:v2": "cross-env REACT_APP_VERSION=v2 react-app-rewired start",
+    "build:v2": "cross-env REACT_APP_VERSION=v2 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build"
+  },
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@emotion/react": "^11.11.4",
@@ -126,12 +140,6 @@
     "workbox-webpack-plugin": "^6.4.1",
     "xlsx": "^0.18.5",
     "yet-another-react-lightbox": "^3.23.3"
-  },
-  "scripts": {
-    "dev": "react-app-rewired start",
-    "build": "react-app-rewired build --max_old_space_size=6144",
-    "test": "node scripts/test.js",
-    "postbuild": "node scripts/generate-version.js"
   },
   "eslintConfig": {
     "extends": [

@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const { override ,addBabelPlugin } = require("customize-cra");
 const packageJson = require("./package.json");
 
@@ -44,6 +46,34 @@ module.exports = override((config) => {
     'three/examples/jsm/loaders/OBJLoader': 'three/examples/jsm/loaders/OBJLoader.js',
     'three/examples/jsm/loaders/GLTFLoader': 'three/examples/jsm/loaders/GLTFLoader.js',
   };
+
+  // Version-specific entry point resolution
+  // Webpack will ONLY compile and bundle the active version (e.g. src/v1 or src/v2),
+  // ensuring unused versions are completely excluded and build size remains minimal.
+  let activeVersion = process.env.REACT_APP_VERSION;
+  if (!activeVersion) {
+    try {
+      const versionJson = require("./src/version.json");
+      activeVersion = versionJson.activeVersion;
+    } catch (_) {
+      activeVersion = "v1";
+    }
+  }
+
+  const targetEntry = path.resolve(__dirname, `src/${activeVersion}/index.js`);
+
+  if (fs.existsSync(targetEntry)) {
+    if (Array.isArray(config.entry)) {
+      config.entry = config.entry.map((entryPath) =>
+        typeof entryPath === "string" &&
+        (entryPath.endsWith("index.js") || entryPath.includes("src"))
+          ? targetEntry
+          : entryPath
+      );
+    } else if (typeof config.entry === "string") {
+      config.entry = targetEntry;
+    }
+  }
 
   return config;
 });

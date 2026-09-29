@@ -1,0 +1,147 @@
+[
+  {
+    "srNo": 1,
+    "module": "Design Move In Icatalog",
+    "moduleHindi": "डिजाइन मूव इन आईकैटलॉग",
+    "section": "iCatalog",
+    "sectionHindi": "आईकैटलॉग",
+    "screenshot": null,
+    "script": {
+      "hindi": true,
+      "english": true
+    },
+    "audio": {
+      "hindi": true,
+      "english": true
+    },
+    "recording": {
+      "hindi": true,
+      "english": true
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": true
+    },
+    "youtube": {
+      "english": "https://youtu.be/erlE2KsGYTg",
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 2,
+    "module": "iCatalog Login",
+    "moduleHindi": "आईकैटलॉग लॉगिन",
+    "section": "iCatalog",
+    "sectionHindi": "आईकैटलॉग",
+    "screenshot": null,
+    "script": {
+      "hindi": true,
+      "english": null
+    },
+    "audio": {
+      "hindi": true,
+      "english": null
+    },
+    "recording": {
+      "hindi": true,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/CJy1fxtL1NM",
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 3,
+    "module": "Set MRP For iCatalog",
+    "moduleHindi": "आईकैटलॉग के लिए एमआरपी सेट करें",
+    "section": "iCatalog",
+    "sectionHindi": "आईकैटलॉग",
+    "screenshot": null,
+    "script": {
+      "hindi": true,
+      "english": null
+    },
+    "audio": {
+      "hindi": true,
+      "english": null
+    },
+    "recording": {
+      "hindi": true,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/VevzCj2Bxwk",
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 4,
+    "module": "iCatalog Order Process",
+    "moduleHindi": "आईकैटलॉग ऑर्डर प्रोसेस",
+    "section": "iCatalog",
+    "sectionHindi": "आईकैटलॉग",
+    "screenshot": null,
+    "script": {
+      "hindi": true,
+      "english": null
+    },
+    "audio": {
+      "hindi": true,
+      "english": null
+    },
+    "recording": {
+      "hindi": true,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/mEomly-pkZc",
+      "hindi": null
+    },
+    "createdBy": null
+  },
+  {
+    "srNo": 5,
+    "module": "iCatalog Price Policy",
+    "moduleHindi": "आईकैटलॉग मूल्य नीति",
+    "section": "iCatalog",
+    "sectionHindi": "आईकैटलॉग",
+    "screenshot": null,
+    "script": {
+      "hindi": true,
+      "english": null
+    },
+    "audio": {
+      "hindi": true,
+      "english": null
+    },
+    "recording": {
+      "hindi": true,
+      "english": null
+    },
+    "finalVideo": {
+      "hindi": true,
+      "english": null
+    },
+    "youtube": {
+      "english": "https://youtu.be/dXQl-Djt3oo",
+      "hindi": null
+    },
+    "createdBy": null
+  }
+]
