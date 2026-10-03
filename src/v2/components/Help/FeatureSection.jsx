@@ -17,14 +17,15 @@ import SupportWorkspace from "../SupportDesk/SupportWorkspace";
 export const featureCards = [
   {
     icon: <PermPhoneMsgRoundedIcon style={{ fontSize: 40, color: "#2196F3" }} />,
-    title: "Calllogs & Request",
+    title: "SupportDesk",
     description: `Need help? Leave your request, and we'll call you back shortly.`,
     TabId: 0,
     id: "call-logs",
     slug: "CallLog",
     SystemId: 18290,
-    // components: <SupportWorkspace />
-    components: <CallLogDashBoard />
+    components: <SupportWorkspace />
+    // title: "Calllogs & Request",
+    // components: <CallLogDashBoard />
   },
   {
     icon: <LuTickets style={{ fontSize: 40, color: "#FF9800" }} />,

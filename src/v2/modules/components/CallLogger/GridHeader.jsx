@@ -10,7 +10,7 @@ import { useCallLog } from "../../context/UseCallLog";
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 import SearchBar from "./SearchBar";
 
-const GridHeader = ({isFilterData , onExcel, callStatusValue, CompanyStatus, onClearAll, SetCompanyStatus, onAdd, searchQuery, setsearchQuery, Status, SetStatus, filterState, setFilterState, viewMode, setViewMode }) => {
+const GridHeader = ({ isFilterData, onExcel, callStatusValue, CompanyStatus, onClearAll, SetCompanyStatus, onAdd, searchQuery, setsearchQuery, Status, SetStatus, filterState, setFilterState, viewMode, setViewMode }) => {
   const [tempDateRange, setTempDateRange] = useState({
     startDate: filterState?.dateRange?.startDate,
     endDate: filterState?.dateRange?.endDate,
@@ -36,7 +36,7 @@ const GridHeader = ({isFilterData , onExcel, callStatusValue, CompanyStatus, onC
     onClearAll();
   };
 
-  const StatusList = [...STATUS_LIST, ...ESTATUS_LIST];
+  const StatusList = [...ESTATUS_LIST];
 
   return (
     <Box
@@ -55,8 +55,8 @@ const GridHeader = ({isFilterData , onExcel, callStatusValue, CompanyStatus, onC
           Add
         </Button>
         <SearchBar
-        searchQuery={searchQuery}
-        setsearchQuery={setsearchQuery}
+          searchQuery={searchQuery}
+          setsearchQuery={setsearchQuery}
         />
         {/* <LogToggle setViewMode={setViewMode} viewMode={viewMode} /> */}
       </Box>

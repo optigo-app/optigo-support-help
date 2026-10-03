@@ -250,8 +250,8 @@ class CallLogApi extends BaseAPI {
     }
   }
 
-  // Add Call Comments
-  static async addCallComments(callLogId, comments, filePath, createdBy, isClient = 0) {
+  // Add Call Comments (Client side is always IsClient = 1)
+  static async addCallComments(callLogId, comments, filePath, createdBy) {
     try {
       const params = {
         CallLogid: callLogId,

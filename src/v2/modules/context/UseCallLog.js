@@ -13,18 +13,28 @@ const isValidCommentPayload = (data) => {
   return true;
 };
 
+const getLocalISOString = () => {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const padMs = (n) => String(n).padStart(3, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}.${padMs(now.getMilliseconds())}`;
+};
+
 const appendCommentToCall = (callRecord, commentPayload) => {
   if (!callRecord) return callRecord;
   const rawText = (commentPayload.Comments ?? commentPayload.comment ?? commentPayload.text ?? "").trim();
   const rawFile = (commentPayload.FilePath || commentPayload.img || "").trim();
+  const rawTime = (commentPayload.CreatedDate || commentPayload.time || getLocalISOString()).toString().replace(/Z$/i, "").replace(" ", "T");
+  const isOwn = Boolean(commentPayload.isOwn);
+  const isClientVal = isOwn || commentPayload.IsClient === 1 || commentPayload.IsClient === "1" ? 1 : (commentPayload.IsClient !== undefined ? Number(commentPayload.IsClient) : 1);
   const commentItem = {
     id: commentPayload.id || Date.now(),
     text: rawText,
     comment: rawText,
-    time: commentPayload.CreatedDate || commentPayload.time || new Date().toISOString(),
-    Name: commentPayload.Name || (commentPayload.IsClient ? "Client" : "Support User"),
+    time: rawTime,
+    Name: commentPayload.Name || (isClientVal ? "Client" : "Support User"),
     CreatedBy: commentPayload.CreatedBy,
-    IsClient: commentPayload.IsClient ?? 0,
+    IsClient: isClientVal,
     FilePath: rawFile,
     img: rawFile,
     isNew: Boolean(commentPayload.isNew),
@@ -33,14 +43,28 @@ const appendCommentToCall = (callRecord, commentPayload) => {
   try {
     existing = typeof callRecord.comment === "string" ? JSON.parse(callRecord.comment) : [...(callRecord.comment || [])];
   } catch (_) { existing = []; }
-  // Deduplicate by ID OR matching text + attachment
-  const exists = existing.some((c) => {
+  // Deduplicate by ID OR matching pending local comment with same text + attachment
+  const existsIdx = existing.findIndex((c) => {
     if (commentItem.id && c.id && String(c.id) === String(commentItem.id)) return true;
-    const cText = (c.text || c.comment || "").trim();
-    const cFile = (c.FilePath || c.img || "").trim();
-    return cText === rawText && cFile === rawFile;
+    if (String(c.id).startsWith("local-")) {
+      const cText = (c.text || c.comment || "").trim();
+      const cFile = (c.FilePath || c.img || "").trim();
+      return cText === rawText && cFile === rawFile;
+    }
+    return false;
   });
-  if (!exists) existing.push(commentItem);
+  if (existsIdx !== -1) {
+    const prev = existing[existsIdx];
+    existing[existsIdx] = {
+      ...prev,
+      ...commentItem,
+      id: commentPayload.id || prev.id,
+      IsClient: isOwn ? 1 : (commentPayload.IsClient !== undefined ? Number(commentPayload.IsClient) : prev.IsClient ?? 1),
+      time: commentItem.time || prev.time,
+    };
+  } else {
+    existing.push(commentItem);
+  }
   return {
     ...callRecord,
     comment: JSON.stringify(existing),
@@ -368,16 +392,20 @@ export function CallLogProvider(props) {
   );
 
   const addComment = useCallback(
-    async (callId, comment, img, createdBy, isClient = 0) => {
-      const authorName = `${user?.firstname || ""} ${user?.lastname || ""}`.trim() || (isClient ? "Client" : "Support User");
+    async (callId, comment, img, createdBy) => {
+      const authorName =
+        `${user?.firstname || ""} ${user?.lastname || ""}`.trim() ||
+        user?.fullName ||
+        user?.Name ||
+        "Client";
       const commentPayload = {
         id: `local-${Date.now()}`,
         CallLogId: callId,
         Comments: comment,
         FilePath: img || "",
-        CreatedDate: new Date().toISOString(),
+        CreatedDate: getLocalISOString(),
         CreatedBy: createdBy,
-        IsClient: isClient,
+        IsClient: 1,
         Name: authorName,
         isNew: true,
         isOwn: true,
@@ -400,8 +428,7 @@ export function CallLogProvider(props) {
           callId,
           comment,
           img,
-          createdBy,
-          isClient
+          createdBy
         );
         return data;
       } catch (error) {
@@ -480,16 +507,19 @@ export function CallLogProvider(props) {
     const currentUserName =
       `${user?.firstname || ""} ${user?.lastname || ""}`.trim() ||
       user?.fullName ||
+      user?.Name ||
       "";
     const isOwn = user?.id && String(data.CreatedBy) === String(user.id);
+    const isClientVal = isOwn || data.IsClient === 1 || data.IsClient === "1" ? 1 : (data.IsClient !== undefined ? Number(data.IsClient) : 1);
     const enrichedName =
       data.Name ||
-      (isOwn ? currentUserName : data.IsClient ? "Client" : "Support User");
+      (isOwn ? currentUserName : isClientVal ? "Client" : "Support User");
 
     commentUpdates$.next({
       ...data,
       Name: enrichedName,
       isOwn: Boolean(isOwn),
+      IsClient: isClientVal,
     });
   });
 

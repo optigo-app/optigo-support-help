@@ -207,25 +207,106 @@ export default function SupportWorkspace() {
   });
 
   const formatFriendlyTime = (rawTime, fallbackDateStr) => {
-    if (rawTime && typeof rawTime === "string" && rawTime.includes(":")) {
-      const parts = rawTime.split(":");
-      if (parts.length >= 2) {
-        const h = parseInt(parts[0], 10);
-        const m = parts[1].slice(0, 2);
+    const timeVal = rawTime || fallbackDateStr;
+    if (!timeVal) return "12:00 PM";
+
+    if (typeof timeVal === "string") {
+      const trimmed = timeVal.trim();
+
+      // 1. Time only string e.g. "15:45", "9:30", "15:45:00", "15:45:00.123", "10:30 AM"
+      const match = trimmed.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?(?:\s*([AaPp][Mm]))?$/);
+      if (match) {
+        let h = parseInt(match[1], 10);
+        const m = match[2];
+        const ampmFromStr = match[4]?.toUpperCase();
+        if (ampmFromStr) {
+          const h12 = h % 12 || 12;
+          return `${h12}:${m} ${ampmFromStr}`;
+        }
         if (!isNaN(h)) {
           const ampm = h >= 12 ? "PM" : "AM";
           const h12 = h % 12 || 12;
           return `${h12}:${m} ${ampm}`;
         }
       }
-    }
-    if (fallbackDateStr) {
-      const d = new Date(fallbackDateStr);
+
+      // 2. Full datetime or ISO string with or without 'Z': "2026-10-03T10:38:58.573Z", "2026-10-03T10:38:58.573", "2026-10-03 10:38:58"
+      // Strip trailing 'Z' so it is treated as local time (IST), matching database on refresh.
+      const cleanDateStr = trimmed.replace(/Z$/i, "").replace(" ", "T");
+      const d = new Date(cleanDateStr);
       if (!isNaN(d.getTime())) {
         return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
       }
     }
+
+    const d = new Date(timeVal);
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    }
+
     return "12:00 PM";
+  };
+
+  const getSortTimestamp = (timeVal, baseStartTime, index, fallbackDate) => {
+    if (!timeVal) return baseStartTime + 1000 + index;
+    const str = String(timeVal).trim();
+    if (!str || str.startsWith("1900") || str.startsWith("0000")) {
+      return baseStartTime + 1000 + index;
+    }
+
+    // 1. Full datetime string with year/date (contains '-' or '/')
+    if (str.includes("-") || str.includes("/")) {
+      const clean = str.replace(/Z$/i, "").replace(" ", "T");
+      const d = new Date(clean);
+      if (!isNaN(d.getTime())) {
+        return d.getTime() + index;
+      }
+    }
+
+    // 2. Time-only string: e.g. "10:58", "10:58 AM", "15:45", "11:00 PM"
+    const match = str.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?(?:\s*([AaPp][Mm]))?$/);
+    if (match) {
+      let hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      const seconds = match[3] ? parseInt(match[3], 10) : 0;
+      const ampm = match[4]?.toUpperCase();
+
+      if (ampm === "PM" && hours < 12) hours += 12;
+      if (ampm === "AM" && hours === 12) hours = 0;
+
+      const base = fallbackDate instanceof Date && !isNaN(fallbackDate.getTime())
+        ? fallbackDate
+        : new Date(baseStartTime);
+
+      const d = new Date(base.getFullYear(), base.getMonth(), base.getDate(), hours, minutes, seconds);
+      if (!isNaN(d.getTime())) {
+        return d.getTime() + index;
+      }
+    }
+
+    // 3. Fallback to direct parse
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      return d.getTime() + index;
+    }
+
+    return baseStartTime + 1000 + index;
+  };
+
+  const getCommentDateGroup = (timeVal, defaultDateGroup) => {
+    if (!timeVal || typeof timeVal !== "string") return defaultDateGroup;
+    if (timeVal.includes("-") || timeVal.includes("/")) {
+      const clean = timeVal.replace(/Z$/i, "").replace(" ", "T");
+      const d = new Date(clean);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        });
+      }
+    }
+    return defaultDateGroup;
   };
 
   const buildMessagesForCall = useCallback((rec, callId) => {
@@ -233,14 +314,14 @@ export default function SupportWorkspace() {
     const baseDate = rec.date
       ? new Date(rec.date)
       : rec.callStart
-      ? new Date(rec.callStart)
-      : new Date();
+        ? new Date(rec.callStart)
+        : new Date();
     const dateFormatted = !isNaN(baseDate.getTime())
       ? baseDate.toLocaleDateString("en-US", {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-        })
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      })
       : "Today";
 
     const baseStartTime = rec.callStart
@@ -260,6 +341,7 @@ export default function SupportWorkspace() {
         isCallRecord: true,
         record: rec,
         sortTime: baseStartTime,
+        orderIndex: 0,
       },
     ];
 
@@ -286,7 +368,7 @@ export default function SupportWorkspace() {
               ? formatFriendlyTime(null, fu.CallStart)
               : mainCallTime;
             const fuSortTime = hasRealStart
-              ? new Date(fu.CallStart).getTime()
+              ? getSortTimestamp(fu.CallStart, baseStartTime, fIdx + 1, baseDate)
               : baseStartTime + (fIdx + 1) * 1000;
 
             const fuAgent =
@@ -312,10 +394,11 @@ export default function SupportWorkspace() {
               isForwardCall: isForward,
               followup: fu,
               sortTime: fuSortTime,
+              orderIndex: fIdx + 1,
             });
           });
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     const rawComments = rec.comment || rec.review_comments;
@@ -336,26 +419,30 @@ export default function SupportWorkspace() {
               (typeof cItem === "string" ? cItem : "");
             if (!commentText) return;
 
-            const cTimeFormatted = cItem.time
-              ? formatFriendlyTime(null, cItem.time)
+            const commentRawTime = cItem.time || cItem.CreatedDate || "";
+            const cTimeFormatted = commentRawTime
+              ? formatFriendlyTime(cItem.time, cItem.CreatedDate)
               : mainCallTime;
-            const cSortTime =
-              cItem.time && !cItem.time.startsWith("1900")
-                ? new Date(cItem.time).getTime()
-                : baseStartTime + 60000 + cIdx * 1000;
+            const cSortTime = getSortTimestamp(
+              commentRawTime,
+              baseStartTime,
+              cIdx + 1,
+              baseDate
+            );
+            const commentDateGroup = getCommentDateGroup(
+              commentRawTime,
+              dateFormatted
+            );
 
-            const isClient =
-              cItem.IsClient === 1 ||
-              cItem.isClient === 1 ||
-              cItem.isClient === true ||
-              cItem.IsClient === "1";
-
-            const currentUserName =
+            const currentUserName = (
               `${user?.firstname || ""} ${user?.lastname || ""}`.trim() ||
               user?.fullName ||
-              "";
-            const isCreatedByCurrentUser =
-              user?.id && String(cItem.CreatedBy) === String(user.id);
+              user?.Name ||
+              user?.username ||
+              ""
+            ).trim();
+
+            const currentUserId = user?.id || user?.userid || user?.EmpID;
 
             let authorName = (
               cItem.Name ||
@@ -363,24 +450,65 @@ export default function SupportWorkspace() {
               cItem.CreatedByName ||
               ""
             ).trim();
+
+            const empList = masterData?.employees || [];
+
+            // Match employee by ID or by Name
+            const matchedEmp = cItem.CreatedBy
+              ? empList.find(
+                (e) => String(e.id || e.EmpID || e.userid) === String(cItem.CreatedBy)
+              )
+              : authorName
+                ? empList.find(
+                  (e) =>
+                    (e.Name && e.Name.trim().toLowerCase() === authorName.toLowerCase()) ||
+                    (`${e.firstname || ""} ${e.lastname || ""}`.trim().toLowerCase() === authorName.toLowerCase()) ||
+                    (e.user && String(e.user).trim().toLowerCase() === authorName.toLowerCase())
+                )
+                : null;
+
+            const empName = matchedEmp
+              ? `${matchedEmp.firstname || ""} ${matchedEmp.lastname || ""}`.trim() ||
+              matchedEmp.Name ||
+              matchedEmp.user
+              : null;
+
+            // Check if this comment belongs to the current logged-in user
+            const isCreatedByCurrentUser = Boolean(
+              (currentUserId && cItem.CreatedBy && String(cItem.CreatedBy) === String(currentUserId)) ||
+              (currentUserName && authorName && authorName.toLowerCase() === currentUserName.toLowerCase())
+            );
+
+            // Is this comment from an Agent / Support Employee?
+            const isAgentComment = Boolean(
+              !isCreatedByCurrentUser && (
+                matchedEmp ||
+                Number(cItem.IsClient) === 0 ||
+                (authorName && (
+                  authorName.toLowerCase() === agentPersonName.toLowerCase() ||
+                  authorName.toLowerCase() === (rec.receivedBy || "").toLowerCase() ||
+                  authorName.toLowerCase() === (rec.AssignedEmpName || "").toLowerCase()
+                ))
+              )
+            );
+
+            // In client portal:
+            // - Any message by current user (client) OR marked IsClient=1 OR not an agent -> Client (RIGHT side)
+            // - Messages from agents/employees -> Agent (LEFT side with Agent badge)
+            const isClient = Boolean(
+              isCreatedByCurrentUser ||
+              Number(cItem.IsClient) === 1 ||
+              cItem.isClient === true ||
+              cItem.isClient === 1 ||
+              !isAgentComment
+            );
+
             const isGeneric =
               !authorName ||
               authorName.toLowerCase() === "client" ||
               authorName.toLowerCase() === "support user";
 
-            const empList = masterData?.employees || [];
-            const matchedEmp = cItem.CreatedBy
-              ? empList.find(
-                  (e) => String(e.id || e.EmpID || e.userid) === String(cItem.CreatedBy)
-                )
-              : null;
-            const empName = matchedEmp
-              ? `${matchedEmp.firstname || ""} ${matchedEmp.lastname || ""}`.trim() ||
-                matchedEmp.Name
-              : null;
-
             if (isCreatedByCurrentUser && currentUserName) {
-              // Real user match: both client-side and agent-side comments sent from this account
               authorName = currentUserName;
             } else if (empName) {
               authorName = empName;
@@ -398,7 +526,7 @@ export default function SupportWorkspace() {
               id: cItem.id
                 ? `comment-${rec.sr}-${cItem.id}`
                 : `comment-${rec.sr}-${cItem.time || ''}-${cIdx}`,
-              dateGroup: dateFormatted,
+              dateGroup: commentDateGroup,
               sender: authorName,
               isClientComment: isClient,
               company: rec.company,
@@ -409,27 +537,28 @@ export default function SupportWorkspace() {
               hasAttachment: hasAttachment,
               attachment: hasAttachment
                 ? {
-                    id: cItem.id || cIdx + 1,
-                    filename: filenameFromUrl
-                      ? `${filenameFromUrl}`
-                      : `Attachment_${cItem.id || "file"}`,
-                    subTitle: isImgExt ? "Image file" : `${fileExt || "Document"} file`,
-                    fileType: isImgExt ? "Image file" : `${fileExt || "Document"} file`,
-                    type: isImgExt ? "image" : "document",
-                    imgUrl: cItem.img,
-                    text: commentText,
-                  }
+                  id: cItem.id || cIdx + 1,
+                  filename: filenameFromUrl
+                    ? `${filenameFromUrl}`
+                    : `Attachment_${cItem.id || "file"}`,
+                  subTitle: isImgExt ? "Image file" : `${fileExt || "Document"} file`,
+                  fileType: isImgExt ? "Image file" : `${fileExt || "Document"} file`,
+                  type: isImgExt ? "image" : "document",
+                  imgUrl: cItem.img,
+                  text: commentText,
+                }
                 : null,
               sortTime: cSortTime,
+              orderIndex: cIdx + 1,
               isNew: Boolean(cItem.isNew),
             });
           });
-        } catch (err) {}
+        } catch (err) { }
       }
     }
 
     return items;
-  }, []);
+  }, [user, masterData]);
 
   // Update conversation messages directly from real server call record
   useEffect(() => {
@@ -443,7 +572,18 @@ export default function SupportWorkspace() {
       activeThread.id
     );
 
-    allGenerated.sort((a, b) => (a.sortTime || 0) - (b.sortTime || 0));
+    allGenerated.sort((a, b) => {
+      // Primary call record always stays at the very top
+      if (a.isCallRecord) return -1;
+      if (b.isCallRecord) return 1;
+
+      // Chronological sort by exact timestamp
+      const diff = (a.sortTime || 0) - (b.sortTime || 0);
+      if (diff !== 0) return diff;
+
+      // Deterministic tie-breaker: maintain stable array order
+      return (a.orderIndex ?? 0) - (b.orderIndex ?? 0);
+    });
     setMessages(allGenerated);
   }, [activeThread, buildMessagesForCall]);
 
@@ -468,29 +608,42 @@ export default function SupportWorkspace() {
     setTempDateRange({ startDate: null, endDate: null });
   }, []);
 
+  const getLocalISOString = () => {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    const padMs = (n) => String(n).padStart(3, "0");
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}.${padMs(now.getMilliseconds())}`;
+  };
+
   const handleSendMessage = useCallback(
     async (text, uploadedUrl) => {
       if (!activeThread?.id) return;
       const callId = activeThread.rawRecord?.id || activeThread.sr || activeThread.id;
 
       if (addComment) {
+        const authorName =
+          `${user?.firstname || ""} ${user?.lastname || ""}`.trim() ||
+          user?.fullName ||
+          user?.Name ||
+          "Client";
+
         // Optimistically patch thread chat bubble immediately with smooth pop flag
         const optimisticComment = {
           id: `local-${Date.now()}`,
           CallLogId: callId,
           Comments: text,
           FilePath: uploadedUrl || "",
-          CreatedDate: new Date().toISOString(),
-          Name: `${user?.firstname || ""} ${user?.lastname || ""}`.trim() || "Support User",
+          CreatedDate: getLocalISOString(),
+          Name: authorName,
           CreatedBy: user?.id,
-          IsClient: 0,
+          IsClient: 1, // ALWAYS 1 on client side!
           isNew: true,
           isOwn: true,
         };
         callStreamService.patchComment(callId, optimisticComment);
 
         try {
-          await addComment(callId, text, uploadedUrl || null, user?.id, 0); // IsClient=0 => Support Agent comment
+          await addComment(callId, text, uploadedUrl || null, user?.id);
         } catch (err) {
           console.error("Error adding comment:", err);
         }
@@ -859,7 +1012,7 @@ export default function SupportWorkspace() {
       <CallLogDrawer
         open={isAddDrawerOpen}
         onClose={() => setIsAddDrawerOpen(false)}
-        onRecordToggle={() => {}}
+        onRecordToggle={() => { }}
         callStatusValue={{ duration: 0 }}
       />
 
