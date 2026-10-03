@@ -39,7 +39,7 @@ class CallStreamService {
       const desc = rec.description || rec.Description || rec.topicRaisedBy || '';
       const date = rec.date || rec.EntryDate || '';
       const time = rec.time || rec.CallStart || '';
-      const estatus = rec.Estatus || rec.estatus || rec.Status || rec.status || '';
+      const estatus = rec.Estatus || rec.estatus || '';
       const status = rec.status || rec.Status || rec.InternalStatus || '';
       const feedback = rec.feedback || rec.Feedback || '';
       const rating = Number(rec.rating ?? rec.ratingByCustomer ?? 0);
