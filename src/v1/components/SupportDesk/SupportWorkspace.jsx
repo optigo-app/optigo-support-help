@@ -93,6 +93,8 @@ export default function SupportWorkspace() {
     [fetchCallLogs]
   );
 
+  const prevSearchRef = useRef(searchQuery);
+
   useEffect(() => {
     const filters = {
       endDate: filterState?.dateRange?.endDate || "",
@@ -104,11 +106,18 @@ export default function SupportWorkspace() {
     };
     filtersRef.current = filters;
 
-    debouncedFilterCallLog(filters);
+    if (prevSearchRef.current !== searchQuery) {
+      prevSearchRef.current = searchQuery;
+      debouncedFilterCallLog(filters);
+    } else {
+      // Direct click on status rail / date filter -> instant fetch with loading!
+      fetchCallLogs(filters, true);
+    }
+
     return () => {
       debouncedFilterCallLog.cancel();
     };
-  }, [searchQuery, status, filterState, debouncedFilterCallLog]);
+  }, [searchQuery, status, filterState, debouncedFilterCallLog, fetchCallLogs]);
 
   // Re-fetch quietly in background when refreshList or external updates trigger
   useEffect(() => {
@@ -614,7 +623,9 @@ export default function SupportWorkspace() {
             onSelectThread={handleSelectThread}
             searchQuery={searchQuery}
             isLoading={isLoading}
-            width={380}
+            status={status}
+            setStatus={setStatus}
+            width={415}
           />
 
           {/* Conversation Canvas */}
