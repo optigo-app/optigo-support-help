@@ -31,14 +31,14 @@ export default function SupportTopBar({
   onClearAll,
 }) {
   const { STATUS_LIST = [], ESTATUS_LIST = [] } = useCallLog();
-  const statusList = [...STATUS_LIST, ...ESTATUS_LIST];
+  const statusList = [...ESTATUS_LIST];
 
   const hasActiveFilter = Boolean(
     searchQuery ||
-      (status && status !== "all") ||
-      filterState?.filterTargetField ||
-      filterState?.dateRange?.startDate ||
-      filterState?.dateRange?.endDate
+    (status && status !== "all") ||
+    filterState?.filterTargetField ||
+    filterState?.dateRange?.startDate ||
+    filterState?.dateRange?.endDate
   );
 
   // Bridge AirbnbDateRangePicker's { start, end } Date output → filterState string dates
@@ -63,14 +63,14 @@ export default function SupportTopBar({
   const pickerStart = tempDateRange?.startDate instanceof Date
     ? tempDateRange.startDate
     : filterState?.dateRange?.startDate
-    ? new Date(filterState.dateRange.startDate + "T00:00:00")
-    : null;
+      ? new Date(filterState.dateRange.startDate + "T00:00:00")
+      : null;
 
   const pickerEnd = tempDateRange?.endDate instanceof Date
     ? tempDateRange.endDate
     : filterState?.dateRange?.endDate
-    ? new Date(filterState.dateRange.endDate + "T00:00:00")
-    : null;
+      ? new Date(filterState.dateRange.endDate + "T00:00:00")
+      : null;
 
   const selectedStatusItem = statusList.find(
     (i) => String(i.value) === String(status) || i.label === status
@@ -219,10 +219,10 @@ export default function SupportTopBar({
                 {filterState?.filterTargetField === "date"
                   ? "Date"
                   : filterState?.filterTargetField === "callStart"
-                  ? "Call Start"
-                  : filterState?.filterTargetField === "callClosed"
-                  ? "Call Closed"
-                  : "Filter By"}
+                    ? "Call Start"
+                    : filterState?.filterTargetField === "callClosed"
+                      ? "Call Closed"
+                      : "Filter By"}
               </Typography>
             )}
           >

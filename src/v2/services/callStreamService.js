@@ -114,16 +114,27 @@ class CallStreamService {
     const targetCallId = String(callLogId);
     const activeId = this.activeThreadId$.getValue();
 
+    const getLocalISOString = () => {
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      const padMs = (n) => String(n).padStart(3, "0");
+      return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}.${padMs(now.getMilliseconds())}`;
+    };
+
     const rawText = (commentPayload.Comments ?? commentPayload.comment ?? commentPayload.text ?? "").trim();
     const rawFile = (commentPayload.FilePath || commentPayload.img || "").trim();
+    const rawTime = (commentPayload.CreatedDate || commentPayload.time || getLocalISOString()).toString().replace(/Z$/i, "").replace(" ", "T");
+
+    const isOwn = Boolean(commentPayload.isOwn);
+    const isClientVal = isOwn || commentPayload.IsClient === 1 || commentPayload.IsClient === "1" ? 1 : (commentPayload.IsClient !== undefined ? Number(commentPayload.IsClient) : 1);
     const commentItem = {
       id: commentPayload.id || Date.now(),
       text: rawText,
       comment: rawText,
-      time: commentPayload.CreatedDate || commentPayload.time || new Date().toISOString(),
-      Name: commentPayload.Name || (commentPayload.IsClient ? "Client" : "Support User"),
+      time: rawTime,
+      Name: commentPayload.Name || (isClientVal ? "Client" : "Support User"),
       CreatedBy: commentPayload.CreatedBy,
-      IsClient: commentPayload.IsClient ?? 0,
+      IsClient: isClientVal,
       FilePath: rawFile,
       img: rawFile,
       isNew: commentPayload.isNew !== undefined ? Boolean(commentPayload.isNew) : true,
@@ -146,27 +157,47 @@ class CallStreamService {
 
         const existingIdx = existing.findIndex((c) => {
           if (commentItem.id && c.id && String(c.id) === String(commentItem.id)) return true;
-          return (c.text || c.comment || "").trim() === rawText && (c.FilePath || c.img || "").trim() === rawFile;
+          if (String(c.id).startsWith("local-")) {
+            const cText = (c.text || c.comment || "").trim();
+            const cFile = (c.FilePath || c.img || "").trim();
+            return cText === rawText && cFile === rawFile;
+          }
+          return false;
         });
 
         if (existingIdx !== -1) {
+          const prev = existing[existingIdx];
           existing[existingIdx] = {
-            ...existing[existingIdx],
+            ...prev,
             ...commentItem,
-            id: commentPayload.id || existing[existingIdx].id,
+            id: commentPayload.id || prev.id,
+            IsClient: isOwn ? 1 : (commentPayload.IsClient !== undefined ? Number(commentPayload.IsClient) : prev.IsClient ?? 1),
+            time: commentItem.time || prev.time,
           };
         } else {
           existing.push(commentItem);
         }
 
         const isCurrentActive = activeId === thread.id;
-        const isOwn = Boolean(commentPayload.isOwn);
         const shouldMarkUnread = !isCurrentActive && !isOwn;
+
+        const formatTimeForThread = (timeStr) => {
+          if (!timeStr) return "";
+          if (typeof timeStr === "string") {
+            const clean = timeStr.trim().replace(/Z$/i, "").replace(" ", "T");
+            const d = new Date(clean);
+            if (!isNaN(d.getTime())) {
+              return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+            }
+          }
+          const d = new Date(timeStr);
+          return !isNaN(d.getTime()) ? d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "";
+        };
 
         return {
           ...thread,
           lastMessage: rawText || thread.lastMessage,
-          timestamp: commentItem.time ? new Date(commentItem.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : thread.timestamp,
+          timestamp: commentItem.time ? formatTimeForThread(commentItem.time) : thread.timestamp,
           hasNewComment: shouldMarkUnread,
           unread: shouldMarkUnread,
           rawRecord: {

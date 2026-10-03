@@ -118,11 +118,11 @@ export const helpCategories = [
 export const mainTabs = [
   {
     id: "calllog",
-    label: "CallBack",
+    label: "SupportDesk",
     icon: <PhoneIcon sx={{ fontSize: 16 }} />,
     color: "#fbbf24",
     TabId: 0,
-    slug:'CallLog',
+    slug: 'CallLog',
     SystemId: 18290,
   },
   {
@@ -131,7 +131,7 @@ export const mainTabs = [
     icon: <ConfirmationNumberRoundedIcon sx={{ fontSize: 16 }} />,
     color: "purple",
     TabId: 1,
-    slug:'Ticket',
+    slug: 'Ticket',
     SystemId: [18294, 18262],
   },
   {
@@ -140,7 +140,7 @@ export const mainTabs = [
     icon: <TruckIcon sx={{ fontSize: 16 }} />,
     color: "#10b981",
     TabId: 2,
-    slug:'Order Delivery Dashboard',
+    slug: 'Order Delivery Dashboard',
     SystemId: 18291,
   },
   {
@@ -149,7 +149,7 @@ export const mainTabs = [
     icon: <SchoolIcon sx={{ fontSize: 16 }} />,
     color: "#3b82f6",
     TabId: 3,
-    slug:'Training Dashboard',
+    slug: 'Training Dashboard',
     SystemId: 18292,
   },
   // {
