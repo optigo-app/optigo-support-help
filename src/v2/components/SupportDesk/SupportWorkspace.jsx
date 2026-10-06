@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Box, Typography, Rating } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import HourglassEmptyRoundedIcon from "@mui/icons-material/HourglassEmptyRounded";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SupportTopBar from "./SupportTopBar";
 import SupportHeader from "./SupportHeader";
 import SupportSidebar from "./SupportSidebar";
@@ -709,16 +707,6 @@ export default function SupportWorkspace() {
     (Array.isArray(raw.FollowUpList) && raw.FollowUpList.length > 0) ||
     (typeof raw.FollowUpList === "string" && raw.FollowUpList.trim().startsWith("[") && raw.FollowUpList.trim() !== "[]")
   );
-
-  const hasCallStartedAndEnded = Boolean(
-    isCallEnded ||
-    hasValidDuration ||
-    hasClosedTimestamp ||
-    hasFollowUps ||
-    (raw.callStart && !raw.callStart.startsWith("1900") && isAccepted && !rawDuration.includes("00:00:00"))
-  );
-
-  const canComment = !isCallEnded;
 
   const currentRating = Number(raw.rating ?? raw.ratingByCustomer ?? 0);
   const hasFeedback = Boolean(raw.feedback && String(raw.feedback).trim());

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Box, Typography, Rating } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import HourglassEmptyRoundedIcon from "@mui/icons-material/HourglassEmptyRounded";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SupportTopBar from "./SupportTopBar";
 import SupportHeader from "./SupportHeader";
 import SupportSidebar from "./SupportSidebar";
