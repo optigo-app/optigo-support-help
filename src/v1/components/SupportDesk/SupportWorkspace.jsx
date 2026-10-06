@@ -555,16 +555,6 @@ export default function SupportWorkspace() {
     (typeof raw.FollowUpList === "string" && raw.FollowUpList.trim().startsWith("[") && raw.FollowUpList.trim() !== "[]")
   );
 
-  const hasCallStartedAndEnded = Boolean(
-    isCallEnded ||
-    hasValidDuration ||
-    hasClosedTimestamp ||
-    hasFollowUps ||
-    (raw.callStart && !raw.callStart.startsWith("1900") && isAccepted && !rawDuration.includes("00:00:00"))
-  );
-
-  const canComment = !isCallEnded;
-
   const currentRating = Number(raw.rating ?? raw.ratingByCustomer ?? 0);
   const hasFeedback = Boolean(raw.feedback && String(raw.feedback).trim());
   const hasRating = currentRating > 0;
