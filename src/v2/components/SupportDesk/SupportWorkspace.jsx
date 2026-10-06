@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Box, Typography, Rating } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import HourglassEmptyRoundedIcon from "@mui/icons-material/HourglassEmptyRounded";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SupportTopBar from "./SupportTopBar";
 import SupportHeader from "./SupportHeader";
 import SupportSidebar from "./SupportSidebar";
@@ -710,16 +708,6 @@ export default function SupportWorkspace() {
     (typeof raw.FollowUpList === "string" && raw.FollowUpList.trim().startsWith("[") && raw.FollowUpList.trim() !== "[]")
   );
 
-  const hasCallStartedAndEnded = Boolean(
-    isCallEnded ||
-    hasValidDuration ||
-    hasClosedTimestamp ||
-    hasFollowUps ||
-    (raw.callStart && !raw.callStart.startsWith("1900") && isAccepted && !rawDuration.includes("00:00:00"))
-  );
-
-  const canComment = isAccepted && hasCallStartedAndEnded && !isCallEnded;
-
   const currentRating = Number(raw.rating ?? raw.ratingByCustomer ?? 0);
   const hasFeedback = Boolean(raw.feedback && String(raw.feedback).trim());
   const hasRating = currentRating > 0;
@@ -945,68 +933,6 @@ export default function SupportWorkspace() {
                     )}
                   </Box>
                 )}
-              </Box>
-            ) : !isAccepted ? (
-              <Box
-                sx={{
-                  p: 2,
-                  px: 3,
-                  bgcolor: "#FFFFFF",
-                  borderTop: "1px solid #E2E8F0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  userSelect: "none",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 1.2,
-                    px: 2,
-                    py: 0.8,
-                    borderRadius: "20px",
-                    bgcolor: "#FFFBEB",
-                    border: "1px solid #FDE68A",
-                  }}
-                >
-                  <HourglassEmptyRoundedIcon sx={{ fontSize: 18, color: "#D97706" }} />
-                  <Typography sx={{ fontSize: 12, fontWeight: 650, color: "#92400E" }}>
-                    Your call request is in the queue. Please wait while a support agent accepts your call. Comments will be enabled once your call is accepted and attended.
-                  </Typography>
-                </Box>
-              </Box>
-            ) : !hasCallStartedAndEnded ? (
-              <Box
-                sx={{
-                  p: 2,
-                  px: 3,
-                  bgcolor: "#FFFFFF",
-                  borderTop: "1px solid #E2E8F0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  userSelect: "none",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 1.2,
-                    px: 2,
-                    py: 0.8,
-                    borderRadius: "20px",
-                    bgcolor: "#F8FAFC",
-                    border: "1px solid #E2E8F0",
-                  }}
-                >
-                  <LockOutlinedIcon sx={{ fontSize: 18, color: "#64748B" }} />
-                  <Typography sx={{ fontSize: 12, fontWeight: 600, color: "#64748B" }}>
-                    This call has not been attended yet. Comments will be enabled once your call is attended by an agent.
-                  </Typography>
-                </Box>
               </Box>
             ) : (
               <MessageComposer
