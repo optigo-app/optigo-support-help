@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import CallLogApi from "../../apis/CallLogApiController";
 import { useAuth } from './UseAuth';
 import { useSocketEvent } from "../hooks/useSocketListener";
-import { commentUpdates$ } from "../../rxjs/commentEvents";
+import { commentUpdates$, externalStatusUpdates$ } from "../../rxjs/commentEvents";
 
 const isValidCommentPayload = (data) => {
   if (!data || typeof data !== "object") return false;
@@ -173,15 +173,15 @@ export function CallLogProvider(props) {
   const addCall = useCallback(async (call, isConcurrent) => {
     try {
       const data = await CallLogApi.addCall({
-        appID: call?.appname ,
+        appID: call?.appname,
         createdBy: call?.receivedBy,
         customerName: call?.callBy,
         deptId: call?.forward && call?.forward?.split(",")[0],
         empId: call?.forward && call?.forward?.split(",")[1],
         description: call?.description,
         entryDate: call?.date,
-        projectID: call?.company ,
-        CorpId: call?.CorpId ,
+        projectID: call?.company,
+        CorpId: call?.CorpId,
         source: call?.source || "helpdesk",
         isClient: call?.isClient ?? 1,
         filePath: call?.filePath || "",
@@ -532,9 +532,9 @@ export function CallLogProvider(props) {
         prev.map((c) =>
           String(c.sr || c.id) === String(targetCallId)
             ? {
-                ...appendCommentToCall(c, commentData),
-                hasNewComment: commentData.isOwn ? false : true,
-              }
+              ...appendCommentToCall(c, commentData),
+              hasNewComment: commentData.isOwn ? false : true,
+            }
             : c
         )
       );
@@ -549,6 +549,42 @@ export function CallLogProvider(props) {
     //   return prev.map((c) => (c.sr === data.sr ? { ...c, ...data } : c));
     // });
   });
+
+  // Push external status events into the RxJS stream.
+  useSocketEvent("ES", (data) => {
+    externalStatusUpdates$.next(data);
+  });
+
+  // Apply status events locally without reloading the call list.
+  useEffect(() => {
+    const sub = externalStatusUpdates$.subscribe((statusData) => {
+      const targetCallId = statusData?.CallLogId ?? statusData?.sr ?? statusData?.callLogId;
+      console.log(targetCallId, "targetCallId")
+      if (!targetCallId || statusData?.Estatus === undefined) return;
+
+      const statusId = statusData.Estatus;
+      const statusLabel = ESTATUS_LIST.find(
+        (status) => String(status?.value) === String(statusId)
+      )?.label;
+      console.log(statusLabel, "statusLabel")
+
+
+      setCallLog((prev) =>
+        prev.map((call) =>
+          String(call.sr ?? call.id) === String(targetCallId)
+            ? {
+              ...call,
+              Estatus: statusLabel || statusId,
+              EstatusId: statusId,
+              ...(statusData.ModifiedDate && { ModifiedDate: statusData.ModifiedDate }),
+              ...(statusData.UpdatedBy !== undefined && { UpdatedBy: statusData.UpdatedBy }),
+            }
+            : call
+        )
+      );
+    });
+    return () => sub.unsubscribe();
+  }, [ESTATUS_LIST]);
 
   // Forwarded Call Events
   useSocketEvent("ForwardedCall", (data) => {

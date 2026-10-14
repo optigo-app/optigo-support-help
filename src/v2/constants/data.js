@@ -118,7 +118,7 @@ export const helpCategories = [
 export const mainTabs = [
   {
     id: "calllog",
-    label: "SupportDesk",
+    label: "Call Activity",
     icon: <PhoneIcon sx={{ fontSize: 16 }} />,
     color: "#fbbf24",
     TabId: 0,

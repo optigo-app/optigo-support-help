@@ -48,6 +48,19 @@ class CallStreamService {
 
       const hasNewComment = Boolean(rec.hasNewComment);
 
+      // Parse existing comments to find latest comment
+      let latestComment = '';
+      let latestCommentAuthor = '';
+      try {
+        const rawComment = rec.comment || rec.review_comments;
+        const parsed = typeof rawComment === 'string' ? JSON.parse(rawComment) : (Array.isArray(rawComment) ? rawComment : []);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const lastC = parsed[parsed.length - 1];
+          latestComment = (lastC.Comments ?? lastC.comment ?? lastC.text ?? '').trim();
+          latestCommentAuthor = lastC.Name || (lastC.IsClient === 1 || lastC.IsClient === '1' ? 'Client' : 'Agent');
+        }
+      } catch (_) {}
+
       return {
         id,
         sr,
@@ -56,7 +69,11 @@ class CallStreamService {
         callBy: caller,
         receivedBy: rec.receivedBy || rec.AssignedEmpName || '',
         createdBy: rec.createdBy || rec.CreatedBy || '',
-        lastMessage: desc || app,
+        title: desc || app, // FIXED MAIN TITLE - NEVER OVERWRITTEN
+        description: desc,
+        latestComment: latestComment,
+        latestCommentAuthor: latestCommentAuthor,
+        lastMessage: latestComment || desc || app,
         timestamp: time,
         date,
         status: status || estatus,
@@ -196,6 +213,10 @@ class CallStreamService {
 
         return {
           ...thread,
+          title: thread.title || thread.description || thread.name, // FIXED MAIN TITLE - NEVER OVERWRITTEN
+          description: thread.description || rec.description,
+          latestComment: rawText,
+          latestCommentAuthor: isOwn ? 'You' : (commentItem.Name || 'Agent'),
           lastMessage: rawText || thread.lastMessage,
           timestamp: commentItem.time ? formatTimeForThread(commentItem.time) : thread.timestamp,
           hasNewComment: shouldMarkUnread,
@@ -212,8 +233,56 @@ class CallStreamService {
     });
 
     if (matched) {
-      this.rawCalls$.next(updated);
+      // SHUFFLE / RE-SORT TO TOP: Move updated call to index 0
+      const targetIdx = updated.findIndex((t) => {
+        const threadSr = String(t.sr || "");
+        const threadCallId = String(t.rawRecord?.id || t.rawRecord?.sr || "");
+        return threadSr === targetCallId || threadCallId === targetCallId || t.id === `call-${targetCallId}`;
+      });
+
+      if (targetIdx > 0) {
+        const [movedThread] = updated.splice(targetIdx, 1);
+        this.rawCalls$.next([movedThread, ...updated]);
+      } else {
+        this.rawCalls$.next(updated);
+      }
     }
+  }
+
+  patchExternalStatus(callLogId, statusData, statusLabel) {
+    const rawCalls = this.rawCalls$.getValue();
+    if (!Array.isArray(rawCalls) || rawCalls.length === 0) return;
+
+    const targetCallId = String(callLogId);
+    const externalStatus = statusLabel || statusData?.Estatus;
+    const updated = rawCalls.map((thread) => {
+      const threadSr = String(thread.sr ?? "");
+      const record = thread.rawRecord || {};
+      const recordId = String(record.id ?? record.sr ?? "");
+      if (
+        threadSr !== targetCallId &&
+        recordId !== targetCallId &&
+        thread.id !== `call-${targetCallId}`
+      ) {
+        return thread;
+      }
+
+      return {
+        ...thread,
+        estatus: externalStatus,
+        status: externalStatus,
+        rawRecord: {
+          ...record,
+          Estatus: externalStatus,
+          estatus: externalStatus,
+          EstatusId: statusData.Estatus,
+          ...(statusData.ModifiedDate && { ModifiedDate: statusData.ModifiedDate }),
+          ...(statusData.UpdatedBy !== undefined && { UpdatedBy: statusData.UpdatedBy }),
+        },
+      };
+    });
+
+    this.rawCalls$.next(updated);
   }
 
   selectThread(threadId) {

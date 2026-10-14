@@ -13,7 +13,7 @@ import { useCallLog } from "../../modules/context/UseCallLog";
 import { useAuth } from "../../modules/context/UseAuth";
 import { useSocketEvent } from "../../modules/hooks/useSocketListener";
 import { callStreamService } from "../../services/callStreamService";
-import { commentUpdates$ } from "../../rxjs/commentEvents";
+import { commentUpdates$, externalStatusUpdates$ } from "../../rxjs/commentEvents";
 import CallLogApi from "../../apis/CallLogApiController";
 import debounce from "lodash/debounce";
 
@@ -27,6 +27,7 @@ export default function SupportWorkspace() {
     refreshList,
     setrefreshList,
     masterData,
+    ESTATUS_LIST,
   } = useCallLog();
 
   const [threads, setThreads] = useState([]);
@@ -164,6 +165,36 @@ export default function SupportWorkspace() {
     });
     return () => sub.unsubscribe();
   }, []);
+
+  // Keep the support thread store in sync with external status events.
+  useEffect(() => {
+    const sub = externalStatusUpdates$.subscribe((statusData) => {
+      const targetCallId = statusData?.CallLogId ?? statusData?.sr ?? statusData?.callLogId;
+      if (!targetCallId || statusData?.Estatus === undefined) return;
+
+      const statusId = statusData.Estatus;
+      const statusLabel = ESTATUS_LIST.find(
+        (item) => String(item.value) === String(statusId)
+      )?.label;
+      const externalStatus = statusLabel || statusId;
+
+      callStreamService.patchExternalStatus(targetCallId, statusData, statusLabel);
+      setCallLog((prev) =>
+        prev.map((call) =>
+          String(call.sr ?? call.id) === String(targetCallId)
+            ? {
+                ...call,
+                Estatus: externalStatus,
+                EstatusId: statusId,
+                ...(statusData.ModifiedDate && { ModifiedDate: statusData.ModifiedDate }),
+                ...(statusData.UpdatedBy !== undefined && { UpdatedBy: statusData.UpdatedBy }),
+              }
+            : call
+        )
+      );
+    });
+    return () => sub.unsubscribe();
+  }, [ESTATUS_LIST, setCallLog]);
 
   // Auto-clear unread if opened via URL query parameter ?callId=...
   useEffect(() => {
@@ -676,7 +707,7 @@ export default function SupportWorkspace() {
     raw.status ||
     activeThread?.status ||
     ""
-  ).toLowerCase();
+  ).toString().toLowerCase();
 
   const isCallEnded = Boolean(
     extStatus === "completed" ||
