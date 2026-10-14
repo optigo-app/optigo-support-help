@@ -17,7 +17,7 @@ import SupportWorkspace from "../SupportDesk/SupportWorkspace";
 export const featureCards = [
   {
     icon: <PermPhoneMsgRoundedIcon style={{ fontSize: 40, color: "#2196F3" }} />,
-    title: "SupportDesk",
+    title: "Call Activity",
     description: `Need help? Leave your request, and we'll call you back shortly.`,
     TabId: 0,
     id: "call-logs",

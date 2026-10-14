@@ -119,7 +119,7 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
     "Support Agent";
   const isSolved =
     (rec.status || message.status || "").toLowerCase() === "solved" ||
-    (rec.Estatus || "").toLowerCase() === "completed";
+    ["completed", "solved", "closed"].includes(String(rec.Estatus || "").toLowerCase());
 
   const agentInitials = getInitials(agentName, "SA");
 
