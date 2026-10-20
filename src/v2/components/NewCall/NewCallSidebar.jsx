@@ -17,10 +17,8 @@ import AppsRoundedIcon from '@mui/icons-material/AppsRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 
 const STATUS_FILTERS = [
-  { key: 'all', label: 'All', icon: AppsRoundedIcon },
   { key: 'pending', label: 'Pending', icon: HourglassEmptyRoundedIcon, color: '#F59E0B', bg: '#FEF3C7', text: '#92400E' },
-  { key: 'running', label: 'Running', icon: PlayArrowRoundedIcon, color: '#3B82F6', bg: '#EFF6FF', text: '#1E40AF' },
-  { key: 'completed', label: 'Completed', icon: CheckCircleRoundedIcon, color: '#10B981', bg: '#ECFDF5', text: '#065F46' },
+  { key: 'completed', label: 'Solved', icon: CheckCircleRoundedIcon, color: '#10B981', bg: '#ECFDF5', text: '#065F46' },
 ];
 
 export default function NewCallSidebar({
@@ -41,8 +39,7 @@ export default function NewCallSidebar({
       if (statusFilter !== 'all') {
         const estatus = String(c.Estatus || c.estatus || c.status || '').trim().toLowerCase();
         if (statusFilter === 'pending' && !estatus.includes('pending')) return false;
-        if (statusFilter === 'running' && !estatus.includes('running')) return false;
-        if (statusFilter === 'completed' && !estatus.includes('completed') && !estatus.includes('solved')) return false;
+        if (statusFilter === 'completed' && !estatus.includes('completed') && !estatus.includes('solved') && !estatus.includes('closed')) return false;
       }
 
       // 2. Search query filter
@@ -64,11 +61,8 @@ export default function NewCallSidebar({
 
   const getStatusBadge = (statusStr) => {
     const s = String(statusStr || '').trim().toLowerCase();
-    if (s.includes('completed') || s.includes('solved')) {
-      return { label: 'Completed', color: '#065F46', bg: '#ECFDF5', border: '#A7F3D0' };
-    }
-    if (s.includes('running')) {
-      return { label: 'In Progress', color: '#1E40AF', bg: '#EFF6FF', border: '#BFDBFE' };
+    if (s.includes('completed') || s.includes('solved') || s.includes('closed')) {
+      return { label: 'Solved', color: '#065F46', bg: '#ECFDF5', border: '#A7F3D0' };
     }
     return { label: 'Pending', color: '#92400E', bg: '#FEF3C7', border: '#FCD34D' };
   };

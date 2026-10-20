@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     setApiConfig(null);
   };
 
-  const getToken = async (userId, isCorporate = true) => {
+  const getToken = async (userId, isCorporate = true, isRetry = false) => {
     try {
       const res = await TrainingAPI.getToken(userId, isCorporate);
       const { Data } = res;
@@ -50,20 +50,27 @@ export const AuthProvider = ({ children }) => {
       if (Data?.rd?.length) {
         tokenObj = Data.rd[0];
 
-        if (Data?.rd2?.[0] && Data?.rd1?.[0]) {
+        if (Data?.rd2?.[0]) {
           // Corporate format
           userObj = {
             ...Data.rd2[0],
-            fullName: `${Data.rd2[0].firstname} ${Data.rd2[0].lastname}`,
+            fullName: `${Data.rd2[0].firstname || ""} ${Data.rd2[0].lastname || ""}`.trim() || Data.rd2[0].userid,
           };
           userRights = Data.rd1 || [];
         } else if (Data?.rd1?.[0]) {
-          // Non-corporate/skey format
+          // Non-corporate / normal ERP skey format
           userObj = {
             ...Data.rd1[0],
-            fullName: `${Data.rd1[0].firstname} ${Data.rd1[0].lastname}`,
+            fullName: `${Data.rd1[0].firstname || ""} ${Data.rd1[0].lastname || ""}`.trim() || Data.rd1[0].userid,
           };
           userRights = Data.rd3 || [];
+        } else if (Data?.rd?.[0]?.userid) {
+          // Direct rd[0] user fallback
+          userObj = {
+            ...Data.rd[0],
+            fullName: `${Data.rd[0].firstname || ""} ${Data.rd[0].lastname || ""}`.trim() || Data.rd[0].userid,
+          };
+          userRights = Data.rd1 || [];
         }
       }
 
@@ -78,9 +85,9 @@ export const AuthProvider = ({ children }) => {
         "Error getting token (corporate=" + isCorporate + "):",
         error,
       );
-      if (isCorporate) {
-        console.log("Retrying Delivery/Training getToken with corporate=false");
-        return await getToken(userId, false);
+      if (!isRetry) {
+        console.log(`Retrying Delivery/Training getToken with corporate=${!isCorporate}`);
+        return await getToken(userId, !isCorporate, true);
       }
 
       // DEVELOPMENT/DUMMY LOGGER FLOW:

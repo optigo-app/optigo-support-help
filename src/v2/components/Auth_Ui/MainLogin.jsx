@@ -10,13 +10,17 @@ import { useAuth } from "../../modules/context/UseAuth";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import DummyLogger from "./DummyLogger";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ForgetPasswordModal from "./ForgetPasswordModal";
 
 const MainLogin3 = () => {
   const navigate = useNavigate();
-  const [projectCode, setProjectCode] = useState("");
-  const [email, setEmail] = useState("");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isAddAccount = searchParams.get("addAccount") === "true";
+
+  const [projectCode, setProjectCode] = useState(() => searchParams.get("companyCode") || "");
+  const [email, setEmail] = useState(() => searchParams.get("userId") || "");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -129,12 +133,14 @@ const MainLogin3 = () => {
             }}
           >
             <Typography variant="h5" align="center" gutterBottom>
-              Need Help?
+              {isAddAccount ? "Add Another Account" : "Need Help?"}
             </Typography>
             <Typography variant="body2" align="center" color="textSecondary" sx={{ mb: 3 }}>
-              Welcome to the Optigo Apps Support Center
+              {isAddAccount
+                ? "Sign in to connect another organization or corporate account to your session."
+                : "Welcome to the Optigo Apps Support Center"}
               <br />
-              Your one-stop hub for technical assistance, orders, training resources, and ticket updates.
+              {!isAddAccount && "Your one-stop hub for technical assistance, orders, training resources, and ticket updates."}
             </Typography>
 
             {/* Form Fields */}

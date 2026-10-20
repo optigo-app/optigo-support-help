@@ -19,7 +19,7 @@ export default function NewCallWorkspace({ width = '100%', height = 'calc(100vh 
   const [activeCallId, setActiveCallId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('pending');
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [feedbackCall, setFeedbackCall] = useState(null);

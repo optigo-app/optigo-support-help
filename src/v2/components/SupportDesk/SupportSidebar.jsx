@@ -123,7 +123,6 @@ const SupportSidebar = React.memo(function SupportSidebar({
     };
 
     const pendingItem = findMasterItem('pending');
-    const runningItem = findMasterItem('running');
     const completedItem = findMasterItem('completed');
 
     return [
@@ -145,26 +144,9 @@ const SupportSidebar = React.memo(function SupportSidebar({
         },
       },
       {
-        key: 'running',
-        label: 'Running',
-        statusValue: runningItem?.value ?? 'Running',
-        icon: PlayArrowRoundedIcon,
-        theme: {
-          primary: '#3B82F6',
-          bgActive: '#EFF6FF',
-          bgHover: '#F0F7FF',
-          border: '#BFDBFE',
-          textActive: '#1E40AF',
-          iconColor: '#2563EB',
-          badgeBg: '#EFF6FF',
-          activeBadgeBg: '#2563EB',
-          activeBadgeText: '#FFFFFF',
-        },
-      },
-      {
         key: 'completed',
-        label: 'Completed',
-        statusValue: completedItem?.value ?? 'Completed',
+        label: 'Solved',
+        statusValue: completedItem?.value ?? 'Solved',
         icon: CheckCircleRoundedIcon,
         theme: {
           primary: '#10B981',
@@ -419,13 +401,13 @@ const SupportSidebar = React.memo(function SupportSidebar({
                         </Typography>
                         {status && (
                           <Chip
-                            label={status}
+                            label={isSolved ? 'Solved' : 'Pending'}
                             size="small"
                             sx={{
                               height: 17,
                               fontSize: 9.5,
                               fontWeight: 800,
-                              bgcolor: isSolved ? '#10B981' : isRunning ? '#EF4444' : '#F59E0B',
+                              bgcolor: isSolved ? '#10B981' : '#F59E0B',
                               color: '#FFFFFF',
                             }}
                           />
@@ -586,15 +568,15 @@ const SupportSidebar = React.memo(function SupportSidebar({
 
                             {status && (
                               <Chip
-                                label={status}
+                                label={isSolved ? 'Solved' : 'Pending'}
                                 size="small"
                                 sx={{
                                   height: 16,
                                   fontSize: '0.62rem',
                                   fontWeight: 700,
                                   px: 0.2,
-                                  bgcolor: isSolved ? '#DCFCE7' : isRunning ? '#DBEAFE' : isPending ? '#FEF3C7' : '#F1F5F9',
-                                  color: isSolved ? '#15803D' : isRunning ? '#1D4ED8' : isPending ? '#D97706' : '#64748B',
+                                  bgcolor: isSolved ? '#DCFCE7' : '#FEF3C7',
+                                  color: isSolved ? '#15803D' : '#D97706',
                                 }}
                               />
                             )}
@@ -622,7 +604,7 @@ const SupportSidebar = React.memo(function SupportSidebar({
                                   cText = (lastC.Comments ?? lastC.comment ?? lastC.text ?? '').trim();
                                   cAuthor = lastC.Name || (lastC.IsClient === 1 || lastC.IsClient === '1' ? 'Client' : 'Agent');
                                 }
-                              } catch (_) {}
+                              } catch (_) { }
                             }
 
                             return (

@@ -19,19 +19,10 @@ const DEFAULT_STATUS_STYLE = { dotColor: '#64748B', bg: '#F1F5F9', color: '#4755
 
 const getStatusColorConfig = (statusName) => {
   const s = String(statusName || '').toLowerCase();
-  if (s.includes('completed') || s.includes('solved') || s.includes('done') || s.includes('delivered')) {
-    return { dotColor: '#16A34A', bg: '#F0FDF4', color: '#15803D', border: '#BBF7D0' };
+  if (s.includes('completed') || s.includes('solved') || s.includes('done') || s.includes('closed') || s.includes('delivered')) {
+    return { label: 'Solved', dotColor: '#16A34A', bg: '#F0FDF4', color: '#15803D', border: '#BBF7D0' };
   }
-  if (s.includes('pending') || s.includes('wait') || s.includes('tracking')) {
-    return { dotColor: '#D97706', bg: '#FFFBEB', color: '#B45309', border: '#FDE68A' };
-  }
-  if (s.includes('running') || s.includes('progress') || s.includes('testing')) {
-    return { dotColor: '#DC2626', bg: '#FEF2F2', color: '#B91C1C', border: '#FECACA' };
-  }
-  if (s.includes('ticket') || s.includes('generated')) {
-    return { dotColor: '#2563EB', bg: '#EFF6FF', color: '#1D4ED8', border: '#BFDBFE' };
-  }
-  return DEFAULT_STATUS_STYLE;
+  return { label: 'Pending', dotColor: '#D97706', bg: '#FFFBEB', color: '#B45309', border: '#FDE68A' };
 };
 
 const SupportHeader = React.memo(function SupportHeader({
@@ -177,7 +168,7 @@ const SupportHeader = React.memo(function SupportHeader({
             >
               <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: extConfig.dotColor }} />
               <Typography sx={{ fontSize: 11.5, fontWeight: 750 }}>
-                {currentExtStatus}
+                {extConfig.label || 'Pending'}
               </Typography>
             </Box>
 
