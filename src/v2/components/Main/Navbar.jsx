@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { blackOptigoRLogo } from "../../assets/index";
-import { Link, useLocation, useMatch } from "react-router-dom";
+import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import { useAuth } from "../../modules/context/UseAuth";
 import { useState } from "react";
 import { stringAvatar } from "./../../utils/utils";
@@ -26,6 +26,9 @@ import {
   Logout as LogoutIcon,
   ArrowBack as ArrowBackIcon,
 } from "@mui/icons-material";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { mainTabs } from "../../constants/data";
 import {
   StyledTabs,
@@ -60,8 +63,19 @@ const VideoIcon = ({ sx, color = "currentColor" }) => {
 
 const Navbar = ({ setOpen }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { user, Logout, CompanyInfo, isThirdParty } = useAuth();
+  const {
+    user,
+    Logout,
+    logoutAll,
+    CompanyInfo,
+    isThirdParty,
+    accounts = [],
+    activeAccountId,
+    switchAccount,
+    removeAccount,
+  } = useAuth();
   const { activeTab, handleTabChange } = useCommon();
   const { pathname } = useLocation();
   const [userRights] = useUserRights();
@@ -321,6 +335,9 @@ const Navbar = ({ setOpen }) => {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              PaperProps={{
+                sx: { minWidth: 260, maxWidth: 320, p: 0.8 },
+              }}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "right",
@@ -330,26 +347,128 @@ const Navbar = ({ setOpen }) => {
                 horizontal: "right",
               }}
             >
-              <StyledMenuItem>
+              {/* Active Account Header */}
+              <StyledMenuItem sx={{ cursor: "default", "&:hover": { bgcolor: "transparent" }, py: 1 }}>
                 <ListItemIcon>
-                  <AccountCircle fontSize="medium" />
+                  <AccountCircle fontSize="large" color="primary" />
                 </ListItemIcon>
                 <Box
                   display="flex"
                   flexDirection="column"
                   alignItems="flex-start"
+                  sx={{ flex: 1, minWidth: 0 }}
                 >
-                  <StyledTypography>{user?.fullName}</StyledTypography>
-                  <Chip
-                    label={CompanyInfo?.companycode}
-                    size="small"
-                    sx={{
-                      height: 20,
-                      fontSize: "0.7rem",
-                      fontWeight: 500,
-                    }}
-                  />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: "text.primary", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 170 }}>
+                    {user?.fullName}
+                  </Typography>
+                  <Box display="flex" alignItems="center" gap={0.5} mt={0.3}>
+                    {CompanyInfo?.companycode && (
+                      <Chip
+                        label={CompanyInfo.companycode}
+                        size="small"
+                        sx={{
+                          height: 18,
+                          fontSize: "0.65rem",
+                          fontWeight: 600,
+                        }}
+                      />
+                    )}
+                    <Chip
+                      icon={<CheckCircleRoundedIcon sx={{ fontSize: "12px !important" }} />}
+                      label="Active"
+                      size="small"
+                      color="success"
+                      variant="outlined"
+                      sx={{ height: 18, fontSize: "0.65rem", fontWeight: 600, px: 0.2 }}
+                    />
+                  </Box>
                 </Box>
+              </StyledMenuItem>
+
+              {/* Other Accounts List */}
+              {accounts?.filter((acc) => acc.accountId !== activeAccountId).length > 0 && (
+                <>
+                  <Divider sx={{ my: 0.5 }} />
+                  <Typography
+                    variant="caption"
+                    sx={{ px: 2, pt: 0.8, pb: 0.3, fontWeight: 700, color: "text.secondary", letterSpacing: 0.5, display: "block" }}
+                  >
+                    SWITCH ACCOUNT
+                  </Typography>
+                  {accounts
+                    .filter((acc) => acc.accountId !== activeAccountId)
+                    .map((acc) => (
+                      <Box
+                        key={acc.accountId}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          px: 1.5,
+                          py: 0.8,
+                          mx: 0.5,
+                          borderRadius: 1.5,
+                          "&:hover": { bgcolor: "action.hover" },
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          handleClose();
+                          switchAccount(acc.accountId);
+                        }}
+                      >
+                        <Box display="flex" alignItems="center" gap={1} sx={{ minWidth: 0, flex: 1 }}>
+                          <Avatar
+                            sx={{ width: 28, height: 28, fontSize: "0.75rem", bgcolor: "secondary.main" }}
+                            {...stringAvatar(acc.fullName || acc.userId)}
+                          />
+                          <Box sx={{ minWidth: 0, flex: 1 }}>
+                            <Typography
+                              variant="body2"
+                              sx={{ fontWeight: 500, fontSize: "0.825rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                            >
+                              {acc.fullName}
+                            </Typography>
+                            <Box display="flex" alignItems="center" gap={0.5}>
+                              {acc.companyCode && (
+                                <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.7rem" }}>
+                                  {acc.companyCode}
+                                </Typography>
+                              )}
+                              {acc.isExpired && (
+                                <Chip label="Expired" size="small" color="error" sx={{ height: 16, fontSize: "0.6rem" }} />
+                              )}
+                            </Box>
+                          </Box>
+                        </Box>
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeAccount(acc.accountId);
+                          }}
+                          sx={{ p: 0.5, color: "text.disabled", "&:hover": { color: "error.main" } }}
+                          title="Remove account"
+                        >
+                          <DeleteOutlineRoundedIcon sx={{ fontSize: 16 }} />
+                        </IconButton>
+                      </Box>
+                    ))}
+                </>
+              )}
+
+              <Divider sx={{ my: 0.5 }} />
+
+              {/* Add Account Option */}
+              <StyledMenuItem
+                onClick={() => {
+                  handleClose();
+                  navigate("/login?addAccount=true");
+                }}
+              >
+                <ListItemIcon>
+                  <PersonAddAltRoundedIcon fontSize="small" />
+                </ListItemIcon>
+                <StyledTypography>Add another account</StyledTypography>
               </StyledMenuItem>
 
               <StyledMenuItem>
@@ -359,23 +478,49 @@ const Navbar = ({ setOpen }) => {
                 <StyledTypography>Settings</StyledTypography>
               </StyledMenuItem>
 
-              {!isIframe && <Divider />}
+              {!isIframe && <Divider sx={{ my: 0.5 }} />}
 
               {!isIframe && (
-                <StyledMenuItem
-                  onClick={HandleLogOut}
-                  sx={{
-                    "&:hover": {
-                      bgcolor: "error.main",
-                      color: "#fff",
-                    },
-                  }}
-                >
-                  <ListItemIcon>
-                    <LogoutIcon fontSize="small" />
-                  </ListItemIcon>
-                  <StyledTypography>Logout</StyledTypography>
-                </StyledMenuItem>
+                <>
+                  <StyledMenuItem
+                    onClick={HandleLogOut}
+                    sx={{
+                      "&:hover": {
+                        bgcolor: "error.main",
+                        color: "#fff",
+                      },
+                    }}
+                  >
+                    <ListItemIcon>
+                      <LogoutIcon fontSize="small" />
+                    </ListItemIcon>
+                    <StyledTypography>
+                      {accounts?.length > 1 ? "Sign out of this account" : "Logout"}
+                    </StyledTypography>
+                  </StyledMenuItem>
+
+                  {accounts?.length > 1 && (
+                    <StyledMenuItem
+                      onClick={() => {
+                        handleClose();
+                        logoutAll();
+                      }}
+                      sx={{
+                        "&:hover": {
+                          bgcolor: "error.dark",
+                          color: "#fff",
+                        },
+                      }}
+                    >
+                      <ListItemIcon>
+                        <LogoutIcon fontSize="small" color="error" />
+                      </ListItemIcon>
+                      <StyledTypography sx={{ color: "error.main" }}>
+                        Sign out of all accounts
+                      </StyledTypography>
+                    </StyledMenuItem>
+                  )}
+                </>
               )}
             </StyledMenu>
           </Stack>

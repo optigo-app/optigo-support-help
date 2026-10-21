@@ -20,6 +20,7 @@ import HelpCenter from "./components/video help";
 import Wrapper from "./components/default/Wrapper";
 import HelpArticle from "./components/video help/HelpArticle";
 import ParseExcelPage from "./components/test";
+import AppRedirect from "./pages/AppRedirect";
 // import SupasteLanding from "./components/test/inde";
 
 const Routing = () => {
@@ -53,6 +54,7 @@ const Routing = () => {
       {/* <UpdateNotification  /> */}
       <TemporaryDrawer open={Open} setOpen={setOpen} />
       <Routes>
+        <Route path="/app" element={<AppRedirect />} />
         <Route
           path="/login"
           element={

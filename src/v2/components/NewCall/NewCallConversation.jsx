@@ -226,15 +226,15 @@ export default function NewCallConversation({
           )}
 
           <Chip
-            label={isCompleted ? 'Completed' : estatus.includes('running') ? 'In Progress' : 'Pending'}
+            label={isCompleted ? 'Solved' : 'Pending'}
             size="small"
             sx={{
               height: 24,
               fontSize: 11,
               fontWeight: 750,
-              bgcolor: isCompleted ? '#ECFDF5' : estatus.includes('running') ? '#EFF6FF' : '#FEF3C7',
-              color: isCompleted ? '#065F46' : estatus.includes('running') ? '#1E40AF' : '#92400E',
-              border: `1px solid ${isCompleted ? '#A7F3D0' : estatus.includes('running') ? '#BFDBFE' : '#FCD34D'}`,
+              bgcolor: isCompleted ? '#ECFDF5' : '#FEF3C7',
+              color: isCompleted ? '#065F46' : '#92400E',
+              border: `1px solid ${isCompleted ? '#A7F3D0' : '#FCD34D'}`,
             }}
           />
 

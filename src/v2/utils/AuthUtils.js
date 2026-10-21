@@ -25,8 +25,45 @@ export function decodeBase64(base64Str) {
   }
 }
 
+export function safeDecodeUserId(base64Str) {
+  if (!base64Str) return null;
+  const decoded = decodeBase64(base64Str);
+  if (!decoded) return base64Str;
+
+  // Handle double-base64 encoded user IDs (common in legacy ERP skey tokens)
+  if (!decoded.includes("@") && /^[A-Za-z0-9+/=]+$/.test(decoded)) {
+    try {
+      const secondDecode = decodeBase64(decoded);
+      if (secondDecode && (secondDecode.includes("@") || secondDecode.length > 0)) {
+        return secondDecode;
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return decoded;
+}
+
+export function isTokenExpired(jwtToken) {
+  if (!jwtToken) return true;
+  try {
+    const decoded = jwtDecode(jwtToken);
+    if (decoded?.exp) {
+      // 10-second skew allowance
+      return decoded.exp * 1000 < Date.now() - 10000;
+    }
+    return false;
+  } catch {
+    return true;
+  }
+}
+
 export function GetCredentialsFromCookie() {
   try {
+    const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    const isExplicitThirdParty = urlParams?.get("thirdparty") === "true" ||
+      (typeof sessionStorage !== "undefined" && sessionStorage.getItem("is_third_party") === "true");
+
     let token = null;
     let isSkey = false;
 
@@ -34,32 +71,52 @@ export function GetCredentialsFromCookie() {
     const helpSupport = Cookies.get("help_support");
     const isUserLoggedIn = Cookies.get("isUserLoggedIn") === "true";
 
-    // Prefer help_support when user explicitly logged in via normal login.
-    // This prevents a stale skey (set by ERP) from shadowing a fresh session.
-    if (isUserLoggedIn && helpSupport) {
-      token = helpSupport;
-      isSkey = false;
-    } else if (skey) {
-      // Third-party / ERP skey path
+    const skeyValid = skey && !isTokenExpired(skey);
+    const helpSupportValid = helpSupport && !isTokenExpired(helpSupport);
+
+    // Priority 1: Explicit third-party flag from URL or active session -> prefer valid skey
+    if (isExplicitThirdParty && skeyValid) {
       token = skey;
       isSkey = true;
-    } else if (helpSupport) {
+    }
+    // Priority 2: Explicit corporate login via portal (help_support + isUserLoggedIn flag)
+    else if (isUserLoggedIn && helpSupportValid) {
       token = helpSupport;
       isSkey = false;
     }
+    // Priority 3: Valid skey from ERP
+    else if (skeyValid) {
+      token = skey;
+      isSkey = true;
+    }
+    // Priority 4: Valid help_support fallback
+    else if (helpSupportValid) {
+      token = helpSupport;
+      isSkey = false;
+    }
+    // Priority 5: Unverified fallback if tokens exist without exp
+    else if (helpSupport) {
+      token = helpSupport;
+      isSkey = false;
+    } else if (skey) {
+      token = skey;
+      isSkey = true;
+    }
 
     if (!token) {
-      console.warn("Neither help_support nor skey cookie found");
+      console.warn("Neither valid help_support nor skey cookie found");
       return null;
     }
 
     const decoded = jwtDecode(token);
-    const companyEncoded = decoded?.uid;
-    const user = companyEncoded ? decodeBase64(companyEncoded) : null;
+    const companyEncoded = decoded?.uid || decoded?.aud;
+    const user = safeDecodeUserId(companyEncoded);
+
     return {
       ...decoded,
       userId: user,
       isSkeyCookie: isSkey,
+      tokenType: isSkey ? "normal" : "corporate",
     };
   } catch (error) {
     console.error("Failed to parse JWT from cookie:", error);
@@ -76,10 +133,11 @@ export function removeSkeyCookie() {
   const cookieOptions = { path: "/", sameSite: "Lax" };
   Cookies.remove("skey", cookieOptions);
   Cookies.remove("skey", { path: "/" });
-  const domain = window.location.hostname;
+  Cookies.remove("skey");
+  const domain = typeof window !== "undefined" ? window.location.hostname : "";
   if (domain && domain !== "localhost" && domain !== "127.0.0.1") {
     Cookies.remove("skey", { path: "/", domain });
-    // Also try parent domain (e.g. .optigoapps.com)
+    Cookies.remove("skey", { path: "/", domain: `.${domain}` });
     const parts = domain.split(".");
     if (parts.length > 2) {
       const parentDomain = "." + parts.slice(-2).join(".");

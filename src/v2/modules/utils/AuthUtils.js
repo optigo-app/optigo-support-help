@@ -1,61 +1,118 @@
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-
+import { SignJWT } from "jose";
 
 export function decodeBase64(base64Str) {
+  try {
+    return decodeURIComponent(
+      atob(base64Str)
+        .split("")
+        .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
+        .join("")
+    );
+  } catch (error) {
+    console.error("Base64 decoding failed:", error);
+    return null;
+  }
+}
+
+export function safeDecodeUserId(base64Str) {
+  if (!base64Str) return null;
+  const decoded = decodeBase64(base64Str);
+  if (!decoded) return base64Str;
+
+  // Handle double-base64 encoded user IDs (common in legacy ERP skey tokens)
+  if (!decoded.includes("@") && /^[A-Za-z0-9+/=]+$/.test(decoded)) {
     try {
-        return decodeURIComponent(
-            atob(base64Str)
-                .split("")
-                .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
-                .join("")
-        );
-    } catch (error) {
-        console.error("Base64 decoding failed:", error);
-        return null;
+      const secondDecode = decodeBase64(decoded);
+      if (secondDecode && (secondDecode.includes("@") || secondDecode.length > 0)) {
+        return secondDecode;
+      }
+    } catch {
+      // ignore
     }
+  }
+  return decoded;
+}
+
+export function isTokenExpired(jwtToken) {
+  if (!jwtToken) return true;
+  try {
+    const decoded = jwtDecode(jwtToken);
+    if (decoded?.exp) {
+      // 10-second skew allowance
+      return decoded.exp * 1000 < Date.now() - 10000;
+    }
+    return false;
+  } catch {
+    return true;
+  }
 }
 
 export function GetCredentialsFromCookie() {
-    try {
-        let token = null;
-        let isSkey = false;
+  try {
+    const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    const isExplicitThirdParty = urlParams?.get("thirdparty") === "true" ||
+      (typeof sessionStorage !== "undefined" && sessionStorage.getItem("is_third_party") === "true");
 
-        const skey = Cookies.get("skey");
-        const helpSupport = Cookies.get("help_support");
-        const isUserLoggedIn = Cookies.get("isUserLoggedIn") === "true";
+    let token = null;
+    let isSkey = false;
 
-        // Prefer help_support when user explicitly logged in via normal login.
-        // This prevents a stale skey (set by ERP) from shadowing a fresh session.
-        if (isUserLoggedIn && helpSupport) {
-            token = helpSupport;
-            isSkey = false;
-        } else if (skey) {
-            // Third-party / ERP skey path
-            token = skey;
-            isSkey = true;
-        } else if (helpSupport) {
-            token = helpSupport;
-            isSkey = false;
-        }
+    const skey = Cookies.get("skey");
+    const helpSupport = Cookies.get("help_support");
+    const isUserLoggedIn = Cookies.get("isUserLoggedIn") === "true";
 
-        if (!token) {
-            console.warn("Neither help_support nor skey cookie found");
-            return null;
-        }
+    const skeyValid = skey && !isTokenExpired(skey);
+    const helpSupportValid = helpSupport && !isTokenExpired(helpSupport);
 
-        const decoded = jwtDecode(token);
-        const companyEncoded = decoded?.uid;
-        const user = companyEncoded ? decodeBase64(companyEncoded) : null;
-        return {
-            ...decoded,
-            userId: user,
-            isSkeyCookie: isSkey,
-        };
-    } catch (error) {
-        console.error("Failed to parse JWT from cookie:", error);
-        return null;
+    // Priority 1: Explicit third-party flag from URL or active session -> prefer valid skey
+    if (isExplicitThirdParty && skeyValid) {
+      token = skey;
+      isSkey = true;
     }
+    // Priority 2: Explicit corporate login via portal (help_support + isUserLoggedIn flag)
+    else if (isUserLoggedIn && helpSupportValid) {
+      token = helpSupport;
+      isSkey = false;
+    }
+    // Priority 3: Valid skey from ERP
+    else if (skeyValid) {
+      token = skey;
+      isSkey = true;
+    }
+    // Priority 4: Valid help_support fallback
+    else if (helpSupportValid) {
+      token = helpSupport;
+      isSkey = false;
+    }
+    // Priority 5: Unverified fallback if tokens exist without exp
+    else if (helpSupport) {
+      token = helpSupport;
+      isSkey = false;
+    } else if (skey) {
+      token = skey;
+      isSkey = true;
+    }
+
+    if (!token) {
+      console.warn("Neither valid help_support nor skey cookie found");
+      return null;
+    }
+
+    const decoded = jwtDecode(token);
+    const companyEncoded = decoded?.uid || decoded?.aud;
+    const user = safeDecodeUserId(companyEncoded);
+
+    return {
+      ...decoded,
+      userId: user,
+      isSkeyCookie: isSkey,
+      tokenType: isSkey ? "normal" : "corporate",
+    };
+  } catch (error) {
+    console.error("Failed to parse JWT from cookie:", error);
+    return null;
+  }
 }
 
 /**
@@ -64,39 +121,46 @@ export function GetCredentialsFromCookie() {
  * Trying all combinations ensures removal even when skey was set on a parent domain.
  */
 export function removeSkeyCookie() {
-    const cookieOptions = { path: "/", sameSite: "Lax" };
-    Cookies.remove("skey", cookieOptions);
-    Cookies.remove("skey", { path: "/" });
-    const domain = window.location.hostname;
-    if (domain && domain !== "localhost" && domain !== "127.0.0.1") {
-        Cookies.remove("skey", { path: "/", domain });
-        // Also try parent domain (e.g. .optigoapps.com)
-        const parts = domain.split(".");
-        if (parts.length > 2) {
-            const parentDomain = "." + parts.slice(-2).join(".");
-            Cookies.remove("skey", { path: "/", domain: parentDomain });
-        }
+  const cookieOptions = { path: "/", sameSite: "Lax" };
+  Cookies.remove("skey", cookieOptions);
+  Cookies.remove("skey", { path: "/" });
+  Cookies.remove("skey");
+  const domain = typeof window !== "undefined" ? window.location.hostname : "";
+  if (domain && domain !== "localhost" && domain !== "127.0.0.1") {
+    Cookies.remove("skey", { path: "/", domain });
+    Cookies.remove("skey", { path: "/", domain: `.${domain}` });
+    const parts = domain.split(".");
+    if (parts.length > 2) {
+      const parentDomain = "." + parts.slice(-2).join(".");
+      Cookies.remove("skey", { path: "/", domain: parentDomain });
     }
+  }
 }
 
-// export function createAndStoreToken(payload, expiresIn = '7d') {
-//     try {
-//       const token = jwt.sign(payload, 'TOP_SECRET_KEY', { expiresIn });
-//       const cookieOptions = {
-//         path: '/',
-//         secure: process.env.NODE_ENV === 'production',
-//         expires: 7,
-//         sameSite: 'strict',
-//       };
+const encodeBase64 = (str) => {
+  return btoa(str);
+};
 
-//       // 3. Store token in cookie
-//       Cookies.set('skey', token, cookieOptions);
+export async function createJWT(userInfo) {
+  if (!userInfo?.userid) throw new Error("Missing userid for JWT");
 
-//       console.log("JWT token created and stored in cookie.");
+  const base64UserId = encodeBase64(userInfo?.userid);
 
-//       return token;
-//     } catch (error) {
-//       console.error("Failed to create/store JWT token:", error);
-//       return null;
-//     }
-//   }
+  const payload = {
+    iss: "support.optigo",
+    aud: base64UserId,
+    uid: base64UserId,
+    yc: userInfo.yearcode,
+    sv: userInfo.svid,
+  };
+
+  const secret = new TextEncoder().encode("🔓frontend-secret");
+
+  const jwt = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("2d")
+    .sign(secret);
+
+  return jwt;
+}

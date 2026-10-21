@@ -9,6 +9,14 @@ import { createJWT } from "../../utils/AuthUtils";
 import { useUserRights } from "../hooks/useUserRights";
 import { useSocketEvent } from "../hooks/useSocketListener";
 import useSWVersionChecker from "../hooks/useSWVersionChecker";
+import {
+  getSavedAccounts,
+  getActiveAccountId,
+  saveAccountSession,
+  switchAccountSession,
+  removeAccountSession,
+  clearAllAccountSessions,
+} from "../../utils/AccountSessionManager";
 
 const AuthContext = createContext(null);
 
@@ -49,21 +57,17 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
+  const [accounts, setAccounts] = useState(() => getSavedAccounts());
+  const [activeAccountId, setActiveAccountId] = useState(() => getActiveAccountId());
   const [isThirdParty, setIsThirdParty] = useState(() => {
     // Priority 1: explicit URL param (fresh ERP entry)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("thirdparty") === "true") {
+    const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    if (urlParams?.get("thirdparty") === "true") {
       sessionStorage.setItem("is_third_party", "true");
       return true;
     }
     // Priority 2: persisted flag from previous load in this tab
-    if (sessionStorage.getItem("is_third_party") === "true") {
-      return true;
-    }
-    // Priority 3: skey present but no normal login cookie → infer third-party.
-    // (Previously this returned false when skey existed — which was backwards.)
-    if (Cookies.get("skey") && !Cookies.get("isUserLoggedIn")) {
-      sessionStorage.setItem("is_third_party", "true");
+    if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("is_third_party") === "true") {
       return true;
     }
     return false;
@@ -92,6 +96,7 @@ export function AuthProvider({ children }) {
       setIsThirdParty(false);
       sessionStorage.removeItem("is_third_party");
       sessionStorage.removeItem("isDummyLogger");
+      sessionStorage.removeItem("explicit_logout");
       Cookies.remove("is_third_party");
       // setLoading(true);
       const response = await BaseAPI.OnLogin(
@@ -111,13 +116,31 @@ export function AuthProvider({ children }) {
           Cookies.set("help_support", jwtToken);
         }
         Cookies.set("isUserLoggedIn", "true", { sameSite: "Lax" });
-        // Store localStorage anchor so normal-login sessions can be distinguished
-        // from externally-set ERP skeys on the next page load.
         localStorage.setItem("app_active_skey", jwtToken);
+        localStorage.setItem("auth_mode", "corporate");
         setIsAuthenticated(true);
         setUserRights(token?.userRights);
+        if (token?.userRights) {
+          sessionStorage.setItem("userRights", JSON.stringify(token.userRights));
+        }
         setUser(token?.userInfo);
         setAuthChecked(true);
+
+        // Register account in multi-account session registry
+        saveAccountSession({
+          userId: credentials.email,
+          fullName: token?.userInfo?.firstname
+            ? `${token?.userInfo?.firstname} ${token?.userInfo?.lastname || ""}`.trim()
+            : credentials.email,
+          companyCode: credentials.projectCode,
+          token: jwtToken,
+          tokenType: "corporate",
+          userRights: token?.userRights,
+          userInfo: token?.userInfo,
+        });
+        setAccounts(getSavedAccounts());
+        setActiveAccountId(getActiveAccountId());
+
         return { success: true };
       } else {
         return { success: false, error: response };
@@ -129,7 +152,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const getToken = async (userId, isCorporate = true) => {
+  const getToken = async (userId, isCorporate = true, isRetry = false) => {
     // setLoading(true);
     try {
       const res = await BaseAPI.getToken(userId, isCorporate);
@@ -141,28 +164,59 @@ export function AuthProvider({ children }) {
       if (res?.rd?.[0]) {
         tokenObj = res.rd[0];
 
-        if (res?.rd2?.[0] && res?.rd1?.[0]) {
-          // Corporate format
+        if (res?.rd2?.[0]) {
+          // Corporate format: rd2 has user details, rd1 has rights
           userObj = {
             ...res.rd2[0],
-            fullName: `${res.rd2[0].firstname} ${res.rd2[0].lastname}`,
+            fullName: `${res.rd2[0].firstname || ""} ${res.rd2[0].lastname || ""}`.trim() || res.rd2[0].userid,
           };
-          SetCompanyInfo({ ...res.rd[0], ...res.rd2[0], ...res.rd1[0] });
+          SetCompanyInfo({ ...res.rd[0], ...res.rd2[0], ...(res.rd1?.[0] || {}) });
           userRights = res.rd1 || [];
         } else if (res?.rd1?.[0]) {
-          // Non-corporate/skey format
+          // Non-corporate / normal ERP skey format: rd1 has user details, rd3 has rights
           userObj = {
             ...res.rd1[0],
-            fullName: `${res.rd1[0].firstname} ${res.rd1[0].lastname}`,
+            fullName: `${res.rd1[0].firstname || ""} ${res.rd1[0].lastname || ""}`.trim() || res.rd1[0].userid,
           };
           SetCompanyInfo({ ...res.rd[0], ...res.rd1[0] });
           userRights = res.rd3 || [];
+        } else if (res?.rd?.[0]?.userid) {
+          // Fallback if user information is directly inside rd[0]
+          userObj = {
+            ...res.rd[0],
+            fullName: `${res.rd[0].firstname || ""} ${res.rd[0].lastname || ""}`.trim() || res.rd[0].userid,
+          };
+          SetCompanyInfo({ ...res.rd[0] });
+          userRights = res.rd1 || [];
         }
       }
 
       if (userObj && tokenObj) {
         setUser(userObj);
         setToken(tokenObj);
+        if (userRights) {
+          setUserRights(userRights);
+          sessionStorage.setItem("userRights", JSON.stringify(userRights));
+        }
+
+        // Keep multi-account registry synchronized
+        const activeToken = Cookies.get("help_support") || Cookies.get("skey");
+        const tokenType = Cookies.get("help_support") ? "corporate" : "normal";
+        if (activeToken) {
+          saveAccountSession({
+            userId: userObj.userid || userObj.email || userId,
+            fullName: userObj.fullName,
+            companyCode: CompanyInfo?.companycode || userObj.companycode || "",
+            token: activeToken,
+            tokenType,
+            userRights,
+            companyInfo: CompanyInfo,
+            userInfo: userObj,
+          });
+          setAccounts(getSavedAccounts());
+          setActiveAccountId(getActiveAccountId());
+        }
+
         setIsAuthenticated(true);
         setAuthChecked(true);
 
@@ -174,10 +228,11 @@ export function AuthProvider({ children }) {
         "Error getting token (corporate=" + isCorporate + "):",
         error,
       );
-      // Fallback retrying: if corporate=true fails, try corporate=false
-      if (isCorporate) {
-        console.log("Retrying getToken with corporate=false");
-        return await getToken(userId, false);
+
+      // Bi-directional retry: if corporate=true fails, try corporate=false, and vice versa
+      if (!isRetry) {
+        console.log(`Retrying getToken with corporate=${!isCorporate}`);
+        return await getToken(userId, !isCorporate, true);
       }
 
       // DEVELOPMENT/DUMMY LOGGER FLOW:
@@ -202,6 +257,7 @@ export function AuthProvider({ children }) {
             role: "admin",
           };
           setUser(fallbackUser);
+          setUserRights(parsedRights);
           setIsAuthenticated(true);
           setAuthChecked(true);
           return { success: true, mock: true };
@@ -218,7 +274,48 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const Logout = () => {
+  const switchAccount = (accountId) => {
+    const switched = switchAccountSession(accountId);
+    if (switched) {
+      if (switched.isExpired) {
+        window.location.href = `/login?addAccount=true&userId=${encodeURIComponent(switched.userId)}&companyCode=${encodeURIComponent(switched.companyCode || "")}`;
+        return;
+      }
+      window.location.reload();
+    }
+  };
+
+  const removeAccount = (accountId) => {
+    const remaining = removeAccountSession(accountId);
+    setAccounts(remaining);
+    const activeId = activeAccountId || getActiveAccountId();
+    if (activeId === accountId) {
+      if (remaining.length > 0) {
+        window.location.reload();
+      } else {
+        Logout();
+      }
+    }
+  };
+
+  const logoutAll = () => {
+    clearAllAccountSessions();
+    Logout(false);
+  };
+
+  const Logout = (switchNext = true) => {
+    const currentId = activeAccountId || getActiveAccountId();
+    if (currentId) {
+      const remaining = removeAccountSession(currentId);
+      setAccounts(remaining);
+      if (switchNext && remaining.length > 0) {
+        const nextAcc = remaining.find((acc) => !acc.isExpired) || remaining[0];
+        switchAccountSession(nextAcc.accountId);
+        window.location.reload();
+        return;
+      }
+    }
+
     // 1. Remove cookies — domain-aware removal prevents silent failure
     Cookies.remove("help_support");
     Cookies.remove("isUserLoggedIn");
@@ -226,11 +323,13 @@ export function AuthProvider({ children }) {
 
     // 2. Clear localStorage anchor (set during normal login)
     localStorage.removeItem("app_active_skey");
+    localStorage.removeItem("auth_mode");
 
-    // 3. Clear all session flags
+    // 3. Clear all session flags and set explicit_logout barrier
     sessionStorage.removeItem("userRights");
     sessionStorage.removeItem("isDummyLogger");
     sessionStorage.removeItem("is_third_party");
+    sessionStorage.setItem("explicit_logout", "true");
 
     // 4. Reset React state synchronously BEFORE navigating,
     //    so the next page load doesn't inherit stale state.
@@ -274,32 +373,41 @@ export function AuthProvider({ children }) {
           window.history.replaceState({}, document.title, newUrl);
         }
 
-        const isLoggedIn =
-          Cookies.get("isUserLoggedIn") === "true" || !!Cookies.get("skey");
+        // If user explicitly logged out and is now visiting /login, don't auto-login via lingering skey
+        const isExplicitLogout = sessionStorage.getItem("explicit_logout") === "true";
+        if (isExplicitLogout && window.location.pathname === "/login") {
+          clearState(false);
+          setIsInitialized(true);
+          setLoading(false);
+          return;
+        } else if (isExplicitLogout && window.location.pathname !== "/login") {
+          // Navigating away from login clears the explicit logout barrier
+          sessionStorage.removeItem("explicit_logout");
+        }
 
-        if (isLoggedIn) {
-          const cookieUser = GetCredentialsFromCookie();
-          if (cookieUser) {
-            const ticketInitialized = initializeService(
-              SERVICE_CONFIG.TICKET,
-              cookieUser,
-            );
-            const callLogInitialized = initializeService(
-              SERVICE_CONFIG.CALL_LOG,
-              cookieUser,
-            );
-            setServices({
-              ticket: ticketInitialized,
-              callLog: callLogInitialized,
-            });
+        const cookieUser = GetCredentialsFromCookie();
+        if (cookieUser && cookieUser.userId) {
+          const ticketInitialized = initializeService(
+            SERVICE_CONFIG.TICKET,
+            cookieUser,
+          );
+          const callLogInitialized = initializeService(
+            SERVICE_CONFIG.CALL_LOG,
+            cookieUser,
+          );
+          setServices({
+            ticket: ticketInitialized,
+            callLog: callLogInitialized,
+          });
 
-            await getToken(cookieUser.userId, !cookieUser.isSkeyCookie);
-          } else {
-            console.log("No user credentials found in cookie");
+          const isCorporate = !cookieUser.isSkeyCookie;
+          const tokenRes = await getToken(cookieUser.userId, isCorporate);
+          if (!tokenRes) {
+            console.warn("Token initialization returned null; clearing state");
             clearState(true);
           }
         } else {
-          console.log("User not logged in");
+          console.log("No valid user credentials found in cookie");
           clearState(true);
         }
       } catch (error) {
@@ -355,11 +463,16 @@ export function AuthProvider({ children }) {
     initializeService,
     CompanyInfo,
     Logout,
+    logoutAll,
     loading,
     isAuthenticated,
     authChecked,
     login,
     isThirdParty,
+    accounts,
+    activeAccountId,
+    switchAccount,
+    removeAccount,
   };
 
   // Show loading while authentication is being checked
