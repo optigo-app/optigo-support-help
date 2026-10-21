@@ -128,7 +128,7 @@ export function AuthProvider({ children }) {
 
         // Register account in multi-account session registry
         saveAccountSession({
-          userId: credentials.email,
+          userId: token?.userInfo?.userid || credentials.email,
           fullName: token?.userInfo?.firstname
             ? `${token?.userInfo?.firstname} ${token?.userInfo?.lastname || ""}`.trim()
             : credentials.email,
@@ -159,27 +159,24 @@ export function AuthProvider({ children }) {
 
       let userObj = null;
       let tokenObj = null;
-      let userRights = [];
 
       if (res?.rd?.[0]) {
         tokenObj = res.rd[0];
 
         if (res?.rd2?.[0]) {
-          // Corporate format: rd2 has user details, rd1 has rights
+          // Corporate gettoken response supplies identity and token data.
           userObj = {
             ...res.rd2[0],
             fullName: `${res.rd2[0].firstname || ""} ${res.rd2[0].lastname || ""}`.trim() || res.rd2[0].userid,
           };
-          SetCompanyInfo({ ...res.rd[0], ...res.rd2[0], ...(res.rd1?.[0] || {}) });
-          userRights = res.rd1 || [];
+          SetCompanyInfo({ ...res.rd[0], ...res.rd2[0] });
         } else if (res?.rd1?.[0]) {
-          // Non-corporate / normal ERP skey format: rd1 has user details, rd3 has rights
+          // Non-corporate / normal ERP skey format: rd1 has user details.
           userObj = {
             ...res.rd1[0],
             fullName: `${res.rd1[0].firstname || ""} ${res.rd1[0].lastname || ""}`.trim() || res.rd1[0].userid,
           };
           SetCompanyInfo({ ...res.rd[0], ...res.rd1[0] });
-          userRights = res.rd3 || [];
         } else if (res?.rd?.[0]?.userid) {
           // Fallback if user information is directly inside rd[0]
           userObj = {
@@ -187,7 +184,6 @@ export function AuthProvider({ children }) {
             fullName: `${res.rd[0].firstname || ""} ${res.rd[0].lastname || ""}`.trim() || res.rd[0].userid,
           };
           SetCompanyInfo({ ...res.rd[0] });
-          userRights = res.rd1 || [];
         }
       }
 
@@ -195,44 +191,40 @@ export function AuthProvider({ children }) {
         setUser(userObj);
         setToken(tokenObj);
 
-        const isLocal =
-          typeof window !== "undefined" &&
-          (window.location.hostname === "localhost" ||
-            window.location.hostname.endsWith(".local") ||
-            window.location.hostname === "nzen" ||
-            window.location.hostname === "127.0.0.1" ||
-            sessionStorage.getItem("isDummyLogger") === "true");
+        const isDummySession =
+          process.env.NODE_ENV !== "production" &&
+          sessionStorage.getItem("isDummyLogger") === "true";
 
-        const localUserRightsStr = sessionStorage.getItem("userRights");
-        let activeRights = userRights;
-
-        // In local development or dummy logger mode, PRESERVE custom rights set by the developer!
-        if (isLocal && localUserRightsStr) {
+        // Production rights are owned by login(). gettoken only supplies
+        // identity/token data and must never write or replace userRights.
+        let activeRights = null;
+        if (!isDummySession && isCorporate) {
           try {
-            activeRights = JSON.parse(localUserRightsStr);
-            setUserRights(activeRights);
+            const loginData = JSON.parse(sessionStorage.getItem("API_DATA") || "null");
+            if (Array.isArray(loginData?.rd1)) activeRights = loginData.rd1;
           } catch (_) {
-            if (userRights) {
-              setUserRights(userRights);
-              sessionStorage.setItem("userRights", JSON.stringify(userRights));
-            }
+            // Do not fall back to gettoken rights if the login cache is unavailable.
           }
-        } else if (userRights) {
-          setUserRights(userRights);
-          sessionStorage.setItem("userRights", JSON.stringify(userRights));
+        } else if (isDummySession) {
+          try {
+            const storedRights = JSON.parse(sessionStorage.getItem("userRights") || "null");
+            if (Array.isArray(storedRights)) activeRights = storedRights;
+          } catch (_) {
+            // Dummy sessions may retain their explicitly selected mock rights.
+          }
         }
 
         // Keep multi-account registry synchronized
         const activeToken = Cookies.get("help_support") || Cookies.get("skey");
         const tokenType = Cookies.get("help_support") ? "corporate" : "normal";
-        if (activeToken) {
+        if (activeToken && Array.isArray(activeRights)) {
           saveAccountSession({
             userId: userObj.userid || userObj.email || userId,
             fullName: userObj.fullName,
             companyCode: CompanyInfo?.companycode || userObj.companycode || "",
             token: activeToken,
             tokenType,
-            userRights: activeRights || userRights,
+            userRights: activeRights,
             companyInfo: CompanyInfo,
             userInfo: userObj,
           });
@@ -260,13 +252,11 @@ export function AuthProvider({ children }) {
 
       // DEVELOPMENT/DUMMY LOGGER FLOW:
       // If we are local and have mock rights, construct user from cookie info rather than logging out!
-      const isLocal =
-        typeof window !== "undefined" &&
-        (window.location.hostname === "localhost" ||
-          window.location.hostname.endsWith(".local") ||
-          window.location.hostname === "nzen");
+      const isDummySession =
+        process.env.NODE_ENV !== "production" &&
+        sessionStorage.getItem("isDummyLogger") === "true";
       const mockRightsStr = sessionStorage.getItem("userRights");
-      if (isLocal && mockRightsStr) {
+      if (isDummySession && mockRightsStr) {
         console.log(
           "Local development/dummy logger detected. Using mock rights and fallback user.",
         );
@@ -347,6 +337,7 @@ export function AuthProvider({ children }) {
     // 2. Clear localStorage anchor (set during normal login)
     localStorage.removeItem("app_active_skey");
     localStorage.removeItem("auth_mode");
+    sessionStorage.removeItem("API_DATA");
 
     // 3. Clear all session flags and set explicit_logout barrier
     sessionStorage.removeItem("userRights");
@@ -397,7 +388,10 @@ export function AuthProvider({ children }) {
         }
 
         // If user explicitly logged out and is now visiting /login, don't auto-login via lingering skey
-        if (sessionStorage.getItem("isDummyLogger") === "true") {
+        if (
+          process.env.NODE_ENV !== "production" &&
+          sessionStorage.getItem("isDummyLogger") === "true"
+        ) {
           sessionStorage.removeItem("explicit_logout");
         }
         const isExplicitLogout = sessionStorage.getItem("explicit_logout") === "true";

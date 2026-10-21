@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
 
       let userObj = null;
       let tokenObj = null;
-      let userRights = [];
 
       if (Data?.rd?.length) {
         tokenObj = Data.rd[0];
@@ -56,21 +55,18 @@ export const AuthProvider = ({ children }) => {
             ...Data.rd2[0],
             fullName: `${Data.rd2[0].firstname || ""} ${Data.rd2[0].lastname || ""}`.trim() || Data.rd2[0].userid,
           };
-          userRights = Data.rd1 || [];
         } else if (Data?.rd1?.[0]) {
           // Non-corporate / normal ERP skey format
           userObj = {
             ...Data.rd1[0],
             fullName: `${Data.rd1[0].firstname || ""} ${Data.rd1[0].lastname || ""}`.trim() || Data.rd1[0].userid,
           };
-          userRights = Data.rd3 || [];
         } else if (Data?.rd?.[0]?.userid) {
           // Direct rd[0] user fallback
           userObj = {
             ...Data.rd[0],
             fullName: `${Data.rd[0].firstname || ""} ${Data.rd[0].lastname || ""}`.trim() || Data.rd[0].userid,
           };
-          userRights = Data.rd1 || [];
         }
       }
 
@@ -91,13 +87,11 @@ export const AuthProvider = ({ children }) => {
       }
 
       // DEVELOPMENT/DUMMY LOGGER FLOW:
-      const isLocal =
-        typeof window !== "undefined" &&
-        (window.location.hostname === "localhost" ||
-          window.location.hostname.endsWith(".local") ||
-          window.location.hostname === "nzen");
+      const isDummySession =
+        process.env.NODE_ENV !== "production" &&
+        sessionStorage.getItem("isDummyLogger") === "true";
       const mockRightsStr = sessionStorage.getItem("userRights");
-      if (isLocal && mockRightsStr) {
+      if (isDummySession && mockRightsStr) {
         console.log(
           "Local development/dummy logger detected. Using fallback for Delivery/Training.",
         );

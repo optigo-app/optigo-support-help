@@ -62,7 +62,12 @@ const MainLogin3 = () => {
       setLoading(false);
     }
   };
-  const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname.endsWith(".local") || window.location.hostname === "nzen");
+  const isLocal =
+    process.env.NODE_ENV !== "production" &&
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname.endsWith(".local"));
 
   return (
     <ThemeProvider theme={theme}>

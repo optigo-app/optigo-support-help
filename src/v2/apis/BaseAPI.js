@@ -207,8 +207,6 @@ class BaseAPI {
       }
 
       const result = await response.json();
-      console.log("🚀 ~ BaseAPI ~ OnLogin ~ result:", result);
-
       if (result.Status !== "200") {
         return {
           success: false,
@@ -219,8 +217,6 @@ class BaseAPI {
 
       const userInfo = result.Data?.rd?.[0] || {};
       const userRights = result.Data?.rd1 || [];
-      sessionStorage.setItem("API_DATA", JSON.stringify(result.Data));
-      sessionStorage?.setItem("userRights", JSON?.stringify(userRights || []));
       if (userInfo.stat !== 1) {
         return {
           success: false,
@@ -229,6 +225,11 @@ class BaseAPI {
           data: null,
         };
       }
+
+      // Persist only a successful login response so failed attempts cannot
+      // leave stale or unauthenticated identity and rights data in the session.
+      sessionStorage.setItem("API_DATA", JSON.stringify(result.Data));
+      sessionStorage.setItem("userRights", JSON.stringify(userRights));
 
       return {
         success: true,
