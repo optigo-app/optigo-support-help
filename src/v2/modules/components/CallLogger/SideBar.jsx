@@ -50,6 +50,7 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { addCall, APPNAME_LIST, companyOptions, forwardOption } = useCallLog();
   const companyInputRef = useRef(null);
+  const appNameInputRef = useRef(null);
   const fileInputRef = useRef(null);
   const isConcurrent = callStatusValue?.duration > 0 || !!data;
 
@@ -118,11 +119,11 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
     }
   }, [open, data, forwardOption]);
 
-  // Focus on company input when drawer opens
+  // Focus on AppName input when drawer opens
   useEffect(() => {
-    if (open && companyInputRef.current) {
+    if (open && appNameInputRef.current) {
       const focusTimer = setTimeout(() => {
-        const input = companyInputRef.current.querySelector("input");
+        const input = appNameInputRef.current.querySelector("input");
         if (input) input.focus();
       }, 100);
       return () => clearTimeout(focusTimer);
@@ -279,6 +280,7 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
     const newErrors = {};
     if (!formData.company) newErrors.company = "Company is required";
     if (!formData.callBy) newErrors.callBy = "Customer Name is required";
+    if (!formData.appname) newErrors.appname = "AppName is required";
     if (!formData.description || !formData.description.trim()) newErrors.description = "Description is required";
 
     setErrors(newErrors);
@@ -516,22 +518,9 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
               disabled
             />
 
-            {/* Description */}
-            <TextField
-              required
-              fullWidth
-              label="Description"
-              value={formData?.description || ""}
-              onChange={handleTextFieldChange("description")}
-              margin="normal"
-              error={!!errors.description}
-              helperText={errors.description}
-              multiline
-              rows={4}
-            />
-
             {/* AppName Selection */}
             <Autocomplete
+              ref={appNameInputRef}
               fullWidth
               options={
                 APPNAME_LIST?.map((option) => ({
@@ -546,13 +535,27 @@ export default function CallLogDrawer({ onclearFilters, open, onClose, onRecordT
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  required
                   label="AppName"
                   margin="normal"
                   error={!!errors.appname}
                   helperText={errors.appname}
-                // disabled={!!data}
                 />
               )}
+            />
+
+            {/* Description */}
+            <TextField
+              required
+              fullWidth
+              label="Description"
+              value={formData?.description || ""}
+              onChange={handleTextFieldChange("description")}
+              margin="normal"
+              error={!!errors.description}
+              helperText={errors.description}
+              multiline
+              rows={4}
             />
             <Divider sx={{ my: 2 }} />
 

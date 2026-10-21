@@ -194,7 +194,30 @@ export function AuthProvider({ children }) {
       if (userObj && tokenObj) {
         setUser(userObj);
         setToken(tokenObj);
-        if (userRights) {
+
+        const isLocal =
+          typeof window !== "undefined" &&
+          (window.location.hostname === "localhost" ||
+            window.location.hostname.endsWith(".local") ||
+            window.location.hostname === "nzen" ||
+            window.location.hostname === "127.0.0.1" ||
+            sessionStorage.getItem("isDummyLogger") === "true");
+
+        const localUserRightsStr = sessionStorage.getItem("userRights");
+        let activeRights = userRights;
+
+        // In local development or dummy logger mode, PRESERVE custom rights set by the developer!
+        if (isLocal && localUserRightsStr) {
+          try {
+            activeRights = JSON.parse(localUserRightsStr);
+            setUserRights(activeRights);
+          } catch (_) {
+            if (userRights) {
+              setUserRights(userRights);
+              sessionStorage.setItem("userRights", JSON.stringify(userRights));
+            }
+          }
+        } else if (userRights) {
           setUserRights(userRights);
           sessionStorage.setItem("userRights", JSON.stringify(userRights));
         }
@@ -209,7 +232,7 @@ export function AuthProvider({ children }) {
             companyCode: CompanyInfo?.companycode || userObj.companycode || "",
             token: activeToken,
             tokenType,
-            userRights,
+            userRights: activeRights || userRights,
             companyInfo: CompanyInfo,
             userInfo: userObj,
           });
@@ -374,6 +397,9 @@ export function AuthProvider({ children }) {
         }
 
         // If user explicitly logged out and is now visiting /login, don't auto-login via lingering skey
+        if (sessionStorage.getItem("isDummyLogger") === "true") {
+          sessionStorage.removeItem("explicit_logout");
+        }
         const isExplicitLogout = sessionStorage.getItem("explicit_logout") === "true";
         if (isExplicitLogout && window.location.pathname === "/login") {
           clearState(false);

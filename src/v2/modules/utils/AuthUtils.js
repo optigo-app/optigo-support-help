@@ -37,6 +37,12 @@ export function safeDecodeUserId(base64Str) {
 
 export function isTokenExpired(jwtToken) {
   if (!jwtToken) return true;
+  if (
+    typeof sessionStorage !== "undefined" &&
+    sessionStorage.getItem("isDummyLogger") === "true"
+  ) {
+    return false;
+  }
   try {
     const decoded = jwtDecode(jwtToken);
     if (decoded?.exp) {
@@ -70,28 +76,15 @@ export function GetCredentialsFromCookie() {
       token = skey;
       isSkey = true;
     }
-    // Priority 2: Explicit corporate login via portal (help_support + isUserLoggedIn flag)
-    else if (isUserLoggedIn && helpSupportValid) {
-      token = helpSupport;
-      isSkey = false;
-    }
-    // Priority 3: Valid skey from ERP
-    else if (skeyValid) {
-      token = skey;
-      isSkey = true;
-    }
-    // Priority 4: Valid help_support fallback
+    // Priority 2: Corporate login (help_support). A lingering skey is ignored unless third-party entry is explicit.
     else if (helpSupportValid) {
       token = helpSupport;
       isSkey = false;
     }
-    // Priority 5: Unverified fallback if tokens exist without exp
-    else if (helpSupport) {
+    // Priority 3: Unverified help_support fallback (no exp)
+    else if (helpSupport && !isExplicitThirdParty) {
       token = helpSupport;
       isSkey = false;
-    } else if (skey) {
-      token = skey;
-      isSkey = true;
     }
 
     if (!token) {
