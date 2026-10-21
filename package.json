@@ -1,21 +1,26 @@
 {
   "name": "call_logger",
-  "version": "0.0.118",
+  "version": "0.0.119",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
     "dev": "react-app-rewired start",
     "dev:v1": "cross-env REACT_APP_VERSION=v1 react-app-rewired start",
     "dev:v2": "cross-env REACT_APP_VERSION=v2 react-app-rewired start",
+    "prebuild": "node scripts/generate-version.js",
     "build": "cross-env REACT_APP_VERSION=v2 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build",
+    "postbuild": "node scripts/generate-version.js --sync-only",
     "test": "node scripts/test.js",
-    "postbuild": "node scripts/generate-version.js",
     "version": "node scripts/create-version.js",
     "version:create": "node scripts/create-version.js",
     "start:v1": "cross-env REACT_APP_VERSION=v1 react-app-rewired start",
+    "prebuild:v1": "node scripts/generate-version.js",
     "build:v1": "cross-env REACT_APP_VERSION=v1 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build",
+    "postbuild:v1": "node scripts/generate-version.js --sync-only",
     "start:v2": "cross-env REACT_APP_VERSION=v2 react-app-rewired start",
-    "build:v2": "cross-env REACT_APP_VERSION=v2 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build"
+    "prebuild:v2": "node scripts/generate-version.js",
+    "build:v2": "cross-env REACT_APP_VERSION=v2 GENERATE_SOURCEMAP=false react-app-rewired --max_old_space_size=6144 build",
+    "postbuild:v2": "node scripts/generate-version.js --sync-only"
   },
   "dependencies": {
     "@babel/core": "^7.16.0",

@@ -51,7 +51,7 @@ const Routing = () => {
 
   return (
     <>
-      {/* <UpdateNotification  /> */}
+      <UpdateNotification />
       <TemporaryDrawer open={Open} setOpen={setOpen} />
       <Routes>
         <Route path="/app" element={<AppRedirect />} />
