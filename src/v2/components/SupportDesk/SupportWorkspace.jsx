@@ -39,9 +39,22 @@ export default function SupportWorkspace() {
   const [feedBackModalCallId, setFeedBackModalCallId] = useState(null);
   const [feedbackPopover, setFeedbackPopover] = useState(null);
 
-  // Filter States matching CallLogger
+  // Filter States matching CallLogger - default to 'Pending'
   const [searchQuery, setSearchQuery] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Pending");
+
+  // Sync default Pending status with master ESTATUS_LIST once master data is available
+  useEffect(() => {
+    if (status === "Pending" && Array.isArray(ESTATUS_LIST) && ESTATUS_LIST.length > 0) {
+      const pendingMaster = ESTATUS_LIST.find(
+        (item) => (item?.label || "").trim().toLowerCase() === "pending"
+      );
+      if (pendingMaster && pendingMaster.value && pendingMaster.value !== "Pending") {
+        setStatus(pendingMaster.value);
+      }
+    }
+  }, [ESTATUS_LIST, status]);
+
   const [filterState, setFilterState] = useState({
     dateRange: { startDate: "", endDate: "" },
     filterTargetField: "",
@@ -183,12 +196,12 @@ export default function SupportWorkspace() {
         prev.map((call) =>
           String(call.sr ?? call.id) === String(targetCallId)
             ? {
-                ...call,
-                Estatus: externalStatus,
-                EstatusId: statusId,
-                ...(statusData.ModifiedDate && { ModifiedDate: statusData.ModifiedDate }),
-                ...(statusData.UpdatedBy !== undefined && { UpdatedBy: statusData.UpdatedBy }),
-              }
+              ...call,
+              Estatus: externalStatus,
+              EstatusId: statusId,
+              ...(statusData.ModifiedDate && { ModifiedDate: statusData.ModifiedDate }),
+              ...(statusData.UpdatedBy !== undefined && { UpdatedBy: statusData.UpdatedBy }),
+            }
             : call
         )
       );

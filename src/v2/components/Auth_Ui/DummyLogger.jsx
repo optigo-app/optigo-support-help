@@ -28,11 +28,16 @@ const PoweredByChip = styled(Chip)(({ theme }) => ({
   },
 }));
 
+const OPTIGOCARELY_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBwb3J0Lm9wdGlnbyIsImF1ZCI6ImIzQjBhV2R2WTJGeVpXeDVRR1ZuTG1OdmJRPT0iLCJ1aWQiOiJiM0IwYVdkdlkyRnlaV3g1UUdWbkxtTnZiUT09IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MjA1MDAwMDAwMH0.mock_signature";
+
+const ORAIL_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJpdGFzayIsImF1ZCI6IllXUnRhVzVBYjNKaGFXd3VZMjh1YVc0PSIsInVpZCI6IllXUnRhVzVBYjNKaGFXd3VZMjh1YVc0PSIsInljIjoiZTN0dWVtVnVmWDE3ZXpJd2ZYMTdlMjl5WVdsc01qVjlmWHQ3YjNKaGFXd3lOWDE5Iiwic3YiOiIwIiwiYXRrIjoiYjNKaGFXd3lOVjlCU1Y4NU1EWTFORGN4TnpBd05UTTFOalV4IiwiY3V2ZXIiOiJSNTBCMyIsImV4cCI6MjA1MDAwMDAwMH0.mock_signature";
+
 const USERS = [
   {
     name: "Login 1 Optigocarely",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBwb3J0Lm9wdGlnbyIsImF1ZCI6ImIzQjBhV2R2WTJGeVpXeDVRR1ZuTG1OdmJRPT0iLCJ1aWQiOiJiM0IwYVdkdlkyRnlaV3g1UUdWbkxtTnZiUT09IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJpYXQiOjE3NzAzNjc4NDYsImV4cCI6MTc3MDU0MDY0Nn0._GKCmVUM-x-moy5UDCqQ1fvME86i2uix7i8S9ShY1KQ",
+    token: OPTIGOCARELY_TOKEN,
     sessionKey: {
       key: "userRights",
       value: `[
@@ -94,8 +99,7 @@ const USERS = [
   },
   {
     name: "Login 2 Optigocarely",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBwb3J0Lm9wdGlnbyIsImF1ZCI6ImIzQjBhV2R2WTJGeVpXeDVRR1ZuTG1OdmJRPT0iLCJ1aWQiOiJiM0IwYVdkdlkyRnlaV3g1UUdWbkxtTnZiUT09IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJpYXQiOjE3NzAzNjc4NDYsImV4cCI6MTc3MDU0MDY0Nn0._GKCmVUM-x-moy5UDCqQ1fvME86i2uix7i8S9ShY1KQ",
+    token: OPTIGOCARELY_TOKEN,
     sessionKey: {
       key: "userRights",
       value: `[
@@ -168,8 +172,7 @@ const USERS = [
   },
   {
     name: "Login 3 Optigocarely",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBwb3J0Lm9wdGlnbyIsImF1ZCI6ImIzQjBhV2R2WTJGeVpXeDVRR1ZuTG1OdmJRPT0iLCJ1aWQiOiJiM0IwYVdkdlkyRnlaV3g1UUdWbkxtTnZiUT09IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJpYXQiOjE3NzAzNjc4NDYsImV4cCI6MTc3MDU0MDY0Nn0._GKCmVUM-x-moy5UDCqQ1fvME86i2uix7i8S9ShY1KQ",
+    token: OPTIGOCARELY_TOKEN,
     sessionKey: {
       key: "userRights",
       value: `[
@@ -242,8 +245,7 @@ const USERS = [
   },
   {
     name: "Login 4 Optigocarely",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBwb3J0Lm9wdGlnbyIsImF1ZCI6ImIzQjBhV2R2WTJGeVpXeDVRR1ZuTG1OdmJRPT0iLCJ1aWQiOiJiM0IwYVdkdlkyRnlaV3g1UUdWbkxtTnZiUT09IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJpYXQiOjE3NzAzNjc4NDYsImV4cCI6MTc3MDU0MDY0Nn0._GKCmVUM-x-moy5UDCqQ1fvME86i2uix7i8S9ShY1KQ",
+    token: OPTIGOCARELY_TOKEN,
     sessionKey: {
       key: "userRights",
       value: `[
@@ -316,8 +318,7 @@ const USERS = [
   },
   {
     name: "Login 5 Optigocarely",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBwb3J0Lm9wdGlnbyIsImF1ZCI6ImIzQjBhV2R2WTJGeVpXeDVRR1ZuTG1OdmJRPT0iLCJ1aWQiOiJiM0IwYVdkdlkyRnlaV3g1UUdWbkxtTnZiUT09IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJpYXQiOjE3NzAzNjc4NDYsImV4cCI6MTc3MDU0MDY0Nn0._GKCmVUM-x-moy5UDCqQ1fvME86i2uix7i8S9ShY1KQ",
+    token: OPTIGOCARELY_TOKEN,
     sessionKey: {
       key: "userRights",
       value: `[
@@ -390,8 +391,7 @@ const USERS = [
   },
   {
     name: "Login 6 orail25",
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJpdGFzayIsImF1ZCI6IllXUnRhVzVBYjNKaGFXd3VZMjh1YVc0PSIsImV4cCI6MTc4MzU3NDYyOSwidWlkIjoiWVdSdGFXNUFiM0poYVd3dVkyOHVhVzQ9IiwieWMiOiJlM3R1ZW1WdWZYMTdlekl3ZlgxN2UyOXlZV2xzTWpWOWZYdDdiM0poYVd3eU5YMTkiLCJzdiI6IjAiLCJhdGsiOiJiM0poYVd3eU5WOUJTVjg1TURZMU5EY3hOekF3TlRNMU5qVXgiLCJjdXZlciI6IlI1MEIzIn0.Aa3nFoAWG7HlcdcF3uc53XHGHiTjyOzc6ssQtgx8uRA",
+    token: ORAIL_TOKEN,
     sessionKey: {
       key: "userRights",
       value: `[]`,
@@ -403,11 +403,15 @@ export default function PoweredByLogin() {
   const [open, setOpen] = useState(false);
 
   const handleSelect = (user) => {
-    Cookies.set("help_support", user.token, { expires: 1 }); // 1-day expiry
-    Cookies.set("isUserLoggedIn", true, { expires: 1 });
+    sessionStorage.removeItem("explicit_logout");
+    sessionStorage.removeItem("is_third_party");
+    Cookies.set("help_support", user.token, { expires: 1 });
+    Cookies.set("isUserLoggedIn", "true", { expires: 1, sameSite: "Lax" });
+    localStorage.setItem("app_active_skey", user.token);
+    localStorage.setItem("auth_mode", "corporate");
     sessionStorage.setItem(user.sessionKey.key, user.sessionKey.value);
     sessionStorage.setItem("isDummyLogger", "true");
-    window.location.reload();
+    window.location.href = "/";
   };
 
   return (

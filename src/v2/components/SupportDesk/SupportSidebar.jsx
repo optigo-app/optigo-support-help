@@ -11,6 +11,7 @@ import {
 import HourglassEmptyRoundedIcon from '@mui/icons-material/HourglassEmptyRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import { useCallLog } from '../../modules/context/UseCallLog';
 
@@ -102,7 +103,7 @@ const SupportSidebar = React.memo(function SupportSidebar({
     [onSelectThread]
   );
 
-  // 1. Status Rail Configuration (3 Status Options: Pending, Running, Completed)
+  // 1. Status Rail Configuration (Status Options: Pending, In observation, Solved)
   const railItems = useMemo(() => {
     const findMasterItem = (keyword) => {
       const kw = keyword.trim().toLowerCase();
@@ -119,10 +120,20 @@ const SupportSidebar = React.memo(function SupportSidebar({
         );
         if (solved) return solved;
       }
+
+      // 3. Observation / In observation match
+      if (kw.includes('observation')) {
+        const obs = ESTATUS_LIST.find(
+          (item) => (item?.label || '').trim().toLowerCase().includes('observation')
+        );
+        if (obs) return obs;
+      }
+
       return null;
     };
 
     const pendingItem = findMasterItem('pending');
+    const observationItem = findMasterItem('in observation');
     const completedItem = findMasterItem('completed');
 
     return [
@@ -140,6 +151,23 @@ const SupportSidebar = React.memo(function SupportSidebar({
           iconColor: '#D97706',
           badgeBg: '#FEF3C7',
           activeBadgeBg: '#D97706',
+          activeBadgeText: '#FFFFFF',
+        },
+      },
+      {
+        key: 'in_observation',
+        label: 'In observation',
+        statusValue: observationItem?.value ?? 'In observation',
+        icon: VisibilityRoundedIcon,
+        theme: {
+          primary: '#0284C7',
+          bgActive: '#E0F2FE',
+          bgHover: '#F0F9FF',
+          border: '#7DD3FC',
+          textActive: '#0369A1',
+          iconColor: '#0284C7',
+          badgeBg: '#E0F2FE',
+          activeBadgeBg: '#0284C7',
           activeBadgeText: '#FFFFFF',
         },
       },
@@ -180,11 +208,13 @@ const SupportSidebar = React.memo(function SupportSidebar({
       if (matched) {
         const mLbl = (matched.label || '').trim().toLowerCase();
         if (item.key === 'pending') return mLbl === 'pending';
+        if (item.key === 'in_observation') return mLbl.includes('observation');
         if (item.key === 'running') return mLbl === 'running';
         if (item.key === 'completed') return mLbl === 'completed' || mLbl === 'solved';
       }
 
       if (item.key === 'pending') return statusStr === 'pending';
+      if (item.key === 'in_observation') return statusStr.includes('observation');
       if (item.key === 'running') return statusStr === 'running';
       if (item.key === 'completed') return statusStr === 'completed' || statusStr === 'solved';
 
