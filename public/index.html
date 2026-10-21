@@ -16,7 +16,48 @@
     <meta property="og:description" content="Access client support, submit tickets, track issue resolution, and find helpful resources — all in one place." />
     <meta property="og:url" content="https://help.optigoapps.com/" />
     <link rel="icon" href="2.ico" />
-      <script src="%PUBLIC_URL%/version.js"></script>
+    <!-- Automatic Recovery for Webpack ChunkLoadError / New Deploy Cache Invalidation -->
+    <script>
+      (function() {
+        function triggerReload() {
+          var KEY = 'last_chunk_reload_ts';
+          var now = Date.now();
+          var last = sessionStorage.getItem(KEY);
+          // Only auto-reload if at least 10 seconds have elapsed, preventing loops
+          if (!last || (now - parseInt(last, 10)) > 10000) {
+            sessionStorage.setItem(KEY, String(now));
+            if ('caches' in window) {
+              caches.keys().then(function(keys) {
+                keys.forEach(function(k) { caches.delete(k); });
+              });
+            }
+            var url = new URL(window.location.href);
+            url.searchParams.set('_v', String(now));
+            window.location.replace(url.toString());
+          }
+        }
+
+        window.addEventListener('error', function(e) {
+          var msg = (e && e.message) || '';
+          var target = e && e.target;
+          var isChunkError = /loading chunk|loading css chunk/i.test(msg) ||
+            (target && (target.tagName === 'SCRIPT' || target.tagName === 'LINK') && /static\/(js|css)/i.test(target.src || target.href));
+          if (isChunkError) {
+            console.warn('[Webpack] Chunk load failure detected. Refreshing for new build...', msg);
+            triggerReload();
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(e) {
+          var reason = (e && e.reason && e.reason.message) || String(e && e.reason);
+          if (/loading chunk|loading css chunk/i.test(reason)) {
+            console.warn('[Webpack] Unhandled ChunkLoadError. Refreshing for new build...', reason);
+            triggerReload();
+          }
+        });
+      })();
+    </script>
+    <script src="%PUBLIC_URL%/version.js"></script>
   </head>
   <body>
     <div id="root"></div>
