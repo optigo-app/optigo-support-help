@@ -468,7 +468,7 @@ export default function SupportWorkspace() {
               cItem.comment ||
               cItem.Description ||
               (typeof cItem === "string" ? cItem : "");
-            if (!commentText) return;
+            if (!commentText && !cItem.img && !cItem.FilePath) return;
 
             const commentRawTime = cItem.time || cItem.CreatedDate || "";
             const cTimeFormatted = commentRawTime
@@ -546,13 +546,12 @@ export default function SupportWorkspace() {
             // In client portal:
             // - Any message by current user (client) OR marked IsClient=1 OR not an agent -> Client (RIGHT side)
             // - Messages from agents/employees -> Agent (LEFT side with Agent badge)
-            const isClient = Boolean(
-              isCreatedByCurrentUser ||
-              Number(cItem.IsClient) === 1 ||
-              cItem.isClient === true ||
-              cItem.isClient === 1 ||
-              !isAgentComment
-            );
+            const explicitFlag = cItem.IsClient ?? cItem.isClient;
+            const hasExplicitFlag =
+              explicitFlag !== undefined && explicitFlag !== null && explicitFlag !== "";
+            const isClient = hasExplicitFlag
+              ? explicitFlag === true || Number(explicitFlag) === 1
+              : Boolean(isCreatedByCurrentUser || !isAgentComment);
 
             const isGeneric =
               !authorName ||

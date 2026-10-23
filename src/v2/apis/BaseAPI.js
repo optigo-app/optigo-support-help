@@ -22,6 +22,7 @@ class BaseAPI {
       host.includes("localhost") ||
       host.includes("nzen") ||
       host.includes("calllog.web")
+      || host.includes("corporatelogin.web")
     ) {
       // return "http://192.168.1.71:3001/api/report";
       // return "https://apilx.optigoapps.com/api/report";

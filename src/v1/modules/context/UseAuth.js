@@ -186,6 +186,7 @@ export function AuthProvider({ children }) {
         typeof window !== "undefined" &&
         (window.location.hostname === "localhost" ||
           window.location.hostname.endsWith(".local") ||
+          window.location.hostname === "corporatelogin.web" ||
           window.location.hostname === "nzen");
       const mockRightsStr = sessionStorage.getItem("userRights");
       if (isLocal && mockRightsStr) {

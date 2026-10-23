@@ -1,16 +1,38 @@
 import axios from "axios";
 import { BaseAPI } from "./BaseAPI";
+
+
+const generateUniqueNo = () => {
+	return crypto.getRandomValues(new Uint32Array(1))[0].toString();
+};
+
 const UPLOAD_URL = BaseAPI.BASE_URL.replace("/report", "/upload");
 
 let APIURL = UPLOAD_URL;
 
-export const filesUploadApi = async ({ attachments, folderName, uniqueNo, ukey }) => {
+export const filesUploadApi = async ({ attachments, folderName, ukey }) => {
 	const formData = new FormData();
+	const uniqueNo = generateUniqueNo();
 
 	const filesArray = Array.isArray(attachments) ? attachments : [attachments];
+	const uploadTimestamp = new Date().toISOString().replace(/[-:.TZ]/g, "");
 
-	filesArray.forEach((file) => {
-		formData.append("fileType", file);
+	filesArray.forEach((file, index) => {
+		// Only Blob/File uploads support a filename override. Keep the previous
+		// FormData behavior for any other value passed by an existing caller.
+		if (typeof Blob === "undefined" || !(file instanceof Blob)) {
+			formData.append("fileType", file);
+			return;
+		}
+
+		const originalName = file.name || `attachment-${index + 1}`;
+		const extensionIndex = originalName.lastIndexOf(".");
+		const hasExtension = extensionIndex > 0;
+		const title = hasExtension ? originalName.slice(0, extensionIndex) : originalName;
+		const extension = hasExtension ? originalName.slice(extensionIndex) : "";
+		const timestampedName = `${title}_${uploadTimestamp}_${index + 1}${extension}`;
+
+		formData.append("fileType", file, timestampedName);
 	});
 
 	formData.append("folderName", folderName);

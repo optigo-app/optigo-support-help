@@ -58,7 +58,8 @@ const MainLogin3 = () => {
       setLoading(false);
     }
   };
-  const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname.endsWith(".local") || window.location.hostname === "nzen");
+  const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname.endsWith(".local") || window.location.hostname === "nzen") || host.includes("corporatelogin.web")
+    ;
 
   return (
     <ThemeProvider theme={theme}>

@@ -4,6 +4,7 @@ const getEnvConfig = () => {
     const isDevHost =
         host.includes("localhost") ||
         host.includes("nzen") ||
+        host.includes("corporatelogin.web") ||
         host.includes("calllog.web");
 
     return {

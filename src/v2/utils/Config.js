@@ -4,7 +4,8 @@ const getEnvConfig = () => {
     const isDevHost =
         host.includes("localhost") ||
         host.includes("nzen") ||
-        host.includes("calllog.web");
+        host.includes("calllog.web")
+        || host.includes("corporatelogin.web");
 
     return {
         routerBase: isDevHost ? "" : "/support",
