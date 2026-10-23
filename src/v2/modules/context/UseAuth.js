@@ -44,6 +44,23 @@ const isPublicRoute = (pathname) => {
   });
 };
 
+const isDevOrLocalHost = () => {
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    if (
+      host === "localhost" ||
+      host === "127.0.0.1" ||
+      host.includes("corporatelogin.web") ||
+      host.includes("calllog.web") ||
+      host.includes("nzen") ||
+      host.endsWith(".local")
+    ) {
+      return true;
+    }
+  }
+  return process.env.NODE_ENV !== "production";
+};
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [, setUserRights] = useUserRights();
@@ -192,7 +209,7 @@ export function AuthProvider({ children }) {
         setToken(tokenObj);
 
         const isDummySession =
-          process.env.NODE_ENV !== "production" &&
+          isDevOrLocalHost() &&
           sessionStorage.getItem("isDummyLogger") === "true";
 
         // Production rights are owned by login(). gettoken only supplies
@@ -253,7 +270,7 @@ export function AuthProvider({ children }) {
       // DEVELOPMENT/DUMMY LOGGER FLOW:
       // If we are local and have mock rights, construct user from cookie info rather than logging out!
       const isDummySession =
-        process.env.NODE_ENV !== "production" &&
+        isDevOrLocalHost() &&
         sessionStorage.getItem("isDummyLogger") === "true";
       const mockRightsStr = sessionStorage.getItem("userRights");
       if (isDummySession && mockRightsStr) {
@@ -389,7 +406,7 @@ export function AuthProvider({ children }) {
 
         // If user explicitly logged out and is now visiting /login, don't auto-login via lingering skey
         if (
-          process.env.NODE_ENV !== "production" &&
+          isDevOrLocalHost() &&
           sessionStorage.getItem("isDummyLogger") === "true"
         ) {
           sessionStorage.removeItem("explicit_logout");

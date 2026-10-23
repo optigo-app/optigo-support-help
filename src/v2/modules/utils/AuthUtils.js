@@ -38,7 +38,6 @@ export function safeDecodeUserId(base64Str) {
 export function isTokenExpired(jwtToken) {
   if (!jwtToken) return true;
   if (
-    process.env.NODE_ENV !== "production" &&
     typeof sessionStorage !== "undefined" &&
     sessionStorage.getItem("isDummyLogger") === "true"
   ) {
