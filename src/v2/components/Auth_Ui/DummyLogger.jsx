@@ -15,6 +15,7 @@ const PoweredByChip = styled(Chip)(({ theme }) => ({
   position: "fixed",
   bottom: theme.spacing(2),
   right: theme.spacing(2),
+  zIndex: 9999,
   borderRadius: 16,
   boxShadow: theme.shadows[3],
   background: "linear-gradient(135deg, #b2069b 0%, #3909c2 100%)",

@@ -88,7 +88,14 @@ export const AuthProvider = ({ children }) => {
 
       // DEVELOPMENT/DUMMY LOGGER FLOW:
       const isDummySession =
-        process.env.NODE_ENV !== "production" &&
+        (process.env.NODE_ENV !== "production" ||
+          (typeof window !== "undefined" &&
+            (window.location.hostname === "localhost" ||
+              window.location.hostname === "127.0.0.1" ||
+              window.location.hostname.includes("corporatelogin.web") ||
+              window.location.hostname.includes("calllog.web") ||
+              window.location.hostname.includes("nzen") ||
+              window.location.hostname.endsWith(".local")))) &&
         sessionStorage.getItem("isDummyLogger") === "true";
       const mockRightsStr = sessionStorage.getItem("userRights");
       if (isDummySession && mockRightsStr) {

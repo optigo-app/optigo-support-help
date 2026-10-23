@@ -58,8 +58,15 @@ const MainLogin3 = () => {
       setLoading(false);
     }
   };
-  const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname.endsWith(".local") || window.location.hostname === "nzen") || host.includes("corporatelogin.web")
-    ;
+  const host = typeof window !== "undefined" ? window.location.hostname : "";
+  const isLocal =
+    process.env.NODE_ENV !== "production" ||
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host.includes("corporatelogin.web") ||
+    host.includes("calllog.web") ||
+    host.includes("nzen") ||
+    host.endsWith(".local");
 
   return (
     <ThemeProvider theme={theme}>
