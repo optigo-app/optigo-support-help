@@ -5,7 +5,7 @@ class AuthController {
   constructor({ headers = {} } = {}) {
     this.baseURL = (() => {
       const host = window?.location?.hostname;
-      if (host.includes("localhost") || host.includes("nzen") || host.includes("calllog.web")) {
+      if (host.includes("localhost") || host.includes("nzen") || host.includes("calllog.web") || host.includes("corporatelogin.web")) {
         return "http://newnextjs.web/api/report";
       }
       return process.env.NODE_ENV === "production" ? "https://apilx.optigoapps.com/api/report" : "http://newnextjs.web/api/report";

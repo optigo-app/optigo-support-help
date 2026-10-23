@@ -22,7 +22,7 @@ const MessageComposer = React.memo(function MessageComposer({
   onSendMessage,
   disabled = false,
 }) {
-  const { user } = useAuth();
+  const { user, CompanyInfo } = useAuth();
   const [comment, setComment] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
@@ -61,15 +61,17 @@ const MessageComposer = React.memo(function MessageComposer({
       if (selectedFile) {
         try {
           const uploadRes = await filesUploadApi({
-            ukey: user?.ukey,
+            ukey: user?.ukey || CompanyInfo?.ukey,
             folderName: "CallLog",
             uniqueNo: activeThread?.sr || activeThread?.id || "1",
             attachments: [selectedFile],
           });
           uploadedUrl = uploadRes?.files?.[0]?.url ?? null;
+          if (!uploadedUrl) throw new Error("No file url returned");
         } catch (uploadErr) {
-          console.error("File upload failed, proceeding with comment only:", uploadErr);
-          toast.warn("Attachment upload had an issue, posting comment text.");
+          console.error("File upload failed:", uploadErr);
+          toast.error("Attachment upload failed. Please try again.");
+          return;
         }
       }
 
@@ -200,7 +202,6 @@ const MessageComposer = React.memo(function MessageComposer({
           <input
             type="file"
             ref={fileInputRef}
-            accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.json,.ppt,.pptx,.zip,.rar"
             style={{ display: "none" }}
             id="comment-file-upload"
             onChange={handleFileChange}

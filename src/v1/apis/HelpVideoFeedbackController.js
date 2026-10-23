@@ -18,6 +18,7 @@ class HelpVideoFeedbackAPI extends BaseAPI {
       host.includes("localhost") ||
       host.includes("nzen") ||
       host.includes("calllog.web")
+      || host.includes("corporatelogin.web")
     ) {
       return "http://newnextjs.web/api/report";
     }
@@ -71,6 +72,8 @@ class HelpVideoFeedbackAPI extends BaseAPI {
       host.includes("localhost") ||
       host.includes("nzen") ||
       host.includes("calllog.web") ||
+      host.includes("corporatelogin.web") ||
+
       !isProduction;
 
     return {
