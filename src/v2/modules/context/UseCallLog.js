@@ -3,7 +3,8 @@ import { format } from "date-fns";
 import CallLogApi from "../../apis/CallLogApiController";
 import { useAuth } from './UseAuth';
 import { useSocketEvent } from "../hooks/useSocketListener";
-import { commentUpdates$, externalStatusUpdates$ } from "../../rxjs/commentEvents";
+import { commentMutationUpdates$, commentUpdates$, externalStatusUpdates$ } from "../../rxjs/commentEvents";
+import { applyCommentMutation, getCommentRecordId, unwrapCommentMutation } from "../../components/NewCall/utils/commentMutationUtils";
 
 const isValidCommentPayload = (data) => {
   if (!data || typeof data !== "object") return false;
@@ -522,6 +523,42 @@ export function CallLogProvider(props) {
       IsClient: isClientVal,
     });
   });
+
+  // Apply comment edits/deletes by stable comment ID and fan them out to open chats.
+  const handleCommentMutation = useCallback((payload, type) => {
+    console.log(payload, type, "payload, type")
+    const event = unwrapCommentMutation(payload);
+    const callId = event?.CallLogId ?? event?.CallLogid ?? event?.callLogId ?? event?.sr;
+    const commentId = type === "delete"
+      ? (event?.CommentId ?? event?.CommentID ?? event?.commentId ?? event?.id ?? event?.Id)
+      : getCommentRecordId(event);
+    if (callId == null || commentId == null) return;
+
+    const mutation = { type, callId, commentId, comment: event };
+    setCallLog((prev) => prev.map((call) =>
+      String(call?.sr) === String(callId) || String(call?.id) === String(callId)
+        ? applyCommentMutation(call, mutation)
+        : call
+    ));
+    commentMutationUpdates$.next(mutation);
+  }, []);
+
+  const handleEditCommentEvent = useCallback(
+    (data) => handleCommentMutation(data, "edit"),
+    [handleCommentMutation]
+  );
+  const handleDeleteCommentEvent = useCallback(
+    (data) => handleCommentMutation(data, "delete"),
+    [handleCommentMutation]
+  );
+  useSocketEvent("EDITCOMMENTS", handleEditCommentEvent);
+  useSocketEvent("EDIT_COMMENTS", handleEditCommentEvent);
+  useSocketEvent("EditComments", handleEditCommentEvent);
+  useSocketEvent("EditComment", handleEditCommentEvent);
+  useSocketEvent("DELETECOMMENTS", handleDeleteCommentEvent);
+  useSocketEvent("DELETE_COMMENTS", handleDeleteCommentEvent);
+  useSocketEvent("DeleteComments", handleDeleteCommentEvent);
+  useSocketEvent("DeleteComment", handleDeleteCommentEvent);
 
   // Reactively update in-memory call list and mark unread
   useEffect(() => {

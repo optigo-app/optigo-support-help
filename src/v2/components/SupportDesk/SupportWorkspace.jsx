@@ -13,7 +13,8 @@ import { useCallLog } from "../../modules/context/UseCallLog";
 import { useAuth } from "../../modules/context/UseAuth";
 import { useSocketEvent } from "../../modules/hooks/useSocketListener";
 import { callStreamService } from "../../services/callStreamService";
-import { commentUpdates$, externalStatusUpdates$ } from "../../rxjs/commentEvents";
+import { commentMutationUpdates$, commentUpdates$, externalStatusUpdates$ } from "../../rxjs/commentEvents";
+import { applyCommentMutation } from "../NewCall/utils/commentMutationUtils";
 import CallLogApi from "../../apis/CallLogApiController";
 import debounce from "lodash/debounce";
 
@@ -178,6 +179,23 @@ export default function SupportWorkspace() {
     });
     return () => sub.unsubscribe();
   }, []);
+
+  // Reflect server comment edits/deletes in the live Support Desk thread.
+  useEffect(() => {
+    const sub = commentMutationUpdates$.subscribe((mutation) => {
+      const targetCallId = mutation?.callId;
+      if (targetCallId == null || mutation?.commentId == null) return;
+
+      callStreamService.patchCommentMutation(targetCallId, mutation);
+      setCallLog((prev) => prev.map((call) =>
+        [call?.sr, call?.id, call?.CallLogid]
+          .some((id) => id != null && String(id) === String(targetCallId))
+          ? applyCommentMutation(call, mutation)
+          : call
+      ));
+    });
+    return () => sub.unsubscribe();
+  }, [setCallLog]);
 
   // Keep the support thread store in sync with external status events.
   useEffect(() => {
@@ -566,11 +584,22 @@ export default function SupportWorkspace() {
               authorName = isClient ? callerPersonName : agentPersonName;
             }
 
-            const hasAttachment = Boolean(cItem.img);
-            const rawImg = cItem.img || "";
-            const filenameFromUrl = rawImg ? rawImg.split("/").pop() : "";
-            const fileExt = filenameFromUrl.split(".").pop()?.toUpperCase() || "";
-            const isImgExt = ["PNG", "JPG", "JPEG", "GIF", "WEBP", "SVG", "BMP", "ICO"].includes(fileExt);
+            const attachmentUrls = String(cItem.img || cItem.FilePath || "").split(",").map((u) => u.trim()).filter(Boolean);
+            const attachmentList = attachmentUrls.map((url, i) => {
+              const name = decodeURIComponent(url.split("?")[0].split("/").pop() || "") || `Attachment_${cItem.id || "file"}`;
+              const ext = name.includes(".") ? name.split(".").pop().toUpperCase() : "";
+              const isImg = ["PNG", "JPG", "JPEG", "GIF", "WEBP", "SVG", "BMP", "ICO"].includes(ext);
+              return {
+                id: `${cItem.id || cIdx + 1}-${i}`,
+                filename: name,
+                subTitle: isImg ? "Image file" : `${ext || "Document"} file`,
+                fileType: isImg ? "Image file" : `${ext || "Document"} file`,
+                type: isImg ? "image" : "document",
+                imgUrl: url,
+                text: commentText,
+              };
+            });
+            const hasAttachment = attachmentList.length > 0;
 
             items.push({
               id: cItem.id
@@ -585,19 +614,8 @@ export default function SupportWorkspace() {
               content: commentText.trim(),
               isComment: true,
               hasAttachment: hasAttachment,
-              attachment: hasAttachment
-                ? {
-                  id: cItem.id || cIdx + 1,
-                  filename: filenameFromUrl
-                    ? `${filenameFromUrl}`
-                    : `Attachment_${cItem.id || "file"}`,
-                  subTitle: isImgExt ? "Image file" : `${fileExt || "Document"} file`,
-                  fileType: isImgExt ? "Image file" : `${fileExt || "Document"} file`,
-                  type: isImgExt ? "image" : "document",
-                  imgUrl: cItem.img,
-                  text: commentText,
-                }
-                : null,
+              attachment: attachmentList[0] || null,
+              attachments: attachmentList,
               sortTime: cSortTime,
               orderIndex: cIdx + 1,
               isNew: Boolean(cItem.isNew),
