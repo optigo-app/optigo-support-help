@@ -7,8 +7,7 @@ import {
 import DownloadIcon from '@mui/icons-material/Download';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { toast } from 'react-toastify';
-import { FilePreviewModal } from '@eternalheart/react-file-preview';
-import '@eternalheart/react-file-preview/style.css';
+import DocumentPreviewer, { downloadFile } from '../../../services/DocumentPreviewer';
 
 export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
   const [openLightbox, setOpenLightbox] = useState(false);
@@ -53,14 +52,7 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
   const handleDownload = (e) => {
     e?.stopPropagation();
     if (mediaUrl) {
-      const link = document.createElement('a');
-      link.href = mediaUrl;
-      link.download = rawName;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadFile({ url: mediaUrl, name: rawName });
       toast.success(`Downloading ${rawName}...`);
     } else {
       toast.info(`Downloading ${rawName}...`);
@@ -111,12 +103,11 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
         </Tooltip>
 
         {openLightbox && previewFile && (
-          <FilePreviewModal
+          <DocumentPreviewer
             files={[previewFile]}
             currentIndex={0}
             isOpen={openLightbox}
             onClose={() => setOpenLightbox(false)}
-            locale="en-US"
           />
         )}
       </>
@@ -182,12 +173,11 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
         </Tooltip>
 
         {openLightbox && previewFile && (
-          <FilePreviewModal
+          <DocumentPreviewer
             files={[previewFile]}
             currentIndex={0}
             isOpen={openLightbox}
             onClose={() => setOpenLightbox(false)}
-            locale="en-US"
           />
         )}
       </>
@@ -324,12 +314,11 @@ export default function CompactMediaPreview({ attachment, filename, imgUrl }) {
       </Tooltip>
 
       {openLightbox && previewFile && (
-        <FilePreviewModal
+        <DocumentPreviewer
           files={[previewFile]}
           currentIndex={0}
           isOpen={openLightbox}
           onClose={() => setOpenLightbox(false)}
-          locale="en-US"
         />
       )}
     </>

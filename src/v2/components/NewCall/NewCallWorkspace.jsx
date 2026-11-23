@@ -7,9 +7,10 @@ import NewCallFeedbackModal from './NewCallFeedbackModal';
 import CallLogApi from '../../apis/CallLogApiController';
 import { useCallLog } from '../../modules/context/UseCallLog';
 import { useAuth } from '../../modules/context/UseAuth';
-import { commentUpdates$, externalStatusUpdates$ } from '../../rxjs/commentEvents';
+import { commentMutationUpdates$, commentUpdates$, externalStatusUpdates$ } from '../../rxjs/commentEvents';
 import { useSocketEvent } from '../../modules/hooks/useSocketListener';
 import { toast } from 'react-toastify';
+import { applyCommentMutation, getCommentRecordId } from './utils/commentMutationUtils';
 
 export default function NewCallWorkspace({ width = '100%', height = 'calc(100vh - 55px)' }) {
   const { user } = useAuth();
@@ -240,6 +241,44 @@ export default function NewCallWorkspace({ width = '100%', height = 'calc(100vh 
     const sub = commentUpdates$.subscribe(handleCommentUpdate);
     return () => sub.unsubscribe();
   }, [handleCommentUpdate]);
+
+  // Keep the New Call conversation and sidebar in sync with server comment edits/deletes.
+  useEffect(() => {
+    const sub = commentMutationUpdates$.subscribe((mutation) => {
+      const targetId = String(mutation?.callId ?? '');
+      if (!targetId || mutation?.commentId == null) return;
+
+      setCalls((prevCalls) => prevCalls.map((call) => {
+        const matchesCall = [call.id, call.sr, call.rawRecord?.id, call.rawRecord?.sr, call.rawRecord?.CallLogid]
+          .some((id) => id != null && String(id) === targetId);
+        if (!matchesCall) return call;
+
+        const priorComments = call.comments || [];
+        const priorLast = priorComments[priorComments.length - 1];
+        const updatedCall = applyCommentMutation(call, mutation);
+        const updatedComments = updatedCall.comments || [];
+        const lastComment = updatedComments[updatedComments.length - 1];
+        const affectedLast = priorLast && String(getCommentRecordId(priorLast)) === String(mutation.commentId);
+
+        // Keep sidebar preview aligned when its latest comment changes or is removed.
+        if (affectedLast || (mutation.type === 'edit' && !priorLast)) {
+          const text = lastComment?.text || lastComment?.comment || lastComment?.Comments || '';
+          const isClient = lastComment?.IsClient === 1 || lastComment?.IsClient === '1';
+          return {
+            ...updatedCall,
+            lastComment: text,
+            lastCommentAuthor: lastComment?.Name || (isClient ? 'You' : 'Support'),
+            lastMessage: text || call.description,
+            timestamp: lastComment
+              ? (formatCommentTime(lastComment.time || lastComment.CreatedDate) || call.time)
+              : call.time,
+          };
+        }
+        return updatedCall;
+      }));
+    });
+    return () => sub.unsubscribe();
+  }, [formatCommentTime]);
 
   // Apply external status changes to the customer call list and open conversation.
   useEffect(() => {

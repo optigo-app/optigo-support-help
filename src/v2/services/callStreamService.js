@@ -1,5 +1,6 @@
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { applyCommentMutation, parseCallComments } from '../components/NewCall/utils/commentMutationUtils';
 
 class CallStreamService {
   constructor() {
@@ -279,6 +280,34 @@ class CallStreamService {
           ...(statusData.ModifiedDate && { ModifiedDate: statusData.ModifiedDate }),
           ...(statusData.UpdatedBy !== undefined && { UpdatedBy: statusData.UpdatedBy }),
         },
+      };
+    });
+
+    this.rawCalls$.next(updated);
+  }
+
+  patchCommentMutation(callLogId, mutation) {
+    const targetCallId = String(callLogId ?? '');
+    if (!targetCallId) return;
+
+    const current = this.rawCalls$.getValue();
+    if (!Array.isArray(current) || current.length === 0) return;
+
+    const updated = current.map((thread) => {
+      const record = thread.rawRecord || {};
+      const matches = [thread.sr, record.id, record.sr, record.CallLogid, thread.id]
+        .some((id) => id != null && (String(id) === targetCallId || String(id) === `call-${targetCallId}`));
+      if (!matches) return thread;
+
+      const rawRecord = applyCommentMutation(record, mutation);
+      const comments = parseCallComments(rawRecord);
+      const lastComment = comments[comments.length - 1];
+      const lastText = lastComment?.Comments ?? lastComment?.comment ?? lastComment?.text ?? '';
+      return {
+        ...thread,
+        latestComment: lastText,
+        lastMessage: lastText || thread.description || thread.name,
+        rawRecord,
       };
     });
 

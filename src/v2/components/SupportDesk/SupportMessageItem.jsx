@@ -149,8 +149,8 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
     const subText = hasDuration
       ? `Duration: ${duration}`
       : rec.callStart && !rec.callStart.startsWith('1900')
-      ? 'No one answered'
-      : 'Support initiated';
+        ? 'No one answered'
+        : 'Support initiated';
 
     return (
       <Box
@@ -192,7 +192,7 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
             <Typography sx={{ fontSize: 12, fontWeight: 800, color: "#0F172A" }}>
               {agentName}
             </Typography>
-            <Chip
+            {/* <Chip
               label={`Primary Call #${rec.sr || rec.id || "1"}`}
               size="small"
               sx={{
@@ -203,7 +203,7 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
                 color: isSolved ? "#166534" : "#D97706",
                 border: isSolved ? "1px solid #BBF7D0" : "1px solid #FDE68A",
               }}
-            />
+            /> */}
             <Typography sx={{ fontSize: 10.5, color: "#94A3B8" }}>
               {message.time || startedTime}
             </Typography>
@@ -212,7 +212,7 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
           {/* Call Status Pill */}
           <CallStatusPill
             type={callType}
-            title={isSolved ? "Call Completed" : "Primary Call"}
+            title={isSolved ? "Call Completed" : "Main Call"}
             subtitle={subText}
           />
 
@@ -277,7 +277,7 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
       subText = fu.ForwardedEmp ? `Forwarded to ${fu.ForwardedEmp}` : "Forwarded Call";
     } else if (isZeroDuration) {
       callType = "missed";
-      subText = fu.InternalStatus || "No one answered";
+      subText = fu.InternalStatus || " ";
     } else if (duration) {
       subText = `Duration: ${duration}`;
     } else if (fu.InternalStatus) {
@@ -442,9 +442,11 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
               >
                 {message.content}
               </Typography>
-              {message.attachment && (
-                <Box sx={{ mt: 1 }}>
-                  <AttachmentPill attachment={message.attachment} />
+              {(message.attachments?.length || message.attachment) && (
+                <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 1.5 }}>
+                  {(message.attachments?.length ? message.attachments : [message.attachment]).map((att, i) => (
+                    <AttachmentPill key={att.id + "-" + i} attachment={att} />
+                  ))}
                 </Box>
               )}
             </Paper>
@@ -559,11 +561,13 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
             >
               {message.content}
             </Typography>
-            {message.attachment && (
-              <Box sx={{ mt: 1 }}>
-                <AttachmentPill attachment={message.attachment} />
-              </Box>
-            )}
+            {(message.attachments?.length || message.attachment) && (
+                <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 1.5 }}>
+                  {(message.attachments?.length ? message.attachments : [message.attachment]).map((att, i) => (
+                    <AttachmentPill key={att.id + "-" + i} attachment={att} />
+                  ))}
+                </Box>
+              )}
           </Paper>
         </Box>
       </Box>

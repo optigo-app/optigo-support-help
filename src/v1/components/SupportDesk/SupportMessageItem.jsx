@@ -149,8 +149,8 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
     const subText = hasDuration
       ? `Duration: ${duration}`
       : rec.callStart && !rec.callStart.startsWith('1900')
-      ? 'No one answered'
-      : 'Support initiated';
+        ? 'No one answered'
+        : 'Support initiated';
 
     return (
       <Box
@@ -277,7 +277,7 @@ const SupportMessageItem = React.memo(function SupportMessageItem({ message }) {
       subText = fu.ForwardedEmp ? `Forwarded to ${fu.ForwardedEmp}` : "Forwarded Call";
     } else if (isZeroDuration) {
       callType = "missed";
-      subText = fu.InternalStatus || "No one answered";
+      subText = fu.InternalStatus || " ";
     } else if (duration) {
       subText = `Duration: ${duration}`;
     } else if (fu.InternalStatus) {
