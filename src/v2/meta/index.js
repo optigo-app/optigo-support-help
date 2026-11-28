@@ -9,6 +9,11 @@ export const META_CONFIG = {
     description: "Access your Optigo dashboard and manage all business operations from a single, powerful interface.",
     keywords: "Optigo Login, SaaS Login, Dashboard Access, Optigo Software Portal",
   },
+  CorporateRegister: {
+    title: "Register New Corporate — Optigo Softwares",
+    description: "Submit a corporate registration request for Optigo support access.",
+    keywords: "Corporate Registration, Optigo Support, Register Corporate, Help Center",
+  },
   OrderRequest: {
     title: "Order Request Management",
     description: "Streamline order discussions and approvals with Optigo’s smart Order Request module. Collaborate efficiently and make faster, data-driven decisions.",

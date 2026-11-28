@@ -5,6 +5,7 @@ import CategoryPage from "./pages/category";
 import { useCommon } from "./providers/CommonProvider";
 import TemporaryDrawer from "./components/Main/MobileSidebar";
 import LoginPage from "./pages/login";
+import CorporateRegisterPage from "./pages/CorporateRegister";
 import HelpPage from "./pages/helpfile";
 import WhatsNew from "./pages/WhatsNew";
 import ProtectedRoute from "./components/Auth_Ui/ProtectedRoute";
@@ -61,6 +62,15 @@ const Routing = () => {
             <ProtectedRoute requireAuth={false}>
               <MetaWrapper page="Login" />
               <LoginPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/register-corporate"
+          element={
+            <ProtectedRoute requireAuth={false}>
+              <MetaWrapper page="CorporateRegister" />
+              <CorporateRegisterPage />
             </ProtectedRoute>
           }
         />
