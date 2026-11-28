@@ -263,11 +263,30 @@ const MainLogin3 = () => {
 
               <Box
                 sx={{
-                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
                   mt: 1.5,
-                  cursor: "pointer",
                 }}
               >
+                <Link
+                  component="button"
+                  type="button"
+                  variant="body2"
+                  onClick={() => navigate("/register-corporate")}
+                  sx={{
+                    textDecoration: "none",
+                    color: "#b2069b",
+                    fontWeight: 600,
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  Register New Corporate
+                </Link>
                 <Link
                   component="button"
                   type="button"

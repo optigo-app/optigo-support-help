@@ -3,22 +3,28 @@ import { hashSHA1 } from "../utils/Encypter";
 
 class AuthController {
   constructor({ headers = {} } = {}) {
-    this.baseURL = (() => {
-      const host = window?.location?.hostname;
-      if (host.includes("localhost") || host.includes("nzen") || host.includes("calllog.web") || host.includes("corporatelogin.web")) {
-        return "http://newnextjs.web/api/report";
-      }
-      return process.env.NODE_ENV === "production" ? "https://apilx.optigoapps.com/api/report" : "http://newnextjs.web/api/report";
-    })();
+    const host = window?.location?.hostname || "";
+    const isLocalEnvironment =
+      host.includes("localhost") ||
+      host.includes("nzen") ||
+      host.includes("calllog.web") ||
+      host.includes("corporatelogin.web");
+    const isProduction = process.env.NODE_ENV === "production";
 
+    this.baseURL = isLocalEnvironment || !isProduction
+      ? "http://newnextjs.web/api/report"
+      : "https://apilx.optigoapps.com/api/report";
 
+    this.YearCode = isLocalEnvironment || !isProduction
+      ? "e3tuemVufX17ezIwfX17e29yYWlsMjV9fXt7b3JhaWwyNX19"
+      : "e3tsaXZlMS5vcHRpZ29hcHBzLmNvbX19e3syMH19e3tvcHRpZ29odWJ9fXt7b3B0aWdvaHVifX0=";
 
     this.defaultHeaders = {
       "Content-Type": "application/json",
       Authorization: "",
-      YearCode: process.env.NODE_ENV === "production" ? "e3tsaXZlMS5vcHRpZ29hcHBzLmNvbX19e3syMH19e3tvcHRpZ29odWJ9fXt7b3B0aWdvaHVifX0=" : "e3tuemVufX17ezIwfX17e29yYWlsMjV9fXt7b3JhaWwyNX19",
+      YearCode: this.YearCode,
       version: "v1",
-      sv: process.env.NODE_ENV === "production" ? "1" : "0",
+      sv: isProduction ? "1" : "0",
       sp: "28",
       ...headers,
     };
@@ -132,6 +138,47 @@ class AuthController {
         // version: "R50B3"
         version: 'R76'
       }
+    }).then((res) => {
+      return res.data;
+    });
+  }
+
+  corpRegister({
+    companycode = "",
+    firstname = "",
+    lastname = "",
+    userid = "",
+    usercode = "",
+    mobile = "",
+    Emailid = "",
+    ipaddress = "",
+    browsername = "",
+    browserversion = "",
+    DeviceType = "",
+    osname = "",
+    timezone = "",
+  } = {}) {
+    return this.instance.post("", {
+      con: JSON.stringify({
+        mode: "corp_register",
+        IPAddress: ipaddress,
+      }),
+      p: JSON.stringify({
+        companycode,
+        firstname,
+        lastname,
+        userid,
+        usercode,
+        mobile,
+        Emailid,
+        ipaddress,
+        browsername,
+        browserversion,
+        DeviceType,
+        osname,
+        timezone,
+      }),
+      f: " (corp_register)",
     }).then((res) => {
       return res.data;
     });
